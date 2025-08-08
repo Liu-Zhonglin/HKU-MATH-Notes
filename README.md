@@ -21,7 +21,7 @@ All courses branches credit the author(s) and include contact email(s) so you ca
 - **MATH2211 Multivariable Calculus**
 - **MATH2241 Introduction to Mathematical Analysis**
 - **MATH3401 Analysis I**
-- [**MATH3541 Introduction to Topology**](https://webapp.science.hku.hk/sr4/servlet/enquiry?Type=Course&course_code=MATH3541)
+- [**MATH3541 Introduction to Topology**](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH3541-Introduction-to-topology)
 - **MATH3405 Differential Equations**
 - **MATH3601 Numerical Analysis**
 - **MATH3904 Introduction to Optimization**
