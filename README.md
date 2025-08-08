@@ -25,7 +25,6 @@ Each course branch typically contains:
 - **MATH3601 Numerical Analysis**
 - **MATH3904 Introduction to Optimization**
 - **MATH3943 Network Models in Operations Research**
-- **MATH3999 Directed Studies in Mathematics**
 - **MATH4402 Analysis II**
 - **MATH4404 Functional Analysis**
 - **MATH4406 Introduction to Partial Differential Equations**
