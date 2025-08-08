@@ -12,7 +12,6 @@ Each course branch typically contains:
 - **Assignments and Tutorials/** — Past assignments and tutorial materials
 - **Reference Books/** — Supplementary reference materials
 
-All courses branches credit the author(s) and include contact email(s) so you can report errors or ask questions.
 
 ## Math Courses
 
@@ -30,3 +29,12 @@ All courses branches credit the author(s) and include contact email(s) so you ca
 - **MATH4402 Analysis II**
 - **MATH4404 Functional Analysis**
 - **MATH4406 Introduction to Partial Differential Equations**
+
+
+## Feedback, Issues, and Contributions
+
+The preferred method for reporting errors or asking questions is by **[opening a new issue](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/issues)** on this repository. This allows for transparent discussion and helps others who may have the same question.
+
+For direct contact, you can email the maintainers:
+- **Joe**: `u3597461@connect.hku.hk`
+- **Zhou Tianyuan**: `u3612704@connect.hku.hk`
