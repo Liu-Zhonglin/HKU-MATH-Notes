@@ -1,4 +1,5 @@
-# lecture-notes
+# HKU-MATH-Notes
+
 
 The repository for HKU Mathematics course notes. Each course is hosted in its own branch.
 
