@@ -19,7 +19,7 @@ Each course branch typically contains:
 - **MATH2101 Linear Algebra I**
 - **MATH2211 Multivariable Calculus**
 - **MATH2241 Introduction to Mathematical Analysis**
-- **MATH3301 Algebra I**
+- [**MATH3301 Algebra I**](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH3301-Algebra-I)
 - **MATH3401 Analysis I**
 - [**MATH3541 Introduction to Topology**](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH3541-Introduction-to-topology)
 - **MATH3405 Differential Equations**
