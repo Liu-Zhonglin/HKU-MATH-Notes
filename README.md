@@ -12,7 +12,7 @@ Each course branch typically contains:
 - **Assignments and Tutorials/** — Past assignments and tutorial materials
 - **Reference Books/** — Supplementary reference materials
 
-All notes credit the author(s) and include contact email(s) so you can report errors or ask questions.
+All courses branches credit the author(s) and include contact email(s) so you can report errors or ask questions.
 
 ## Math Courses
 
