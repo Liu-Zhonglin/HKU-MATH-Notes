@@ -28,7 +28,7 @@ Each course branch typically contains:
 - **MATH3943 Network Models in Operations Research**
 - **MATH4402 Analysis II**
 - **MATH4404 Functional Analysis**
-- [**MATH4406 Introduction to Partial Differential Equations**](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH4406-Introduction-to-partial-differential-equations?tab=readme-ov-file)
+- [**MATH4406 Introduction to partial differential equations**](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH4406-Introduction-to-partial-differential-equations?tab=readme-ov-file)
 
 Course List to be updated...
 
