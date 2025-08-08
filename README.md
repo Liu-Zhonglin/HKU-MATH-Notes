@@ -1,6 +1,6 @@
 # HKU-MATH-Notes
 
-This repository contains course notes for HKU Mathematics courses.  
+This repository contains course materials for HKU Mathematics courses.  
 Each course is hosted in its own branch.
 
 ## Branch Structure
