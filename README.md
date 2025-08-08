@@ -30,6 +30,8 @@ Each course branch typically contains:
 - **MATH4404 Functional Analysis**
 - **MATH4406 Introduction to Partial Differential Equations**
 
+Course List to be updated...
+
 
 ## Feedback, Issues, and Contributions
 
