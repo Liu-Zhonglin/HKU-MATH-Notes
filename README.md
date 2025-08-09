@@ -37,9 +37,8 @@ Course List to be updated...
 
 The preferred method for reporting errors or asking questions is by **[opening a new issue](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/issues)** on this repository. This promotes transparent discussion and helps others who may have similar questions.
 
-Course content may vary from year to year, and contributions are always welcome — whether it's creating a new course branch or improving existing ones by providing additional test papers, exercises, or enhanced notes.
+Course content may vary from year to year, and contributions are always welcome — whether it's creating a branch for new course or improving existing ones by providing additional test papers, exercises, or enhanced notes.
 
-When new courses are added, contributions are especially welcome. You're encouraged to help build up new content from the start!
 
 If you're interested in contributing or providing feedback, please contact the maintainers. We’ll be happy to add you as a collaborator and assist with uploading your files.
 
