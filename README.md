@@ -15,9 +15,6 @@ Each course branch typically contains:
 
 ## Math Courses
 
-- **MATH2012 Fundamental Concepts of Mathematics**
-- **MATH2101 Linear Algebra I**
-- **MATH2211 Multivariable Calculus**
 - **MATH2241 Introduction to Mathematical Analysis**
 - [**MATH3301 Algebra I**](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH3301-Algebra-I)
 - **MATH3401 Analysis I**
