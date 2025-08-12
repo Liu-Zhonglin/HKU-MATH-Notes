@@ -1,0 +1,156 @@
+\documentclass[12pt]{article}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{physics}% for a "straight" differential
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Pbb}{\mathbb{P}}
+\newcommand{\calP}{\mathcal{P}}
+
+\newcommand{\parallelsum}{\mathbin{\!/\mkern-5mu/\!}}
+
+\newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
+\newcommand\Mycomb[2][^n]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+
+\newcommand{\diff}{\text{d}}
+\newcommand{\Diff}{\text{D}}
+
+\newcommand{\vN}{\mathbf{N}}
+\newcommand{\vn}{\mathbf{n}}
+\newcommand{\ve}{\mathbf{e}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\vx}{\mathbf{x}}
+
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+
+\newcommand{\aut}{\text{Aut}}
+
+\usepackage[margin=1.25in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\pagestyle{fancy}
+\usepackage{amsfonts}
+
+\usepackage{graphicx} 
+\usepackage{float} 
+\usepackage{subfigure} 
+
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem{sublemma}{Lemma}[section]
+\newtheorem*{sublemma*}{Lemma}
+
+\title{Homework}
+\lhead{MATH 4302}
+\chead{Assignment 5}
+\rhead{Qu Tianyong, 3035770721}
+
+\linespread{1.2}
+\begin{document}
+	
+%	\begin{figure}[H] 
+%		\centering 
+%		\includegraphics[width=xx\textwidth]{xx} 
+%		\caption{xx} 
+%		\label{xx} 
+%	\end{figure}
+
+%	\Myperm{k} = \frac{n!}{(n-k)!}\quad
+%	\Mycomb{k} = \frac{n!}{k!(n-k)!}\quad
+%	\Myperm[m]{k} = \frac{m!}{(m-k)!}\quad
+%	\Mycomb[m]{k} = \frac{m!}{k!(m-k)!}\quad
+
+%$$=\left\{
+%	\begin{array}{rcl}
+%	\end{array}
+%\right.$$
+
+
+\begin{enumerate}
+	%1
+	\item[1.]
+	\begin{enumerate}
+		%a
+		\item[(1)]
+		\textit{Sol.}
+			\quad The normal field extension is an algebraic field extension $K\subset L$\ such that for any irreducible polynomial $f(x)\in K[x]$\ that has a root in $L$, $f(x)$\ splits in $L$.
+		%b
+		\item[(2)]
+		\begin{proof}
+			\quad We assume first that $K\subset L$\ is a finite normal extension. Then $L=K(a_1,a_2,...,a_n)$\ for some $a_1,...,a_n\in L$. Let $f_i\in K[x]$\ be the minimal polynomial for $a_i$\ ($i=1,2,...,n$). $f_i$\ exists since $L$\ is an algebraic extension. Consider the polynomial $f=f_1f_2\cdots f_n\in K[x]$. By the definition of normal extension, $f_i$\ splits in $L$. So $f$\ splits in $L$. Let $R$\ be the set of all the roots of $f$\ in $L$. Then we have
+			$$L=K(a_1,...,a_n)\subset K(R)\subset L.$$
+			Thus $L=K(R)$, which shows that $L$\ is the splitting field of $f\in K[x]$.\par
+			\quad Next we assume that $K\subset L$\ is a finite splitting field for $f\in K[x]$. Let $g\in K[x]$\ be an arbitrary polynomial such that $g$\ has a root $\alpha$\ in $L$. We want to show that $g$\ splits in $L$. Let $h=fg\in K[x]$\ and $M$\ be the splitting field of $h$. Since $h$\ splits in $M$, it can be written as the product of linear factors with coefficients in $M$. Then $f,g$\ can also be written in this way since $K[x]$\ is a unique factorization domain, which shows that both $f$\ and $g$\ split in $M$. Considering $f$, there exists a $K$-homomorphism $\phi$\ from $L$\ to $M$, which satisfies $\phi(L)=\phi(K)(\alpha,a_2,...,a_n)=K(\alpha,a_2,...,a_n)=L$\ where $a_i\in L$\ are the roots of $f$. Considering $g$, let $\beta\neq\alpha$\ be another root of $g$\ in $M$\ (if $g$\ has only one root $\alpha$, then we are done). So we just need to show that $\beta$\ is in $L$.\par
+			\quad By the extension lemma, there exists a ring isomorphism $j$\ from $K(\alpha)$\ to $K(\beta)$, which satisfies $j(k)=k$\ for any $k\in K$\ and $j(\alpha)=\beta$. Regard $K(\beta)$\ as a subfield of $M$, we can write $j:K(\alpha)\to M$. Note that $L$\ is the splitting field of $f\in K(\alpha)[x]$. To see that, the splitting field of $f$, regarded as a polynomial in $K(\alpha)[x]$, is $K(\alpha)(\alpha,a_2,...,a_n)=K(\alpha,a_2,...,a_n)=L$. Now that $L$\ is a splitting field of $K(\alpha)$, we can extend $j:K(\alpha)\to M$\ to $\tilde{\phi}:L\to M$\ be the extension lemma. Again by the extension lemma, $\phi=\tilde{\phi}$. So $\tilde{\phi}(L)=\phi(L)=L$, and $\beta=\tilde{\phi}(\alpha)\in L$.
+		\end{proof}
+	\end{enumerate}
+	%2
+	\item[2.]
+	\textit{Sol.}
+		$$\begin{aligned}
+			x^9-x
+			=&x(x^8-1)\\
+			=&x(x^4+1)(x^2+1)(x+1)(x-1)\\
+			=&x(x+1)(x+2)(x^2+1)(x^4+4x^2+4-4x^2)\\
+			=&x(x+1)(x+2)(x^2+1)(x^2+2x+2)(x^2-2x+2).
+		\end{aligned}$$
+		$$\begin{aligned}
+			x^{27}-x
+			=&x(x^{26}-1)\\
+			=&x(x^{13}+1)(x^{13}-1)\\
+			=&x(x+1)(x+2)(x^{12}+\cdots+x+1)(x^{12}-\cdots-x+1)\\
+			=&x(x+1)(x+2)(x^3-x+1)(x^3-x-1)(x^3+x^2-1)(x^3-x^2+1)\\
+			&(x^3+x^2+x-1)(x^3+x^2-x+1)(x^3-x^2+x+1)(x^3-x^2-x-1).
+		\end{aligned}$$
+	%3
+	\item[3.]
+	\textit{Sol.}
+		\quad $x^5+x+1=(x^2+x+1)(x^3+x^2+1)$. Considering $0$\ and $1$, both of the factors are nonzero. So they are irreducible. Thus we have $x^5+x+1|x^{2^6}-x$\ since $2|6$\ and $3|6$. Note that $6$\ is the least common multiple of $2$\ and $3$, so the splitting field of $x^{2^6}-x\in\F_2[x]$\ is exactly the splitting field for $x^5+x+1\in\F_2[x]$. Therefore $L$\ is the splitting field of $x^{2^6}-x\in\F_2[x]$, which is isomorphic to $\F_{2^6}$. And $|L:\F_2|=6$, $L$\ has $2^6=64$\ elements.
+	%4
+	\item[4.]
+	\begin{enumerate}
+		%a
+		\item[(1)]
+		\textit{Sol.}
+			\quad Generators of $\F_{11}^*$\ are $\{2,6,7,8\}$.
+		%b
+		\item[(2)]
+		\textit{Sol.}
+			\quad The product is $10!$. By Wilson's theorem, $10!\equiv-1\equiv10\pmod{11}$. So the product is 10.
+		%c
+		\item[(3)]
+		\textit{Sol.}
+			\quad The product of all elements in $\F_p^*$\ is $p-1$. $\F_p^*=\{1,2,...,p-1\}$. For each $i\in\{2,...,p-2\}$, there exists a unique $a_i\in\{2,...,p-2\}$\ such that $i\cdot a_i=1$. To see that, consider the set
+			$$\{i,2i,...,(p-2)i,(p-1)i\}.$$
+			It is a complete residue system for $p$. Otherwise if $mi\equiv ni\pmod{p}$\ for some $m\neq n\in\F_p^*$, then $p|(m-n)i$, which is impossible. Thus such $a_i$\ exists, and obviously not equal to $1$\ or $p-1$. In this way, we partition $\{2,...,p-2\}$\ into $\frac{p-3}{2}$\ pairs, and in the form $(i,a_i)$. Therefore
+			$$(p-1)!=1\cdot(p-1)\cdot1^{(p-3)/2}=p-1.$$
+	\end{enumerate}
+	%5
+	\item[5.]
+	\begin{proof}
+		\quad Let $F$\ be a finite field of even order. Since the order must be of the form $p^k$\ for a prime number $p$\ and a positive integer $k$, we have $p=2$. The order of $F$\ then becomes $2^k$. Since $F$\ is finite, $F^*=F\setminus\{0\}$\ is a cyclic multiplicative group. Assume that $F^*=\la a\ra$. Then for any $b\in F^*$, $b=a^n$\ for some $0\neq n\neq2^k-2$. If $n$\ is even, then $b=(a^{n/2})^2$. If $n$\ is odd, then $b=(a^{(n+2^k-1)/2})^2$. And for $0$, $0=0^2$. Therefore every element is a square.
+	\end{proof}
+	%6
+	\item[6.]
+	\begin{proof}
+		\quad Obviously, $\aut_K(L)\subset\aut(L)$. So it suffices to show that for any $\phi\in\aut(L)$, we have $\phi(k)=k$\ for any $k\in K$. Note that $K$\ is the subfield generated by $\{1\}$, so $\phi(k)=\phi(m\cdot1)=m\phi(1)=m\cdot1=k$\ for some positive integer $m$.
+	\end{proof}
+	%7
+	\item[7.]
+	\begin{proof}
+		\quad Since $K\subset L$\ is a finite Galois extension, $|\aut_K(L)|=|L:K|$. By tower theorem, $|L:K|=|L:K(\alpha)||K(\alpha):K|=|L:K(\alpha)|\cdot\deg(p)\geq\deg(p)$. So we have $|\aut_K(L)|\geq\deg(p)$.
+	\end{proof}
+\end{enumerate}
+
+\end{document}

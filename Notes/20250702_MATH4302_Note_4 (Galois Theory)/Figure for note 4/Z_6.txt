@@ -1,0 +1,1 @@
+manim -pqh Z_6.py Z_6

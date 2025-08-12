@@ -1,0 +1,1 @@
+manim -pqh The_Galois_Correspondence.py The_Galois_Correspondence

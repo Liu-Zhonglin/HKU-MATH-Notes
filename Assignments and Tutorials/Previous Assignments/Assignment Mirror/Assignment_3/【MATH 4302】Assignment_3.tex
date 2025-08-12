@@ -1,0 +1,195 @@
+\documentclass[12pt]{article}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{physics}% for a "straight" differential
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Pbb}{\mathbb{P}}
+\newcommand{\calP}{\mathcal{P}}
+
+\newcommand{\parallelsum}{\mathbin{\!/\mkern-5mu/\!}}
+
+\newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
+\newcommand\Mycomb[2][^n]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+
+\newcommand{\diff}{\text{d}}
+\newcommand{\Diff}{\text{D}}
+
+\newcommand{\vN}{\mathbf{N}}
+\newcommand{\vn}{\mathbf{n}}
+\newcommand{\ve}{\mathbf{e}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\vx}{\mathbf{x}}
+
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+
+\usepackage[margin=1.25in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\pagestyle{fancy}
+\usepackage{amsfonts}
+
+\usepackage{graphicx} 
+\usepackage{float} 
+\usepackage{subfigure} 
+
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem{sublemma}{Lemma}[section]
+\newtheorem*{sublemma*}{Lemma}
+
+\title{Homework}
+\lhead{MATH 4302}
+\chead{Assignment 3}
+\rhead{Qu Tianyong, 3035770721}
+
+\linespread{1.2}
+\begin{document}
+	
+%	\begin{figure}[H] 
+%		\centering 
+%		\includegraphics[width=xx\textwidth]{xx} 
+%		\caption{xx} 
+%		\label{xx} 
+%	\end{figure}
+
+%	\Myperm{k} = \frac{n!}{(n-k)!}\quad
+%	\Mycomb{k} = \frac{n!}{k!(n-k)!}\quad
+%	\Myperm[m]{k} = \frac{m!}{(m-k)!}\quad
+%	\Mycomb[m]{k} = \frac{m!}{k!(m-k)!}\quad
+
+%$$=\left\{
+%	\begin{array}{rcl}
+%	\end{array}
+%\right.$$
+
+
+\begin{enumerate}
+	%1
+	\item[1.]
+	\textit{Sol.}
+		The minimal polynomial of $\sqrt[3]{2}$\ over $\Q$\ is $x^3-2$. Therefore $\Q(\sqrt[3]{2})$\ is a finite extension of $\Q$\ of degree $3$\ and has a basis $\{1,\sqrt[3]{2},(\sqrt[3]{2})^2\}$. In other word, any $\alpha\in\Q(\sqrt[3]{2})$\ can be expressed uniquely as a linear combination of $\{1,\sqrt[3]{2},(\sqrt[3]{2})^2\}$.
+		$$\begin{aligned}
+			1
+			=&(a+b\sqrt[3]{2}+c\sqrt[3]{4})(a_1+b_1\sqrt[3]{2}+c_1\sqrt[3]{4})\\
+			=&(aa_1+2bc_1+2cb_1)+(ab_1+ba_1+2cc_1)\sqrt[3]{2}+(ac_1+bb_1+ca_1)\sqrt[3]{4}.
+		\end{aligned}$$
+		So we have
+		$$\left\{
+		\begin{array}{rcl}
+		aa_1+2cb_1+2bc_1=&1,\\
+		ba_1+ab_1+2cc_1=&0,\\
+		ca_1+bb_1+ac_1=&0.
+		\end{array}
+		\right.$$
+		Therefore
+		$$\left\{
+		\begin{array}{rcl}
+			a_1&=\frac{1}{a^3+2b^3+4c^3}(a^2-2bc),\\
+			b_1&=\frac{1}{a^3+2b^3+4c^3}(2c^2-ab),\\
+			c_1&=\frac{1}{a^3+2b^3+4c^3}(b^2-ac).
+		\end{array}
+		\right.$$
+	%2
+	\item[2.]
+	\begin{enumerate}
+		%a
+		\item[(1)]
+		\textit{Sol.}
+			$\alpha^2=2+\sqrt{2}, \alpha^4-4\alpha^2+4=2$. So $f(\alpha)=0$\ where $f(x)=x^4-4x^2+2$. To show that it is minimal, we need to show that it has no factors. Since $f(\pm1)\neq0$\ and $f(\pm2)\neq0$, $f$\ has no linear factors. Assume that $f(x)=(x^2+bx+c)(x^2+ex+f)$, then
+			$$b+e=0,\ f+be+c=-4,\ bf+ce=0,\ cf=2.$$
+			Since $c$\ cannot equal to $f$, the first and third equation gives $b=e=0$. So $f+c=-4$, which is impossible.
+		%b
+		\item[(2)]
+		\textit{Sol.}
+			Note that $\alpha\beta=\sqrt{2}$, so
+			$$\alpha=\sqrt{2+\alpha\beta},\ \alpha^2=2+\alpha\beta.$$
+			Thus we have $\beta=\frac{\alpha^2-1}{\alpha}$	, which shows that $\beta\in\Q(\alpha)$. Note that $2=-\alpha^4+4\alpha^2$, so $1/\alpha=-\alpha^3/2+2\alpha$, and
+			$$\beta=\frac{\alpha^3}{2}-\alpha.$$
+	\end{enumerate}
+	%3
+	\item[3.]
+	\begin{enumerate}
+		%a
+		\item[(1)]
+		\textit{Sol.}
+			Let $L$\ be a $K$-vector space of dimension $n$. Consider the set $\{1,\alpha,...,\alpha^{n-1},\alpha^n\}$. Since it has $n+1>n$\ elements, it is linearly dependent, which means there exists $a_0,a_1,...,a_n\in K$, which are not all zero, such that
+			$$a_0+a_1\alpha+a_2\alpha^2+\cdots+a_{n-1}\alpha^{n-1}+a_n\alpha^n=0.$$
+			Let $s$\ be the biggest subscript such that $a_s\neq0$, then
+			$$f(x)=a_sx^s+a_{s-1}x^s+\cdots+a_1x+a_0$$
+			is a polynomial in $K[x]$\ such that $f(\alpha)=0$, which shows that a minimal polynomial exists.
+		%b
+		\item[(2)]
+		\begin{proof}
+			Let $p(x)=a_tx^t+a_{t-1}x^{t-1}+\cdots+a_0$. Then $p(\alpha)=p(\beta)=0$. Subtract them, we have
+			$$\begin{aligned}
+				0
+				=&a_t(\alpha^t-\beta^t)+a_{t-1}(\alpha^{t-1}-\beta^{t-1})+\cdots+a_1(\alpha-\beta)\\
+				=&(\alpha-\beta)\left(a_t\sum_{i=0}^{t-1}\alpha^i\beta^{t-1-i}+a_{t-1}\sum_{i=0}^{t-2}\alpha^i\beta^{t-2-i}+\cdots+a_1\right).
+			\end{aligned}$$
+			Since $\alpha\neq\beta$, we have the formula in the latter bracket equals zero. Thus $\beta\notin K$, for otherwise by substituting $\alpha$\ by $x$, the latter polynomial has degree $t-1$\ and also has $\alpha$\ as its root, which contradicts the hypothesis that $p(x)$\ is the minimal polynomial.\par
+			\quad Now assume to the contrary that $p(x)$\ is not the minimal polynomial for $\beta$. Let $q(x)$, where $\deg(q)<t$, be the minimal polynomial. Then $q(x)|p(x)$. Write $p(x)=q(x)r(x)$. Since $p(\alpha)=0$, at least one of $q(\alpha)$\ and $r(\alpha)$\ is zero. However, it contradicts that $p(x)$\ is the minimal polynomial for $\alpha$\ since both $q(x)$\ and $r(x)$\ has degree less then $t$.
+		\end{proof}
+	\end{enumerate}
+	%4
+	\item[4.]
+	\textit{Sol.} To find the degree of the extension $\Q(\alpha)$\ is just to find the degree of the minimal polynomial of $\alpha$\ over $\Q$.
+	\begin{enumerate}
+		%a
+		\item[(1)]
+			$\alpha^2=1+\sqrt{3}$, $\alpha^4-2\alpha^2+1=3$. So $\alpha$\ is a root of $f(x)=x^4-2x^2-2$. We claim that $f(x)$\ is the minimal polynomial. Since $f(\pm1)$
+\ and $f(\pm2)$\ are nonzero, $f(x)$\ has no linear factors. Assume that $f(x)=(x^2+bx+c)(x^2+ex+f)$, then
+			$$b+e=0,\ f+be+c=-2,\ bf+ce=0,\ cf=-2.$$
+			Since $c$\ cannot equal to $f$, the first and third equation gives $b=e=0$. So $f+c=-2$, which is impossible. Therefore the degree is 4.
+		%b
+		\item[(2)]
+			$\alpha^2=3-\sqrt{6}$, $\alpha^4-6\alpha^2+9=6$. So $\alpha$\ is a root of $f(x)=x^4-6x^2+3$. We claim that $f(x)$\ is the minimal polynomial. Since $f(\pm1)$, $f(\pm2)$, $f(\pm6)$\ and $f(\pm2)$\ are nonzero, $f(x)$\ has no linear factors. Assume that $f(x)=(x^2+bx+c)(x^2+ex+f)$, then
+			$$b+e=0,\ f+be+c=-6,\ bf+ce=0,\ cf=3.$$
+			Since $c$\ cannot equal to $f$, the first and third equation gives $b=e=0$. So $f+c=-6$, which is impossible. Therefore the degree is 4.
+		%c
+		\item[(c)]
+			$\alpha=\sqrt{(1+\sqrt{2})^2}=1+\sqrt{2}$, $\alpha^2-2\alpha+1=2$. So $\alpha$\ is a root of $f(x)=x^2-2x-1$. We claim that $f(x)$\ is the minimal polynomial. Since $f(\pm1)$\ are nonzero, $f(x)$\ has no linear factors, which means our claim holds. Therefore the degree is 2.
+	\end{enumerate}
+	%5
+	\item[5.]
+	\textit{Sol.}
+		$\Q(\sqrt{p})$\ is a $\Q$-vector space generated by the basis $\{1,\sqrt{p}\}$. $\Q(\sqrt[3]{q})$\ is a $\Q$-vector space generated by the basis $\{1,\sqrt[3]{q},\sqrt[3]{q^2}\}$. So in order that $\Q(\sqrt{p})$\ is a subspace of $\Q(\sqrt[3]{q})$, it suffices to show that $\sqrt{p}$\ is a linear combination of $\{1,\sqrt[3]{q},\sqrt[3]{q^2}\}$. Assume that there are $a,b,c\in\Q$\ such that
+		$$\sqrt{p}=a+b\sqrt[3]{q}+c\sqrt[3]{q^2}.$$
+		Then
+		$$p=(a^2+2bcq)+(c^2q+2ab)\sqrt[3]{q}+(b^2+2ac)\sqrt[3]{q^2}.$$
+		So
+		$$\left\{
+		\begin{array}{rcl}
+			p&=&a^2+2bcq,\\
+			0&=&c^2q+2ab,\\
+			0&=&b^2+2ac.
+		\end{array}
+		\right.$$
+		If $a\neq0$, then $c=-b^2/2a$. Plug it into the second equation, we have $0=b^4q/4a^2+2ab$, $b^3q+8a^3=0$. Thus $b=0$, for otherwise $\sqrt[3]{q}=-2a/b$\ is rational, which is impossible. So $a=0$, contrary to $a\leq0$. So $a=0$, $b=0$, and $p=0$. Above all, no such $p,q$\ exist.
+	%6
+	\item[6.]
+	\begin{enumerate}
+		%a
+		\item[(a)]
+			\textit{Sol.} Since all the prime numbers in $R=\Z[i]$\ are those $p$\ such that $N(p)$\ is a prime number or is the square of a $4k+3$\ prime number, $1+i$\ is prime. Since $1+i$\ can divide $6,4$\ and $1+3i$\ ($1+3i=(1+i)(1+2i)$) but $1+i\not\vert1$\ and $(1+i)^2\not\vert1+3i$, by Eisenstein's criterion, $f$\ is irreducible over $R$.
+		%b
+		\item[(b)]
+			\textit{Sol.} Write $\Q(i,\alpha_1,\alpha_2,\alpha_3)$\ as $\Q(i)(\alpha_1,\alpha_2,\alpha_3)$. We have the relation
+			$$\Q\subset\Q(i)\subset\Q(i)(\alpha_1,\alpha_2,\alpha_3)=\Q(i,\alpha_1,\alpha_2,\alpha_3).$$
+			We know that $\Q(i)$\ is of degree 2 ($i$\ is the root of $x^2+1$). To show that $\Q(i,\alpha_1,\alpha_2,\alpha_3)$\ has degree 6, it suffices to show that $\Q(i)(\alpha_1,\alpha_2,\alpha_3)$\ has degree 3 as a $\Q(i)$-vector space, which is equivalent to find a degree 3 minimal polynomial of $\alpha_1,\alpha_2,\alpha_3$\ over $\Q[i]$. We claim that $f(x)$\ is exactly the desired minimal polynomial. To see that, note that $\Z[i]$\ is a unique factorization domain, so Gauss' Lemma tells us that $f$\ is irreducible in $\Q[i]$\ if and only if the principal part of $f$, which is exactly $f$\ itself, is irreducible in $\Z[i]$, which is proved in 1. Since $\deg(f)=3$, we conclude that $\Q(i,\alpha_1,\alpha_2,\alpha_3)$\ has degree 6.
+	\end{enumerate}
+	
+\end{enumerate}
+
+\end{document}

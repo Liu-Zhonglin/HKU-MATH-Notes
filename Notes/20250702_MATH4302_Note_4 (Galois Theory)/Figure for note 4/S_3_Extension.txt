@@ -1,0 +1,1 @@
+manim -pqh S_3_Extension.py S_3_Extension

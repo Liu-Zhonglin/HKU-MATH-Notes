@@ -1,0 +1,1 @@
+manim -pqh S_3.py S_3

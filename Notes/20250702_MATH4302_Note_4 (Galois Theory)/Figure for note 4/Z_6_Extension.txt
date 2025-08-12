@@ -1,0 +1,1 @@
+manim -pqh Z_6_Extension.py Z_6_Extension

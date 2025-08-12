@@ -1,0 +1,181 @@
+\documentclass[12pt]{article}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{physics}% for a "straight" differential
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Pbb}{\mathbb{P}}
+\newcommand{\calP}{\mathcal{P}}
+
+\newcommand{\parallelsum}{\mathbin{\!/\mkern-5mu/\!}}
+
+\newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
+\newcommand\Mycomb[2][^n]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+
+\newcommand{\diff}{\text{d}}
+\newcommand{\Diff}{\text{D}}
+
+\newcommand{\vN}{\mathbf{N}}
+\newcommand{\vn}{\mathbf{n}}
+\newcommand{\ve}{\mathbf{e}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\vx}{\mathbf{x}}
+
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+
+\usepackage[margin=1.25in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\pagestyle{fancy}
+\usepackage{amsfonts}
+
+\usepackage{graphicx} 
+\usepackage{float} 
+\usepackage{subfigure} 
+
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem{sublemma}{Lemma}[section]
+\newtheorem*{sublemma*}{Lemma}
+
+\title{Homework}
+\lhead{MATH 4302}
+\chead{Assignment 4}
+\rhead{Qu Tianyong, 3035770721}
+
+\linespread{1.2}
+\begin{document}
+	
+%	\begin{figure}[H] 
+%		\centering 
+%		\includegraphics[width=xx\textwidth]{xx} 
+%		\caption{xx} 
+%		\label{xx} 
+%	\end{figure}
+
+%	\Myperm{k} = \frac{n!}{(n-k)!}\quad
+%	\Mycomb{k} = \frac{n!}{k!(n-k)!}\quad
+%	\Myperm[m]{k} = \frac{m!}{(m-k)!}\quad
+%	\Mycomb[m]{k} = \frac{m!}{k!(m-k)!}\quad
+
+%$$=\left\{
+%	\begin{array}{rcl}
+%	\end{array}
+%\right.$$
+
+
+\begin{enumerate}
+	%1
+	\item[1.]
+	\begin{enumerate}
+		%a
+		\item[(1)]
+		\begin{proof}
+			\quad Assume to the contrary that $q$\ is a real root. Then $\Im(f(q))=2q=0\Rightarrow q=0$. However, $f(0)=-\sqrt[5]{17}\neq0$.
+		\end{proof}
+		%b
+		\item[(2)]
+		\begin{proof}
+			\quad Let $\alpha$\ be one of its root. By (1), we have $\alpha\notin\R$. Let
+			$$K=\Q(\sqrt{2},\sqrt{5},\sqrt[4]{7},\sqrt[5]{17},i).$$
+			Since $\alpha$\ is a root of a function $f(x)\in K[x]$\ of degree 11, we have $[K(\alpha):K]\leq 11$. Note that $\sqrt{2},\sqrt{5},\sqrt[4]{7},\sqrt[5]{17},i$\ are all algebraic in $\Q$, $K$\ is a finite extension of $\Q$. Thus by the tower theorem, $K(\alpha)$\ is a finite extension of $\Q$. Thus $\alpha\in K(\alpha)$\ is algebraic over $\Q$.
+		\end{proof}
+		%c
+		\item[(3)]
+		\begin{proof}
+			\quad Note that
+			$$\begin{aligned}
+				\sqrt{2}\ &\text{is a root for}\ x^2-2\\
+				\sqrt{5}\ &\text{is a root for}\ x^2-5\\
+				\sqrt[4]{7}\ &\text{is a root for}\ x^4-7\\
+				\sqrt[5]{17}\ &\text{is a root for}\ x^5-17\\
+				i\ &\text{is a root for}\ x^2+1,
+			\end{aligned}$$
+			thus we have
+			$$\begin{aligned}
+				&[K(\alpha):\Q]\\
+				=&[K(\alpha):K]\cdot[K:\Q]\\
+				\leq&11\cdot[K:\Q(\sqrt{2},\sqrt{5},\sqrt[4]{7},\sqrt[5]{17})]\cdot[\Q(\sqrt{2},\sqrt{5},\sqrt[4]{7},\sqrt[5]{17}):\Q]\\
+				\leq&11\cdot 2\cdot[\Q(\sqrt{2},\sqrt{5},\sqrt[4]{7})(\sqrt[5]{17}):\Q(\sqrt{2},\sqrt{5},\sqrt[4]{7})]\cdot[\Q(\sqrt{2},\sqrt{5},\sqrt[4]{7}):\Q]\\
+				\leq&\cdots\\
+				\leq&11\cdot2\cdot2\cdot4\cdot5\cdot2\\
+				=&1760.
+			\end{aligned}$$
+		\end{proof}
+	\end{enumerate}
+	%2
+	\item[2.]
+	\begin{proof}
+		\quad Since these two conditions are symmetric, we only need to prove one side. Assume that $f$\ is irreducible over $K(\beta)$. Let $\deg(f)=m$. If $g$\ is reducible over $K(\alpha)$, there exists $g_1(x),g_2(x)\in K(\alpha)[x]$\ such that $g(x)=g_1(x)g_2(x)$. Since $g(\beta)=0$, at least one of $g_1(\beta)$, $g_2(\beta)$. Without loss of generality, let $g_1(\beta)=0$. However $\deg(g_1)<\deg(g)$, in order not to contradict the minimalism, we have $g_1(x)\notin K[x]$. Write
+		$$g_1(x)=a_0+a_1x+\cdots+a_nx^n.$$
+		Since $g_1(x)\in K(\alpha)[x]$, we can write $a_i=\sum_{j=0}^{t_i}c_{ij}\alpha^j$\ and $t_i<m$\ for $i=0,1,...,n$. And $g_1(x)\notin K[x]$\ shows that at least one of $t_i$\ is positive. Let $t=\max\{t_0,t_1,...,t_n\}$, then $0<t<m$. And we define
+		$$b_{ij}=\left\{
+			\begin{array}{rcl}
+				c_{ij}&&\text{if}\ j\leq t_i;\\
+				0&&\text{otherwise}
+			\end{array}
+		\right.$$
+		for all $0\leq i\leq n$\ and $0\leq j\leq t$. Then
+		$$\begin{aligned}
+		g_1(\beta)
+		=&\sum_{i=0}^na_i\beta^i=\sum_{i=0}^n\sum_{j=0}^{t_i}c_{ij}\alpha^j\beta^i=\sum_{i=0}^n\sum_{j=0}^{t}b_{ij}\alpha^j\beta^i\\
+		=&\sum_{j=0}^{t}\sum_{i=0}^nb_{ij}\beta^i\alpha^j=\sum_{j=0}^{t}b_j\alpha^j=f_1(\alpha),
+		\end{aligned}$$
+		where $b_j=\sum_{i=0}^nb_{ij}\beta^i$\ and $f_1(x)=\sum_{j=0}^tb_jx^j\in K(\beta)[x]$. Since $g_1(\beta)=0$, $f_1(\alpha)=0$, and thus contradicts the minimalism of $f$\ as $t<m$.
+	\end{proof}
+	%3
+	\item[3.]
+	\begin{enumerate}
+		%a
+		\item[(1)]
+		\textit{Sol.}
+			\quad It is not constructible. The minimal polynomial for $\sqrt[3]{7}$\ is $x^3-7$. Thus $[\Q[\sqrt[3]{7}]:\Q]=3$, and is not a power of 2.
+		%b
+		\item[(2)]
+		\textit{Sol.}
+			\quad It is not constructible. The minimal polynomial for $\sqrt[3]{3}$\ is $x^3-3$. Thus $[\Q[\sqrt[3]{3}]:\Q]=3$, and is not a power of 2.
+	\end{enumerate}
+	%4
+	\item[4.]
+	\begin{enumerate}
+		\item[a)]
+		\textit{Sol.}
+			\quad $f(x)=x^3-2=(x-\sqrt[3]{2})(x-\sqrt[3]{2}\omega)(x-\sqrt[3]{2}\omega^2)$\ where $\omega=e^{2\pi i/3}$. Thus the splitting field for $f$\ over $\Q$\ is $\Q(\sqrt[3]{2},\sqrt[3]{2}\omega,\sqrt[3]{2}\omega^2)=\Q(\sqrt[3]{2},\omega)$. Since $\sqrt[3]{2}$\ is a root for $x^3-2$\ which is irreducible in $\Q$, and $\omega$\ is a root for $x^2+x+1$\ which is irreducible in $\Q[\sqrt[3]{2}]$, so by the tower theorem
+			$$[\Q(\sqrt[3]{2},\omega):\Q]=[\Q(\sqrt[3]{2},\omega):\Q(\sqrt[3]{2})]\cdot[\Q(\sqrt[3]{2}):\Q]=3\cdot2=6.$$
+		\item[b)]
+		\textit{Sol.}
+			\quad $f(x)=(x-1)(x+1)(x+i)(x-i)$. So the splitting field for $f$\ over $\Q$\ is $\Q(-1,1,i,-i)=\Q(i)$. Since $i$\ is a root for the function $x^2+1$\ which is irreducible in $\Q$, we have
+			$$[\Q(i):\Q]=2.$$
+		\item[c)]
+		\textit{Sol.}
+			$f(x)=(x-\sqrt{2})(x+\sqrt{2})(x^3-2)$. So the splitting field of $f$\ over $\Q$\ is the splitting field of $x^2-2$\ over $\Q(\sqrt[3]{2},\omega)$. We claim that $x^2-2$\ is irreducible in $\Q(\sqrt[3]{2},\omega)$, otherwise
+			$$\sqrt{2}=a+b\sqrt[3]{2}+c\sqrt[3]{2}^2+d\omega$$
+			for rational number $a,b,c$\ and $d$. Then square both sides, we have
+			$$2=a^2+4bc+(2ab+2c^2)\sqrt[3]{2}+(2ac+b^2)\sqrt[3]{2}^2+2(a+b\sqrt[3]{2}+c\sqrt[3]{2}^2)d\omega+d^2\omega^2.$$
+			So $ab+c^2=2ac+b^2=d=0$. If $a\neq0$, then $b=-c^2/a$. So $2ac+c^4/a^2=0$, $2a^3+c^3=0$, which is impossible. Thus $a=0$, and $b=c=0$, which is also impossible. Therefore $x^2-2$\ is irreducible in $\Q(\sqrt[3]{2},\omega)$, and by the tower theorem
+			$$[\Q(\sqrt[3]{2},\omega,\sqrt{2}):\Q]=[\Q(\sqrt[3]{2},\omega,\sqrt{2}):\Q(\sqrt[3]{2},\omega)]\cdot[\Q(\sqrt[3]{2},\omega):\Q]=2\cdot6=12.$$
+	\end{enumerate}
+	%5
+	\item[5.]
+	\begin{proof}
+		\quad Let $p(x)$\ be an irreducible polynomial in $M[x]$\ with a root $\alpha$\ in $L$. Since $L$\ is algebraic over $K$, there exists a minimal polynomial $q(x)\in K[x]$\ such that $\alpha$\ is one of its roots. Since $K[x]\subset M[x]$, by the minimalism we have $q(x)|p(x)$. And by the irreducibility of $p(x)$, we have $p(x)=kq(x)$\ for some constant $k\in M$. Since $K\subset L$\ is normal and $q$\ has a root $\alpha\in L$, $q$\ splits over $L$, and so does $p$.
+	\end{proof}
+	%6
+	\item[6.]
+	\begin{proof}
+		\quad Assume to the contrary that $\Q(\sqrt[3]{2})$\ is a splitting field of some polynomial in $\Q[x]$. Then $\Q(\sqrt[3]{2})$\ is a finite and normal extension of $\Q$. However, $x^3-2$, being an irreducible polynomial in $\Q[x]$\ that has a root $\sqrt[3]{2}$\ in $\Q(\sqrt[3]{2})$, does not split over $\Q(\sqrt[3]{2})$\ ($e^{2\pi i/3}\notin\Q(\sqrt[3]{2})$). Thus $\Q(\sqrt[3]{2})$\ is not a normal extension of $\Q$, and we arrive at a contradiction.
+	\end{proof}
+\end{enumerate}
+
+\end{document}
