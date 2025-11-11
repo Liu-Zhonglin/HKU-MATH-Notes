@@ -1,0 +1,1072 @@
+\documentclass[12pt]{article}
+
+% Packages for math and formatting
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage{epigraph}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, decorations.pathmorphing, positioning}
+
+% Page setup
+\geometry{margin=1in}
+
+% Theorem-like environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\HH}{\mathbb{H}} % upper half-plane
+
+% Operator names
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\FractLin}{FractLin}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\SL}{SL}
+
+\title{Elliptic Functions, Part 3}
+\author{Joe}
+\date{October 22, 2025}
+
+\begin{document}
+	
+	\maketitle
+	
+	\epigraph{The teaching of maths is to make everything obvious.}{\textit{Prof. MOK Ngaiming}}
+	
+	\tableofcontents
+	\vspace{1em}
+	
+\section{The Weierstrass Problem on \(\mathbb{C}/L\)}
+
+
+Let us consider Weierstrass data
+\[
+\{(x_k, n_k)\}_{k=1}^s,
+\]
+where each \(x_k\) is a distinct point on \(X = \mathbb{C}/L\), and \(n_k \in \mathbb{Z}\) is an integer (possibly positive or negative) associated to \(x_k\).
+
+To lift these points to the universal covering space, choose representatives
+\[
+a_k \in \mathbb{C} \quad \text{such that} \quad \pi(a_k) = x_k,
+\]
+where \(\pi : \mathbb{C} \to X = \mathbb{C}/L\) is the canonical projection.  
+
+In the simpler case, we assume the following condition holds:
+\[
+\sum_{k=1}^{s} n_k a_k = 0.
+\]
+
+
+
+
+\underline{Observation:}
+Recall that the shifted Weierstrass sigma function,
+\[
+\sigma_c(z) := \sigma(z + c),
+\]
+has a \emph{simple zero at} \(z = -c\) and no other zeros.  
+
+
+
+So a possible candidate for the desired function is
+\[
+f(z) = \prod_{k=1}^{s} \sigma(z - a_k)^{n_k}.
+\]
+Each factor \(\sigma(z - a_k)\) contributes a zero of order \(n_k\) at \(z = a_k\) (if \(n_k > 0\)), or a pole of order \(|n_k|\) (if \(n_k < 0\)).
+
+We have
+\[
+\operatorname{ord}_{a_k}(f) = n_k, \qquad k = 1, 2, \ldots, s,
+\]
+and for any \(a \not\equiv a_k \pmod{L}\) for all \(k\),
+\[
+\operatorname{ord}_{a}(f) = 0.
+\]
+
+It remains to check whether \(f\) is an elliptic function with respect to the lattice \(L\).
+Recall that the sigma function satisfies
+\[
+\sigma(z+\omega) = \exp(A_\omega z + B_\omega)\, \sigma(z),
+\qquad \forall\, \omega \in L.
+\]
+Therefore,
+\[
+f(z+\omega)
+= \prod_{k=1}^{s} \sigma(z+\omega - a_k)^{n_k},
+\qquad
+f(z)
+= \prod_{k=1}^{s} \sigma(z - a_k)^{n_k}.
+\]
+
+
+So we have 
+\[
+\frac{f(z+\omega)}{f(z)}
+= \prod_{k=1}^{s} 
+\left(
+\frac{\sigma((z-a_k)+\omega)}{\sigma(z-a_k)}
+\right)^{n_k}.
+\]
+By applying the transformation formula 
+\(\sigma(z+\omega)=\exp(A_\omega z+B_\omega)\sigma(z)\), we obtain
+\[
+\frac{f(z+\omega)}{f(z)}
+= \prod_{k=1}^{s}
+\bigl(\exp(A_\omega(z-a_k)+B_\omega)\bigr)^{n_k}
+= \prod_{k=1}^{s}
+\exp\!\bigl(n_k(A_\omega(z-a_k)+B_\omega)\bigr).
+\]
+Expanding inside the product,
+\[
+\frac{f(z+\omega)}{f(z)}
+= \prod_{k=1}^{s}
+\exp\!\bigl(n_kA_\omega z - n_kA_\omega a_k + n_kB_\omega\bigr)
+= \exp\!\left(
+\sum_{k=1}^{s}(n_kA_\omega z - n_kA_\omega a_k + n_kB_\omega)
+\right).
+\]
+Combine terms in the exponent:
+\[
+\frac{f(z+\omega)}{f(z)}
+= \exp\!\left(
+A_\omega z \sum_{k=1}^{s} n_k
+- A_\omega \sum_{k=1}^{s} n_k a_k
++ B_\omega \sum_{k=1}^{s} n_k
+\right)
+= \exp\!\left((A_\omega z+B_\omega)\sum_{k=1}^{s}n_k\right)
+\exp\!\left(-A_\omega\sum_{k=1}^{s}n_k a_k\right).
+\]
+Since \(\sum_{k=1}^{s} n_k=\sum_{k=1}^{s} n_k a_k=0\),
+both exponential factors equal \(1\),
+hence \(\frac{f(z+\omega)}{f(z)}=1\),
+so \(f\) is elliptic with respect to \(L\).
+
+
+
+
+If the coefficients \(n_k\) satisfy
+\[
+\sum_{k=1}^{s} n_k = 0
+\quad \text{and} \quad
+\sum_{k=1}^{s} n_k a_k = 0,
+\]
+then the exponent equals zero, and therefore
+\[
+\frac{f(z+\omega)}{f(z)} = 1
+\quad \text{for all } \omega \in L.
+\]
+Thus \(f\) is an elliptic function with respect to \(L\).
+
+Next, we show that it suffices to require the weaker condition
+\[
+\sum_{k=1}^{s} n_k a_k \equiv 0 \pmod{L},
+\]
+instead of the strict equality \(\sum_{k=1}^{s} n_k a_k = 0.\)
+
+Recall that we have \(\pi: \mathbb{C} \to \mathbb{C}/L\), and the points \(a_k\) are chosen so that 
+\(\pi(a_k) = x_k\). We can replace each \(a_k\) by 
+\[
+a_k' = a_k + w_0, \qquad w_0 \in L.
+\]
+
+\underline{Difficulty:} If we replace \((x_s, a_s)\) by \((x_s, a_s + w_0)\) and define
+\[
+h(z) = \prod_{k=1}^{s-1} \sigma(z - a_k)^{n_k} \cdot \sigma(z - (a_s + w_0))^{n_s},
+\]
+then
+\[
+\frac{h(z + \omega)}{h(z)} 
+= \exp\!\left(-\Big(\sum_{k=1}^s n_k a_k' \Big) A_\omega \right),
+\]
+where \(a_k' = a_k\) for \(k \neq s\), and \(a_s' = a_s + w_0\).
+
+Hence,
+\[
+\frac{h(z + \omega)}{h(z)} 
+= \exp\!\left( -\Big(\sum_{k=1}^s n_k a_k + n_s w_0 \Big) A_\omega \right).
+\]
+Let
+\[
+\mu = \sum_{k=1}^s n_k a_k.
+\]
+By assumption, we know that \(\mu \in L\).
+
+The Weierstrass periodicity condition will be solved by setting
+\[
+\mu + n_s w_0 = 0, 
+\quad \text{i.e.} \quad 
+w_0 = -\frac{\mu}{n_s} \in \tfrac{1}{n_s} L.
+\]
+
+The difficulty arises because \(n_s\) may not be \(\pm 1\).
+A solution in the general case is obtained as follows (we may assume \(n_s \ge 1\)):
+\[
+h(z) 
+= \prod_{k=1}^{s-1} \sigma(z - a_k)^{n_k}
+\cdot \sigma(z - a_s)^{n_s - 1}
+\cdot \sigma(z - a_s'),
+\]
+where \(a_s' = a_s-w_0\) for some \(w_0\in L\) to be determined.
+
+Recall that
+\[
+\sigma(z + \omega) = e^{A_\omega z + B_\omega} \sigma(z).
+\]
+Then
+\[
+\sigma(z - a_s') 
+= \sigma\bigl(z - (a_s - w_0)\bigr) 
+= \sigma\bigl((z - a_s) + w_0\bigr)
+= e^{A_{w_0}(z - a_s) + B_{w_0}} \sigma(z - a_s),
+\]
+and
+\[
+\frac{\sigma(z - a_s' + \omega)}{\sigma(z - a_s')} 
+= e^{A_\omega (z - a_s') + B_\omega}.
+\]
+
+Note that
+\[
+h(z) = 
+\frac{f(z)}{\sigma(z - a_s)} \, \sigma(z - a_s').
+\]
+Hence
+\[
+\frac{h(z + \omega)}{h(z)}
+= \frac{f(z + \omega)}{f(z)}
+\cdot
+\frac{\sigma(z - a_s )}{\sigma(z - a_s+\omega)}
+\cdot
+\frac{\sigma(z - a_s' + \omega)}{\sigma(z - a_s')}.
+\]
+Using the quasi-periodicity of \(\sigma\),
+\[
+\frac{\sigma(z - a_s + \omega)}{\sigma(z - a_s)} 
+= e^{A_\omega (z - a_s) +B_\omega}, 
+\qquad
+\frac{\sigma(z - a_s' + \omega)}{\sigma(z - a_s')} 
+= e^{A_\omega (z - a_s') + B_\omega},
+\]
+we obtain
+\[
+\frac{h(z + \omega)}{h(z)} 
+= \frac{f(z + \omega)}{f(z)} 
+e^{-A_\omega (z - a_s) - B_\omega}
+e^{A_\omega (z - a_s') + B_\omega}
+= \frac{f(z + \omega)}{f(z)}
+\exp\!\big(A_\omega (a_s - a_s')\big).
+\]
+
+
+Since
+\[
+\frac{f(z + \omega)}{f(z)}
+= \exp\!\left(-A_\omega \sum_{k=1}^s n_k a_k\right),
+\]
+we conclude that
+\[
+\frac{h(z + \omega)}{h(z)}
+= \exp\!\left(-A_\omega \mu + A_\omega (a_s - a_s')\right)
+= \exp\!\big(-A_\omega \mu + A_\omega w_0\big).
+\]
+Thus, periodicity holds (\(\frac{h(z+\omega)}{h(z)}=1\)) when \(w_0 = \mu.\)
+
+\section{The Field of Meromorphic Functions on \( \mathbb{C}/L \)}
+
+We have already established the necessary and sufficient conditions for solving both 
+the Mittag–Leffler (ML) problem and the Weierstrass (WP) problem.
+
+In this section, we describe the function field \(\mathcal{M}(X)\) explicitly.
+
+Recall that for the Eisenstein series \(E_k\) with \(k \ge 3\), we have
+\[
+\wp'(z) = -2E_3(z).
+\]
+As will be seen, the functions \(\wp\) and \(\wp'\) are the most important ones on \(X\);
+every meromorphic function on \(X\) will turn out to be expressible in terms of them.
+
+We will prove the following:
+\begin{enumerate}
+	\item \(\wp\) and \(\wp'\) are algebraically related;
+	\item \(\wp\) and \(\wp'\) generate \(\mathcal{M}(X)\) as a field.
+\end{enumerate}
+
+
+\subsection{An Algebraic Relation Between \(\wp\) and \(\wp'\)}
+
+What tool can we use to prove that an elliptic function \(f \equiv 0\)?
+The basic principle is the \emph{maximum principle}, which implies that any holomorphic
+elliptic function must be constant.
+
+\medskip
+
+\noindent
+\textbf{Basic technique:} use the Laurent series expansion at the poles.
+If the Laurent expansion of \(f\) at each possible pole actually reduces to a Taylor series
+(i.e., all terms of negative degree vanish) and the constant term at one possible pole is zero,
+then \(f \equiv 0\).
+
+\medskip
+
+\noindent
+\textbf{Objective:}
+to find an algebraic relation between \(\wp\) and \(\wp'\), the simpler the better.
+
+\medskip
+
+\noindent
+\underline{Observation:}
+\(\wp\) has a double pole at each lattice point \(\omega \in L\) and no other poles,
+while \(\wp'\) has a triple pole at each \(\omega \in L\) and no other poles. 
+Thus,
+\[
+\operatorname{ord}_\omega(\wp^3) = 6, 
+\qquad
+\operatorname{ord}_\omega((\wp')^2) = 6.
+\]
+This suggests a connection between \(\wp^3\) and \((\wp')^2\).
+
+\medskip
+
+Recall that
+\[
+\wp(z) 
+= \frac{1}{z^2}
++ \sum_{\omega \in L^*} 
+\left( \frac{1}{(z+\omega)^2} - \frac{1}{\omega^2} \right),
+\qquad
+E_3(z) = \sum_{\omega \in L} \frac{1}{(z+\omega)^3},
+\qquad
+\wp'(z) = -2 E_3(z).
+\]
+
+Since \(\wp\) is even and \(\wp'\) is odd, we can write their local expansions near \(z=0\) as
+\[
+\wp(z) = \frac{1}{z^2} + a_2 z^2 + a_4 z^4 + \cdots,
+\qquad
+\wp'(z) = -\frac{2}{z^3} + b_1 z + b_3 z^3 + \cdots.
+\]
+
+Therefore,
+\[
+\wp^3(z) = \frac{1}{z^6} + \cdots, 
+\qquad
+(\wp'(z))^2 = \frac{4}{z^6} + \cdots,
+\]
+which leads us to \emph{guess} that
+\[
+(\wp'(z))^2 = 4\,\wp^3(z) + \cdots \;?
+\]
+We will make this relation precise below.
+
+
+
+
+We begin by expanding \((\wp'(z))^2\) and \(\wp^3(z)\) using their Laurent series near \(z = 0\).
+
+\medskip
+\noindent
+Since
+\[
+\wp'(z) = -\frac{2}{z^3} + b_1 z + b_3 z^3 + \cdots,
+\]
+we have
+\[
+\begin{aligned}
+	(\wp'(z))^2 
+	&= \left(-\frac{2}{z^3} + b_1 z + b_3 z^3 + \cdots \right)^2 \\[4pt]
+	&= \frac{4}{z^6} + 2\!\left(-\frac{2}{z^3}\right)\!(b_1 z + b_3 z^3 + \cdots)
+	+ \underbrace{(b_1 z + b_3 z^3 + \cdots)^2}_{\text{Taylor expansion, constant term } 0} \\[4pt]
+	&= \frac{4}{z^6} - \frac{4b_1}{z^2} - 4b_3 + \cdots.
+\end{aligned}
+\]
+
+\medskip
+\noindent
+Next, for \(\wp(z)\), recall
+\[
+\wp(z) = \frac{1}{z^2} + a_2 z^2 + a_4 z^4 + \cdots.
+\]
+Using \((x + y)^3 = x^3 + 3x^2 y + 3x y^2 + y^3\), we get
+\[
+\begin{aligned}
+	\wp^3(z)
+	&= \left( \frac{1}{z^2} + (a_2 z^2 + a_4 z^4 + \cdots) \right)^3 \\[2pt]
+	&= \frac{1}{z^6} + 3\frac{1}{z^4}(a_2 z^2 + a_4 z^4 + \cdots)
+	+ \underbrace{\frac{3}{z^2}(a_2 z^2 + a_4 z^4 + \cdots)^2}_{\text{Taylor expansion, constant term } 0} \\[4pt]
+	&= \frac{1}{z^6} + \frac{3a_2}{z^2} + 3a_4 + \cdots.
+\end{aligned}
+\]
+Hence,
+\[
+4\wp^3(z) = \frac{4}{z^6} + \frac{12a_2}{z^2} + 12a_4 + \cdots.
+\]
+
+\medskip
+\noindent
+Subtracting gives
+\[
+(\wp'(z))^2 - 4\wp^3(z)
+= \frac{-4b_1 - 12a_2}{z^2} + (-4b_3 - 12a_4) + \cdots.
+\]
+Define
+\[
+g_2 = -4b_1 - 12a_2, 
+\qquad 
+g_3 = -4b_3 - 12a_4,
+\]
+and set
+\[
+f(z) = (\wp'(z))^2 - 4\wp^3(z) - g_2 \wp(z) - g_3.
+\]
+Then, the principal part of \(f\) at \(z = 0\) vanishes, and the constant term there is zero. 
+Since \(f\) is elliptic, its principal part at every lattice point \(\omega \in L\) also vanishes, 
+and its constant term is zero.  
+Hence, by the basic principle for elliptic functions, we have \(f \equiv 0\).
+
+\begin{theorem}
+	Let \(L = \mathbb{Z}\omega_1 + \mathbb{Z}\omega_2\) be a lattice.
+	Then there exist constants \(g_2, g_3 \in \mathbb{C}\) (depending only on \(L\)) 
+	such that the Weierstrass functions \(\wp\) and \(\wp'\) satisfy the identity
+	\[
+	(\wp'(z))^2 = 4\wp^3(z) - g_2 \wp(z) - g_3
+	\quad \text{for all } z \in \mathbb{C}.
+	\]
+\end{theorem}
+	
+	
+	
+\subsection{The Generation of \(\mathcal{M}(X)\) by \(\wp\) and \(\wp'\)}
+
+We now turn to the explicit description of the field of meromorphic functions on 
+$
+X = \mathbb{C}/L.
+$
+
+\begin{theorem}
+ \(\mathcal{M}(X)\) is generated by the Weierstrass functions
+	\(\wp\) and \(\wp'\).
+\end{theorem}
+
+\noindent
+\underline{Reduction:}
+Let \(f\) be an elliptic function. 
+We decompose \(f\) into its even and odd parts:
+\[
+f(z) = \frac{f(z) + f(-z)}{2} + \frac{f(z) - f(-z)}{2} 
+= f^{\mathrm{even}}(z) + f^{\mathrm{odd}}(z).
+\]
+Define
+\[
+\mathcal{M}^{\mathrm{even}}(X)
+= \{ f \in \mathcal{M}(X) \mid f(-z) = f(z) \}, 
+\qquad
+\mathcal{M}^{\mathrm{odd}}(X)
+= \{ f \in \mathcal{M}(X) \mid f(-z) = -f(z) \}.
+\]
+Then we have \(\wp \in \mathcal{M}^{\mathrm{even}}(X)\) 
+and \(\wp' \in \mathcal{M}^{\mathrm{odd}}(X)\).
+Moreover, if \(h \in \mathcal{M}^{\mathrm{odd}}(X)\), then \(h\,\wp' \in \mathcal{M}^{\mathrm{even}}(X)\), 
+since the product of two odd functions is even.
+
+\begin{proposition}
+	The field of even elliptic functions on $X = \C / L$ is generated over~$\C$ 
+	by the Weierstrass function~$\wp$; that is,
+	\[
+	\mathcal{M}^{\mathrm{even}}(X)
+	= \C(\wp)
+	= \left\{
+	\frac{P(\wp(z))}{Q(\wp(z))} 
+	\ \Big| \ 
+	P,Q \in \C[x], \ Q \not\equiv 0
+	\right\}.
+	\]
+\end{proposition}
+
+\begin{proof}
+	Let $f \in \mathcal{M}^{\mathrm{even}}(X)$, so that $f(z)=f(-z)$. 
+	We proceed in two stages.
+	
+	\paragraph{Construction of a meromorphic function holomorphic at the lattice points.}
+	The Laurent expansion of $f$ near $z=0$ involves only even powers:
+	\[
+	f(z) = \sum_{m=k}^{\infty} a_{2m} z^{2m},
+	\]
+	since $f$ is even. Hence $\ord_0(f) = 2s$ for some $s\in\Z$.
+	
+	If $f$ has a pole of order $2n$ at $0$ (so $\ord_0(f) = -2n$), define
+	\[
+	h_0(z) = \frac{f(z)}{\wp(z)^n}.
+	\]
+	Since $\ord_0(\wp^n) = -2n$, we get $\ord_0(h_0) = 0$, so $h_0$ is holomorphic at $0$. 
+	Because $h_0$ is also even and elliptic, its periodicity ensures 
+	$h_0(z+\omega) = h_0(z)$ for all $\omega \in L$; 
+	hence $h_0$ is holomorphic at every lattice point.
+	
+	Thus we have produced a meromorphic function on $\C$, 
+	elliptic with respect to $L$, that is holomorphic at all lattice points.
+	
+	\paragraph{Determination of the function via the Weierstrass problem on $X$.}
+	According to the Weierstrass problem on the torus $X$, 
+	once we specify a divisor
+	\[
+	D = \sum_{a \in X} n_a [a], 
+	\quad \text{with} \quad 
+	\sum_{a} n_a = 0,
+	\]
+	there exists a meromorphic function on $X$ having zeros and poles exactly as prescribed by $D$, 
+	unique up to multiplication by a nonzero constant.
+	
+	Because $f$ is even, its zeros and poles occur in symmetric patterns.
+	We distinguish two cases:
+	
+	\medskip
+	\noindent \textbf{Case 1.} When $a \not\equiv -a \pmod{L}$: 
+	
+	Consider the elliptic function $\wp(z) - \wp(a)$. 
+	Since $\wp$ is even, $\wp(-a) = \wp(a)$. 
+	Therefore, $\wp(z) - \wp(a)$ has simple zeros at $z = a$ and $z = -a$, 
+	and a double pole at each lattice point $\omega \in L$.
+	Specifically,
+	\[
+	\ord_0(\wp - \wp(a)) = -2, 
+	\qquad 
+	\ord_a(\wp - \wp(a)) = 
+	\ord_{-a}(\wp - \wp(a)) = 1,
+	\]
+	and there are no other zeros or poles modulo $L$.
+	
+	For points $a_k$ with $2a_k \not\equiv 0 \pmod{L}$, 
+	we have symmetric pairs $\{a_k,-a_k\}$ with equal orders:
+	\[
+	\ord_{a_k}(f) = \ord_{-a_k}(f) = n_k.
+	\]
+	
+	\medskip
+	\noindent \textbf{Case 2.} When $a \equiv -a \pmod{L}$:
+	
+	This occurs exactly when $2a \equiv 0 \pmod{L}$, 
+	i.e.\ when $a$ is a \emph{half-period}. 
+	The half-periods of the lattice $L = \Z\omega_1 + \Z\omega_2$ are
+	\[
+	0, \quad \frac{\omega_1}{2}, \quad \frac{\omega_2}{2}, \quad 
+	\omega_3 := \frac{\omega_1 + \omega_2}{2}.
+	\]
+	
+	At each half-period $\omega_i/2$ (where $i=1,2,3$), 
+	we have $\wp'(\omega_i/2) = 0$, so
+	the function $\wp(z) - \wp(\omega_i/2)$ has a double zero at $z = \omega_i/2$.
+	The orders at half-periods must be even:
+	\[
+	\ord_{\frac{\omega_i}{2}}(f) = 2t_i, \quad t_i\in\Z.
+	\]
+	
+	\medskip
+	\noindent
+	Combining both cases, define
+	\[
+	h(z)
+	= \prod_{k=1}^{s} \bigl(\wp(z) - \wp(a_k)\bigr)^{n_k}
+	\prod_{i=1}^{3} \bigl(\wp(z) - \wp(\tfrac{\omega_i}{2})\bigr)^{t_i}.
+	\]
+	Each factor is even and elliptic, and the overall divisor of $h$ coincides with that of $f$.
+	
+	By the Weierstrass problem on $X$, 
+	the meromorphic function with this divisor is unique up to a multiplicative constant.
+	Therefore the quotient $f/h$ has no zeros or poles, hence $f/h \equiv c \in \C^{\times}$.
+	
+	We obtain
+	\[
+	f(z) 
+	= c\,
+	\prod_{k=1}^{s} \bigl(\wp(z)-\wp(a_k)\bigr)^{n_k}
+	\prod_{i=1}^{3} \bigl(\wp(z)-\wp(\tfrac{\omega_i}{2})\bigr)^{t_i},
+	\]
+	so $f$ is a rational function of $\wp(z)$.
+	
+	Conversely, every rational function of $\wp$ is even and elliptic.
+	Hence
+	\[
+	\mathcal{M}^{\mathrm{even}}(X) = \C(\wp).
+	\qedhere
+	\]
+\end{proof}
+
+
+
+\subsection{The Projective Embedding of the Complex Torus \(\mathbb{C}/L\)}
+
+The \emph{complex projective space} \(\mathbb{P}^n(\mathbb{C})\) is defined as
+\[
+\mathbb{P}^n
+= (\mathbb{C}^{\,n+1} \setminus \{0\})/\!\sim,
+\]
+where the equivalence relation is
+\[
+u \sim v 
+\quad \Longleftrightarrow \quad
+\exists\, \lambda \in \mathbb{C}^* \text{ such that } u = \lambda v.
+\]
+Thus, two nonzero vectors in \(\mathbb{C}^{n+1}\) represent the same point in
+\(\mathbb{P}^n\) if they differ by a nonzero scalar multiple.  
+The equivalence class of \((z_0, z_1, \ldots, z_n)\) is written as
+\[
+[z_0 : z_1 : \cdots : z_n],
+\]
+and these are called the \emph{homogeneous coordinates} of the point.
+
+\medskip
+
+The projective space \(\mathbb{P}^n\) can be covered by the open sets
+\[
+U_k = \{ [z_0 : \cdots : z_n] \mid z_k \neq 0 \},
+\qquad k = 0, 1, \ldots, n.
+\]
+Then
+\[
+\mathbb{P}^n = \bigcup_{k=0}^{n} U_k.
+\]
+
+On \(U_k\), we define the \emph{inhomogeneous coordinates} by dividing by \(z_k\):
+\[
+[z_0 : \cdots : z_k : \cdots : z_n]
+\ \longmapsto\
+\Bigl(
+\frac{z_0}{z_k},\,
+\dots,\,
+\frac{z_{k-1}}{z_k},\,
+\widehat{\frac{z_k}{z_k}=1},\,
+\frac{z_{k+1}}{z_k},\,
+\dots,\,
+\frac{z_n}{z_k}
+\Bigr),
+\]
+where the \(\,\widehat{\phantom{a}}\,\) symbol indicates that the corresponding component
+is \emph{omitted} (since \(z_k/z_k=1\) is fixed). 
+
+Thus, in these coordinates,
+\[
+U_k \;\cong\; \mathbb{C}^n,
+\]
+with coordinates
+\[
+\bigl(z_0/z_k,\, \dots,\, z_{k-1}/z_k,\, z_{k+1}/z_k,\, \dots,\, z_n/z_k\bigr).
+\] 
+
+\medskip
+
+When \(n=1\), we obtain the \emph{complex projective line}
+\[
+\mathbb{P}^1 = \{ [\xi_0 : \xi_1] \mid (\xi_0, \xi_1) \neq (0,0) \},
+\]
+covered by
+\[
+U_0 = \{ [\xi_0 : \xi_1] \mid \xi_0 \neq 0 \},
+\qquad
+U_1 = \{ [\xi_0 : \xi_1] \mid \xi_1 \neq 0 \}.
+\]
+On \(U_0\) we set \(z = \xi_1 / \xi_0\), and on \(U_1\) we set
+\(w = \xi_0 / \xi_1\).  
+On the overlap \(U_0 \cap U_1\), these coordinates satisfy \(z w = 1\).  
+Thus each \(U_i \cong \mathbb{C}\), their intersection \(U_0 \cap U_1 \cong \mathbb{C}^*\),
+and
+\[
+\mathbb{P}^1 \cong \mathbb{C} \cup \{\infty\},
+\]
+the Riemann sphere.
+
+\medskip
+
+For \(n=2\), we obtain the \emph{complex projective plane}
+\[
+\mathbb{P}^2 = \bigcup_{k=0}^2 U_k,
+\]
+where, for example, on \(U_0\) (with \(\xi_0 \neq 0\)) the inhomogeneous coordinates are
+\[
+[\xi_0 : \xi_1 : \xi_2]
+\ \longmapsto\
+\left(
+z_1^{(0)} = \frac{\xi_1}{\xi_0},\;
+z_2^{(0)} = \frac{\xi_2}{\xi_0}
+\right),
+\]
+so \(U_0 \cong \mathbb{C}^2\).  
+Similarly, \(U_1\) and \(U_2\) are also copies of \(\mathbb{C}^2\),
+glued together through the appropriate rational transition functions.
+
+\[
+\begin{aligned}
+	\mathbb{P}^2
+	&= U_0
+	\,\cup\,
+	\Bigl\{
+	[\xi_0 : \xi_1 : \xi_2]
+	\ \Big|\
+	(\xi_0, \xi_1, \xi_2) \in \mathbb{C}^3 \setminus \{0\},
+	\ \xi_0 = 0
+	\Bigr\} \\[6pt]
+	&= U_0
+	\,\cup\,
+	\Bigl\{
+	[0 : \xi_1 : \xi_2]
+	\ \Big|\
+	(\xi_1, \xi_2) \in \mathbb{C}^2 \setminus \{0\}
+	\Bigr\}.
+\end{aligned}
+\]
+
+The second set is naturally identified with the projective line:
+\[
+\Bigl\{
+[0 : \xi_1 : \xi_2]
+\ \Big|\
+(\xi_1, \xi_2) \in \mathbb{C}^2 \setminus \{0\}
+\Bigr\}
+\;\cong\;
+\mathbb{P}^1.
+\]
+
+Hence,
+\[
+\mathbb{P}^2
+= \mathbb{C}^2
+\,\sqcup\, \mathbb{P}^1
+= \mathbb{C}^2
+\,\sqcup\, \mathbb{C}
+\,\sqcup\, \{\text{pt}\}.
+\]
+
+\medskip
+
+\noindent
+More generally, one obtains the recursive cell decomposition
+\[
+\boxed{
+	\mathbb{P}^n
+	= \mathbb{C}^n
+	\,\sqcup\, \mathbb{C}^{n-1}
+	\,\sqcup\, \cdots
+	\,\sqcup\, \mathbb{C}
+	\,\sqcup\, \{\text{pt}\}.
+}
+\]
+
+
+\begin{theorem}
+	Let \( X = \mathbb{C}/L \) be a complex torus, where \(L\) is a lattice in \(\mathbb{C}\).  
+	Then \(X\) is biholomorphic to an algebraic curve 
+	\(E \subset \mathbb{P}^2\); that is,
+	\[
+	X = \mathbb{C}/L
+	\ \underset{\Phi}{\overset{[1 : \wp(z) : \wp'(z)]}{\longrightarrow}}\
+	E \subset \mathbb{P}^2,
+	\]
+	where \(\wp(z)\) denotes the Weierstrass \(\wp\)-function associated with \(L\), 
+	and \(E\) is given by the Weierstrass equation
+	\[
+	E : y^2 = 4x^3 + g_2 x + g_3.
+	\]
+	
+	For \(z \not\equiv 0 \pmod{L}\),
+	\[
+	z \ \longmapsto\ (\wp(z), \wp'(z)) \in \mathbb{C}^2 = U_0.
+	\]
+\end{theorem}
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{1}
+
+\end{figure}
+
+
+
+
+If we write the projective plane as 
+\[
+\mathbb{P}^2
+= \bigl\{[\omega_0,\omega_1,\omega_2]
+: (\omega_0,\omega_1,\omega_2)\in\mathbb{C}^3
+\setminus \{0\}\bigr\},
+\]
+then on the affine chart 
+\[
+U_0 = \{\omega_0 \neq 0\}, \qquad 
+x = \frac{\omega_1}{\omega_0}, \quad 
+y = \frac{\omega_2}{\omega_0},
+\]
+the Weierstrass equation of the elliptic curve takes the form
+\[
+y^2 = 4x^3 + g_2 x + g_3.
+\]
+
+Multiplying by \(\omega_0^4\) yields the homogeneous cubic equation
+\[
+\omega_0^2\,\omega_2^{\,2}
+= 4\,\omega_1^{\,3}
++ g_2\,\omega_1\,\omega_0^{\,2}
++ g_3\,\omega_0^{\,3}.
+\]
+
+Hence, the projective curve \(E\) is given by
+\[
+E
+= \Bigl\{[\omega_0,\omega_1,\omega_2]\in\mathbb{P}^2
+: P(\omega_0,\omega_1,\omega_2)=0\Bigr\},
+\]
+where \(P\) is the homogeneous cubic polynomial
+\[
+P(\omega_0,\omega_1,\omega_2)
+= \omega_0^{2}\omega_2^{2}
+- \bigl(4\,\omega_1^{3}
++ g_2\,\omega_1\,\omega_0^{2}
++ g_3\,\omega_0^{3}\bigr).
+\]
+
+\begin{definition}[Projective embedding of a compact Riemann surface]
+	Let \( X \) be a compact Riemann surface, and 
+	\[
+	\Phi : X \longrightarrow \mathbb{P}^N
+	\]
+	be a holomorphic mapping.  
+	We call \(\Phi\) a \emph{holomorphic embedding} if and only if:
+	\begin{enumerate}
+		\item[(a)] \(\Phi\) is a holomorphic immersion at every point \(x \in X\).
+		\item[(b)] \(\Phi\) separates points, i.e.\ \(\Phi(x) \neq \Phi(y)\) whenever \(x \neq y\), \(x,y \in X\).
+	\end{enumerate}
+\end{definition}
+
+\begin{remark}
+	A \emph{holomorphic mapping} means a continuous map that is holomorphic with respect to local holomorphic coordinate charts.  
+	For example, if \(x_0 \in \mathbb{P}^N = \bigcup_{k=0}^N U_k\), where \(U_k \cong \mathbb{C}^N\),
+	then near \(x_0\) the map \(\Phi\) can be written in inhomogeneous coordinates as
+	\[
+	\Phi(z) = \bigl(f_1(z), \dots, f_N(z)\bigr),
+	\]
+	where each \(f_k\) is holomorphic.
+\end{remark}
+
+
+\begin{definition}[Holomorphic immersion]
+	A holomorphic map 
+	\[
+	\Phi : X \longrightarrow \mathbb{P}^N
+	\]
+	is said to be a \emph{holomorphic immersion} at \(x_0 \in X\) if the differential
+	\[
+	d\Phi_{x_0} : T_{x_0}(X) \longrightarrow T_{\Phi(x_0)}(\mathbb{P}^N) \cong \mathbb{C}^N
+	\]
+	is injective.  
+	
+	When \(\dim_{\mathbb{C}} X = 1\) and on a local coordinate chart we write 
+	\(\Phi = (f_1, \dots, f_N)\),
+	this condition simply means that
+	\[
+	f_k'(x_0) \neq 0 \quad \text{for some } k, \; 1 \leq k \leq N.
+	\]
+\end{definition}
+
+
+\begin{theorem}
+	Let \( L \subset \mathbb{C} \) be a lattice, and define
+	\[
+	\widetilde{\Phi} : \mathbb{C} \longrightarrow \mathbb{P}^2, 
+	\qquad 
+	\widetilde{\Phi}(z) = [\,1 : \wp(z) : \wp'(z)\,] \in U_0.
+	\]
+	For every point \( z \in \mathbb{C} \setminus L \), the map \(\widetilde{\Phi}\) is holomorphic.  
+	It extends to a holomorphic mapping on all of \(\mathbb{C}\), still denoted by the same symbol
+	\[
+	\widetilde{\Phi} : \mathbb{C} \longrightarrow \mathbb{P}^2.
+	\]
+	Furthermore, \(\widetilde{\Phi}\) is invariant under translation by any \(\omega \in L\); that is,
+	\[
+	\widetilde{\Phi}(z+\omega) = \widetilde{\Phi}(z), \qquad \forall\, \omega \in L.
+	\]
+	Hence, \(\widetilde{\Phi}\) descends to a well-defined holomorphic map
+	\[
+	\Phi : X = \mathbb{C}/L \longrightarrow \mathbb{P}^2.
+	\]
+	Moreover, \(\Phi\) is a holomorphic embedding, mapping \(X\) biholomorphically onto a smooth projective curve
+	\[
+	Z = \Phi(X),
+	\]
+	which is defined by a homogeneous cubic polynomial.
+\end{theorem}
+
+\begin{proof}
+	The map 
+	\[
+	\widetilde{\Phi} : \mathbb{C} \setminus L \longrightarrow U_0 \subset \mathbb{P}^2,
+	\qquad 
+	\widetilde{\Phi}(z) = [\,1 : \wp(z) : \wp'(z)\,],
+	\]
+	is holomorphic and invariant under translation by any lattice point 
+	\(\omega \in L\), since both \(\wp\) and \(\wp'\) are elliptic with respect to \(L\).
+	By definition, for every \(z \in \mathbb{C} \setminus L\),
+	\[
+	\widetilde{\Phi}(z) = [\,1 : \wp(z) : \wp'(z)\,].
+	\]
+	
+	
+	
+	\textbf{Extension to a holomorphic map on all of \(\mathbb{C}\).}
+	Near \(z = 0\), the Laurent expansions are
+	\[
+	\wp(z) = \frac{1}{z^2} + h(z), 
+	\qquad
+	\wp'(z) = -\frac{2}{z^3} + h'(z),
+	\]
+	where \(h\) is a holomorphic function (given by a Taylor expansion).
+	Hence
+	\[
+	\widetilde{\Phi}(z)
+	= [\,1 : \tfrac{1}{z^2} + h(z) : -\tfrac{2}{z^3} + h'(z)\,].
+	\]
+	Multiplying by \(z^{3}\) for homogenization, we get
+	\[
+	\widetilde{\Phi}(z)
+	= [\,z^{3} : z^{3}h(z) + z : -2 + z^{3}h'(z)\,] 
+	= \Biggl[\,\frac{z^{3}}{-2 + z^{3}h'(z)} 
+	:\; \frac{z + z^{3}h(z)}{-2 + z^{3}h'(z)}
+	:\; 1\,\Biggr]
+	\in U_{2}.
+	\]
+	Define \(\widetilde{\Phi}(0) = [\,0 : 0 : 1\,] \in U_2\).  
+	This gives a holomorphic extension near \(z = 0\).
+	The same argument works near any \(\omega \in L\), so we obtain a global
+	holomorphic map
+	\[
+	\widetilde{\Phi} : \mathbb{C} \longrightarrow \mathbb{P}^2,
+	\]
+	with \(\widetilde{\Phi}(\omega) = [\,0 : 0 : 1\,]\) for all \(\omega \in L\).
+	Hence \(\widetilde{\Phi}\) descends to a holomorphic map
+	\[
+	\Phi : X = \mathbb{C}/L \longrightarrow \mathbb{P}^2.
+	\]
+	
+
+	
+	\underline{Claim 1} 
+	\(\Phi : X \to \mathbb{P}^2\) is a holomorphic immersion.
+	
+	(a) Near \(z = 0\), using the previous expansion,
+	\[
+	\widetilde{\Phi}(z)
+	= (-\tfrac{z^3}{2} + \cdots ,\; -\tfrac{z}{2} + \cdots) \in U_2 \cong \mathbb{C}^2.
+	\]
+	Hence 
+	\(\widetilde{\Phi}'(0) = (0, -\tfrac12) \neq (0,0)\),
+	so \(\widetilde{\Phi}\) is an immersion at \(0\), and therefore also at every \(\omega \in L\).
+	
+	(b) If \(z_0 \in \mathbb{C} \setminus L\) and \(\widetilde{\Phi}\) were not immersive at \(z_0\),
+	then \(\wp'(z_0) = \wp''(z_0) = 0.\)
+	Consider \(f(z) = \wp(z) - \wp(z_0)\).  
+	Then \(f(z_0) = f'(z_0) = f''(z_0) = 0\), so \(\operatorname{ord}_{z_0}(f) \ge 3.\)
+	However, \(f\) has only double poles at lattice points and no other poles; 
+	by the principle that for elliptic functions the number of zeros equals the number of poles (counting multiplicities), this is impossible.  
+	Hence \(\Phi\) is immersive everywhere.
+	
+
+	\underline{Claim 2} 
+	\(\Phi : X \to \mathbb{P}^2\) separates points.
+	
+	We argue by contradiction.
+	Note first that \(\Phi(0) = [\,0 : 0 : 1\,] \notin U_0\),
+	so \(\Phi(0) \neq \Phi(x)\) for all \(x \in X \setminus \{0\}\).
+	It remains to consider \(x,y \in X \setminus \{0\}\) with \(\Phi(x) = \Phi(y)\).
+	
+	Choose lifts \(a,b \in \mathbb{C}\) such that 
+	\(\pi(a) = x\), \(\pi(b) = y\),
+	where \(\pi : \mathbb{C} \to X = \mathbb{C}/L\) is the projection.
+	In the affine chart \(U_0 \cong \mathbb{C}^2\),
+	\(\Phi(z) = (\wp(z), \wp'(z))\),
+	so \(\Phi(a) = \Phi(b)\) implies
+	\[
+	\wp(a) = \wp(b), \qquad \wp'(a) = \wp'(b).
+	\]
+	Consider \(f(z) = \wp(z) - \wp(a)\).
+	
+
+	
+	\emph{Case 1.} \(a \not\equiv -a \ (\mathrm{mod}\; L)\).  
+	Since \(\wp\) is even, \(f(z)\) has precisely two simple zeros at \(a\) and \(-a\).
+	If \(\wp(a)=\wp(b)=\wp(-a)\) and \(a\not\equiv b\ (\mathrm{mod}\; L)\),
+	then \(b\equiv -a\ (\mathrm{mod}\; L)\).
+	But then, from \(\wp'(a)=\wp'(b)\) and the oddness of \(\wp'\),
+	we get
+	\(\wp'(a)=\wp'(-a)=-\wp'(a)\),
+	so \(\wp'(a)=0\).
+	This gives \(\operatorname{ord}_a(f)\ge2\) and \(\operatorname{ord}_{-a}(f)\ge2\),
+	contradicting the zero–pole count for elliptic functions.  
+	
+
+	
+	\emph{Case 2.} \(a \equiv -a \ (\mathrm{mod}\; L)\); that is, \(2a \equiv 0\), 
+	so \(a\) is a half-period:
+	\[
+	a \equiv \frac{\omega_i}{2} \quad \mathrm{mod}\; L,\qquad i=1,2,3.
+	\]
+	Suppose \(a,b \in \{\tfrac{\omega_i}{2}+L\}\) with \(a\not\equiv b\ (\mathrm{mod}\; L)\) and
+	\(\wp(a)=\wp(b)\).
+	But then \(f(z)=\wp(z)-\wp(a)\) has zeros of order \(2\) at both \(a\) and \(b\),
+	which again contradicts the zero–pole count.
+	Therefore no such distinct \(a,b\) exist.
+	
+	Thus, \(\Phi\) separates points.
+	
+
+	
+	Since \(\Phi\) is both a holomorphic immersion and separates points,
+	it is a holomorphic embedding.
+	Its image is the smooth cubic curve
+	\[
+	Z = \Phi(X) = \left\{[\,\omega_0:\omega_1:\omega_2\,] \in \mathbb{P}^2 
+	\mid 
+	P(\omega_0,\omega_1,\omega_2)=0\right\},
+	\]
+	where \(P\) is the homogeneous cubic polynomial
+	\[
+	P(\omega_0,\omega_1,\omega_2)
+	= 
+	\omega_0^2\omega_2^2
+	- \bigl(4\omega_1^3 + g_2 \omega_1 \omega_0^2 + g_3 \omega_0^3\bigr).
+	\]
+\end{proof}
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+	
+\end{document}

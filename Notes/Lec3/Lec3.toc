@@ -1,0 +1,6 @@
+\contentsline {section}{\numberline {1}Compact Riemann Surfaces of Genus 1 and Lattices}{1}{section.1}%
+\contentsline {section}{\numberline {2}Meromorphic Functions on Elliptic Curves}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Elliptic Functions and the Construction Problem}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Eisenstein Series}{6}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}From Lattice Sums to Elliptic Functions}{7}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}General Properties of Elliptic Functions}{8}{subsection.2.4}%
