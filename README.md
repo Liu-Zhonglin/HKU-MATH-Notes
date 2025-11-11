@@ -27,7 +27,7 @@ Each course branch typically contains:
 - **MATH4402 Analysis II**
 - **MATH4404 Functional Analysis**
 - [**MATH4406 Introduction to partial differential equations**](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH4406-Introduction-to-partial-differential-equations?tab=readme-ov-file)
-- **[MATH7101 Intermediate complex analysis](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH4302-Algebra-II](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH7101-Intermediate-complex-analysis)**
+- **[MATH7101 Intermediate complex analysis](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH7101-Intermediate-complex-analysis)**
 
 Course List to be updated...
 
