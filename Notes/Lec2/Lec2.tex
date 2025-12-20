@@ -1,0 +1,661 @@
+\documentclass[12pt]{article}
+
+% Packages for math and formatting
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}   % math symbols & environments
+\usepackage{geometry}                   % page layout
+\usepackage{enumitem}                   % better lists
+\usepackage{hyperref}                   % clickable references
+\usepackage{mathtools}                  % extended math tools
+\usepackage{epigraph}                   % for quotes
+
+% Page setup
+\geometry{margin=1in}
+
+% Theorem-like environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\PP}{\mathbb{P}}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\FractLin}{FractLin}
+\DeclareMathOperator{\ord}{ord}
+\usepackage{amsmath}
+\DeclareMathOperator{\Res}{Res}
+
+
+
+
+\title{Riemann Sphere}
+\author{Joe}
+\date{September 10, 2025}
+
+
+\begin{document}
+	
+
+	
+	\maketitle
+	
+	\epigraph{When you encounter computations, do it, you will see important things from computations.}{\textit{Prof. MOK Ngaiming}}
+	
+	
+	\tableofcontents
+	\vspace{1em}
+	
+	
+	
+	This lecture aims to investigate three fundamental problems:
+	\begin{enumerate}
+		\item \textbf{Mittag-Leffler Problem}
+		\item \textbf{Weierstrass Problem} 
+		\item \textbf{Structure of $\mathcal{M}(X)$}
+	\end{enumerate}
+	
+	where $X$ is a compact Riemann surface and $\mathcal{M}(X)$ is the field of meromorphic functions on $X$.
+	
+	\section{Riemann Surfaces}
+	
+\begin{definition}[Riemann Surface]
+	A \textbf{Riemann surface} $X$ is a connected, Hausdorff, second-countable topological space, equipped with a \textbf{complex atlas} $\mathcal{A} = \{ (U_\alpha, \phi_\alpha) \}_{\alpha \in A}$. This means:
+	\begin{enumerate}
+		\item Each $U_\alpha$ is an open subset of $X$, and they form a cover: $\bigcup_{\alpha \in A} U_\alpha = X$.
+		
+		\item Each \textbf{chart} $\phi_\alpha: U_\alpha \to V_\alpha$ is a homeomorphism from $U_\alpha$ to an open subset $V_\alpha \subseteq \mathbb{C}$.
+		
+		\item For any two charts $(U_\alpha, \phi_\alpha)$ and $(U_\beta, \phi_\beta)$ such that $U_\alpha \cap U_\beta \neq \emptyset$, the \textbf{transition map}
+		$$ \phi_\beta \circ \phi_\alpha^{-1} : \phi_\alpha(U_\alpha \cap U_\beta) \to \phi_\beta(U_\alpha \cap U_\beta) $$
+		is holomorphic.
+	\end{enumerate}
+\end{definition}
+		
+		
+
+	
+	\section{The Riemann Sphere $\PP^1$}
+	
+\begin{definition}[Riemann Sphere]
+	The \emph{Riemann sphere} (or complex projective line) is defined as
+	\[
+	\mathbb{P}^1(\mathbb{C})
+	= \big(\mathbb{C} \times \{0\}\big) \;\sqcup\; \big(\mathbb{C} \times \{1\}\big)\; \Big/ \; \sim
+	\]
+	where the equivalence relation is
+	\[
+	(z,0) \sim (w,1) \quad \Longleftrightarrow \quad zw = 1.
+	\]
+	
+	Concretely, $\mathbb{P}^1(\mathbb{C})$ can be viewed as two copies of the complex plane,
+	\[
+	\mathbb{P}^1 = C_0 \cup \{\infty\} = C_1 \cup \{\infty_1\},
+	\]
+	glued along the overlap via the coordinate change $z \mapsto \tfrac{1}{z}$. 
+	Thus the Riemann sphere may be interpreted as the complex plane together 
+	with a single point at infinity.
+\end{definition}
+	
+
+	
+	\begin{definition}[Automorphism Group]
+		$$\text{Aut}(X) = \{\phi: X \to X \mid \phi \text{ is a conformal equivalence}\}$$
+		where conformal equivalence means $\phi$ is a bijection that is holomorphic with holomorphic inverse (i.e., biholomorphic).
+	\end{definition}
+	
+		\begin{remark}
+		Automorphism = biholomorphism = conformal equivalence.
+	\end{remark}
+	
+\begin{definition}[Fractional Linear Transformation]
+	A \emph{fractional linear transformation} (or \emph{Möbius transformation}) is a map
+	\[
+	\phi(z) = \frac{az+b}{cz+d}, 
+	\]
+	where $a,b,c,d \in \mathbb{C}$ and $ad - bc \neq 0$. 
+	It is naturally defined on the Riemann sphere $\mathbb{P}^1 = \mathbb{C} \cup \{\infty\}$ by the rules:
+	\begin{enumerate}
+		\item If $z \in \mathbb{C}$ and $cz+d \neq 0$, then $\phi(z) \in \mathbb{C}$ is given by the usual formula.
+		\item If $z \in \mathbb{C}$ and $cz+d = 0$, then $z = -\tfrac{d}{c}$, and
+		\[
+		\lim_{z \to -d/c} \phi(z) = \infty, 
+		\]
+		so we define $\phi(-d/c) = \infty$.
+		\item At $z = \infty$, we set
+		\[
+		\phi(\infty) = \lim_{z \to \infty} \frac{az+b}{cz+d} = 
+		\begin{cases}
+			\tfrac{a}{c}, & c \neq 0, \\
+			\infty, & c = 0.
+		\end{cases}
+		\]
+	\end{enumerate}
+\end{definition}
+	
+\begin{proposition}
+	The set $\mathrm{FractLin}(\mathbb{P}^1)$ of fractional linear transformations on $\mathbb{P}^1$ forms a group under composition.
+\end{proposition}
+
+\begin{proof}
+	Every fractional linear transformation
+	\[
+	\phi(z) = \frac{az+b}{cz+d}, \qquad ad-bc \neq 0,
+	\]
+	corresponds uniquely to a matrix
+	\[
+	\begin{bmatrix} a & b \\[4pt] c & d \end{bmatrix}
+	\in \mathrm{GL}(2,\mathbb{C}) \quad (\text{the group of invertible $2 \times 2$ matrices}).
+	\]
+	
+	Now, take two such maps:
+	\[
+	\phi(w) = \frac{aw+b}{cw+d}, 
+	\qquad 
+	\varphi(z) = \frac{\alpha z+\beta}{\gamma z+\delta}.
+	\]
+	
+	Then their composition is
+	\[
+	(\phi \circ \varphi)(z) 
+	= \phi\!\left(\frac{\alpha z+\beta}{\gamma z+\delta}\right) 
+	= \frac{a(\alpha z+\beta) + b(\gamma z+\delta)}{c(\alpha z+\beta) + d(\gamma z+\delta)}.
+	\]
+	
+	Expanding,
+	\[
+	(\phi \circ \varphi)(z) 
+	= \frac{(a\alpha+b\gamma)z + (a\beta+b\delta)}
+	{(c\alpha+d\gamma)z + (c\beta+d\delta)}.
+	\]
+	
+	Thus $(\phi \circ \varphi)(z)$ is again a fractional linear transformation, with matrix
+	\[
+	\begin{bmatrix} 
+		A & B \\[4pt] 
+		C & D 
+	\end{bmatrix}
+	=
+	\begin{bmatrix} 
+		a & b \\[4pt] c & d
+	\end{bmatrix}
+	\begin{bmatrix} 
+		\alpha & \beta \\[4pt] \gamma & \delta
+	\end{bmatrix}.
+	\]
+	
+	Since both determinants are nonzero, $\det \begin{bmatrix} A & B \\ C & D \end{bmatrix} \neq 0$, so this matrix is invertible. Hence the composition of two fractional linear transformations is again fractional linear.
+	
+	The identity map corresponds to the identity matrix $\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$.
+	
+	For inverses: If $\phi(z) = \frac{az+b}{cz+d}$, then
+	\[
+	\phi^{-1}(z) = \frac{dz-b}{-cz+a},
+	\]
+	which is again of the same form, corresponding to the inverse matrix
+	\[
+	\begin{bmatrix} a & b \\ c & d \end{bmatrix}^{-1}.
+	\]
+	
+	Thus:
+	- closure holds via matrix multiplication,  
+	- associativity follows from matrix multiplication,  
+	- the identity is the identity matrix,  
+	- inverses exist from matrix inverses.
+	
+	Therefore $\mathrm{FractLin}(\mathbb{P}^1)$ is a group under composition.
+\end{proof}
+	
+\begin{theorem}
+	$\Aut(\PP^1) = \FractLin(\PP^1)$.
+\end{theorem}
+
+\begin{proof}
+	Let $\varphi \in \Aut(\PP^1)$. We distinguish two cases depending on the image of $\infty$.
+	
+	\smallskip
+	
+
+	It is a classical result that every bijective entire map $f:\C \to \C$ must be affine linear:
+	\[
+	f(z) = az+b, \quad a \in \C^\times, \ b \in \C.
+	\]
+	The proof uses Liouville’s theorem and the fact that polynomials of degree $\geq 2$ are not injective; thus only degree~$1$ polynomials yield bijections.
+	
+	Hence,
+	\[
+	\Aut(\C) = \{\, z \mapsto az+b \;|\; a \in \C^\times, \ b \in \C \,\}.
+	\]
+	
+	\smallskip
+	
+	\emph{Case 1: $\varphi(\infty) = \infty$.}  
+	Then $\varphi|_{\C}$ is an automorphism of $\C$, so
+	\[
+	\varphi(z) = az+b, \qquad a \neq 0.
+	\]
+	This is precisely a fractional linear transformation with $c=0,\ d=1$.
+	
+	\smallskip
+	
+	\emph{Case 2: $\varphi(\infty) \in \C$.}  
+	Suppose $\varphi(\infty) = s \in \C$.  
+	Define
+	\[
+	\psi(w) = \frac{1}{\,w-s\,}, \quad \psi(s)=\infty.
+	\]
+	Clearly $\psi \in \FractLin(\PP^1)$.  
+	Then
+	\[
+	\theta := \psi \circ \varphi \in \Aut(\PP^1),
+	\]
+	and $\theta(\infty) = \infty$. By Case 1, $\theta$ is fractional linear, hence so is $\varphi = \psi^{-1} \circ \theta$.
+	
+	\smallskip
+	
+
+	In both cases, $\varphi$ has the form
+	\[
+	\varphi(z) = \frac{az+b}{cz+d}, \qquad ad-bc \neq 0.
+	\]
+	Thus every automorphism of $\PP^1$ is fractional linear, and we conclude
+	\[
+	\Aut(\PP^1) = \FractLin(\PP^1).
+	\]
+\end{proof}
+
+
+
+
+
+	\section{The Mittag-Leffler Problem}
+	
+	
+\begin{definition}[Meromorphic Function]
+	Let $U \subseteq \mathbb{C}$ be an open set. 
+	A function $f: U \to \mathbb{C}\cup\{\infty\}$ is called 
+	\emph{meromorphic} on $U$ if
+	\begin{enumerate}
+		\item $f$ is holomorphic on $U$ except at isolated points, and
+		\item at each such isolated point $a \in U$, $f$ has a \emph{pole}, i.e.
+		there exists an integer $m \geq 1$ and a holomorphic function $g$ near $a$
+		with $g(a)\neq 0$ such that
+		\[
+		f(z) = \frac{g(z)}{(z-a)^m}
+		\]
+		in a neighborhood of $a$.
+	\end{enumerate}
+\end{definition}
+	
+	\begin{definition}[Laurent series]
+		Let $f$ be holomorphic on an annulus 
+		\[
+		A = \{\,z \in \C : r < |z-a| < R\,\},
+		\]
+		centered at $a \in \C$. Then $f$ admits an expansion of the form
+		\[
+		f(z) = \sum_{n=-\infty}^{\infty} c_n (z-a)^n,
+		\]
+		which converges absolutely and uniformly on compact subsets of $A$. This series is called the \emph{Laurent expansion} of $f$ about $a$.
+	\end{definition}
+	
+	\begin{definition}[Pole]
+		Let $f$ be meromorphic near $a \in \C$. The point $a$ is called a \emph{pole} of $f$ of order $m \geq 1$ if the Laurent expansion of $f$ about $a$ takes the form
+		\[
+		f(z) = \sum_{n=-m}^{\infty} c_n (z-a)^n, 
+		\qquad c_{-m}\neq 0.
+		\]
+		Equivalently, $a$ is a pole of order $m$ if $(z-a)^m f(z)$ is holomorphic and nonvanishing at $a$.
+	\end{definition}
+	
+	\begin{definition}[Principal part]
+		Let $f$ be meromorphic near $a \in \C$, and suppose $a$ is a pole of order $m$. The \emph{principal part} of $f$ at $a$ is the finite sum of the negative power terms in its Laurent expansion,
+		\[
+		\operatorname{pp}_a(f) \;=\; \frac{c_{-1}}{z-a} + \frac{c_{-2}}{(z-a)^2} + \cdots + \frac{c_{-m}}{(z-a)^m}.
+		\]
+	\end{definition}
+	
+	\begin{definition}[Isolated singularity]
+		Let $f$ be a complex function holomorphic on a punctured neighborhood 
+		\[
+		U \setminus \{a\} = \{\, z \in \C : 0<|z-a|<r \,\}
+		\]
+		of a point $a \in \C$. Then $a$ is called an \emph{isolated singularity} of $f$.
+	\end{definition}
+	
+	\begin{definition}[Classification of isolated singularities]
+		If $a$ is an isolated singularity of $f$ with Laurent expansion
+		\[
+		f(z) = \sum_{n=-\infty}^\infty c_n (z-a)^n, \qquad 0<|z-a|<r,
+		\]
+		then:
+		\begin{itemize}
+			\item If $c_{-n}=0$ for all $n\ge 1$, the singularity is \emph{removable}.
+			\item If only finitely many negative coefficients are nonzero, i.e. 
+			$f(z) = \sum_{n=-m}^\infty c_n (z-a)^n$ with some $m\ge 1$ and $c_{-m}\neq 0$,
+			then $a$ is a \emph{pole of order $m$}.
+			\item If infinitely many negative coefficients $c_{-n}$ are nonzero, 
+			then $a$ is an \emph{essential singularity}.
+		\end{itemize}
+	\end{definition}
+	
+
+	
+\begin{theorem}
+	The Mittag--Leffler problem is always solvable on~$\PP^1$.
+\end{theorem}
+
+\begin{proof}
+	Let $\{a_1,\dots,a_m\}\subset \PP^1$ be distinct points, and 
+	for each $a_k$ let the prescribed principal part be
+	\[
+	q_k(z) \;=\; \sum_{i=1}^{s_k} \frac{c_{k,i}}{(z-a_k)^i},
+	\qquad c_{k,i}\in \C.
+	\]
+	Define
+	\[
+	f(z)
+	\;=\;
+	\sum_{k=1}^{m} q_k(z)
+	\;=\;
+	\sum_{k=1}^{m}\sum_{i=1}^{s_k}\frac{c_{k,i}}{(z-a_k)^i}.
+	\]
+	
+	\smallskip
+	Each $q_k$ has a pole only at $a_k$, with principal part exactly $q_k$, and is holomorphic elsewhere.
+	Thus the sum~$f$ has, at every~$a_k$, the prescribed principal part~$q_k$, and is holomorphic on
+	$\C \setminus \{a_1,\dots,a_m\}$.
+	We only need to check the behaviour of~$f$ at~$\infty$.
+	
+	\smallskip
+	\textbf{Case~1.} $\boldsymbol{\infty \notin \{a_1,\dots,a_m\}.}$  
+	As $z\to\infty$, each term $\tfrac{c_{k,i}}{(z-a_k)^i} = O(|z|^{-i})$, so $f(z)\to 0$.
+	A function $f$ is holomorphic at~$\infty$ if 
+	$\tilde{f}(w):=f(1/w)$ is holomorphic at~$w=0$.
+	Since $\tilde{f}(w)\to 0$ as $w\to 0$, $\tilde{f}$ is holomorphic at~$w=0$.  
+	Hence $f$ is holomorphic at~$\infty$.
+	
+	\smallskip
+	\textbf{Case~2.} $\boldsymbol{\infty \in \{a_1,\dots,a_m\}.}$  
+	Without loss of generality, assume $a_m=\infty$.  
+	Write local coordinate $w = 1/z$ near~$\infty$, so that~$w=0$ corresponds to~$z=\infty$.  
+	
+	The prescribed principal part at~$\infty$ is a polynomial in~$z$:
+	\[
+	q_m(z) \;=\; \sum_{i=1}^{s_m} c_{m,i} z^{i}.
+	\]
+	Under the coordinate change $z = 1/w$, this becomes
+	\[
+	\tilde{q}_m(w) 
+	\;=\;
+	q_m(1/w)
+	\;=\;
+	\sum_{i=1}^{s_m} c_{m,i} w^{-i}.
+	\]
+	This has a pole of order~$s_m$ at~$w=0$, as desired.
+	
+	Now define, in the $w$‑coordinate,
+	\[
+	\tilde{f}(w)
+	\;=\;
+	\sum_{k=1}^{m-1} q_k(1/w)
+	\;+\;
+	\tilde{q}_m(w).
+	\]
+	Each $q_k(1/w)$ is holomorphic near $w=0$ (since $a_k\ne\infty$), while $\tilde{q}_m$ has the
+	the required principal part there.  
+	Hence $\tilde{f}$ is meromorphic near $w=0$ with the correct singularity, 
+	so $f(z)=\tilde{f}(1/z)$ is meromorphic near~$\infty$ with the prescribed principal part at~$\infty$.
+	
+	\smallskip
+	In both cases, $f$ is meromorphic on~$\PP^1$ and has exactly the prescribed principal parts
+	at every~$a_k$. Therefore $f$ solves the Mittag--Leffler problem on~$\PP^1$.
+\end{proof}
+
+		
+		
+		
+		
+		
+		
+		
+	
+	
+	
+	
+	
+	\section{The Weierstrass Problem}
+	
+\begin{proposition}[Argument Principle]
+	Let $f$ be meromorphic in a domain $G$, and let 
+	$a_1, \ldots, a_s$ denote its zeros and poles in $G$. 
+	For each $i$, let $\ord_{a_i}(f) \in \mathbb{Z}$ denote the order of $f$ at $a_i$
+	(positive for a zero, negative for a pole).
+	If $\gamma$ is a closed rectifiable curve in $G$ not passing through any of the 
+	points $a_1,\dots,a_s$, then
+	\[
+	\frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z)} \, dz
+	= \sum_{i=1}^s n(\gamma; a_i) \, \ord_{a_i}(f),
+	\]
+	where $n(\gamma; z_0)$ denotes the winding number of $\gamma$ about $z_0$, given by
+	\[
+	n(\gamma; z_0) = \frac{1}{2\pi i} \int_\gamma \frac{1}{\zeta - z_0}\, d\zeta .
+	\]
+\end{proposition}
+
+\begin{proof}
+	Near a zero $a$ of order $m>0$, we can factor
+	\[
+	f(z) = (z-a)^m h(z), \qquad h(a)\neq 0,
+	\]
+	giving
+	\[
+	\frac{f'(z)}{f(z)} = \frac{m}{z-a} + \frac{h'(z)}{h(z)}.
+	\]
+	Thus $\tfrac{f'}{f}$ has a simple pole at $a$ with residue $m=\ord_a(f)$. 
+	A similar computation at a pole of order $m$ shows that 
+	$\operatorname{Res}(\tfrac{f'}{f},a) = m = \ord_a(f)$.
+	
+	By the residue theorem in its general form,
+	\[
+	\frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z)} \, dz
+	= \sum_{i=1}^s n(\gamma; a_i)\,
+	\operatorname{Res}\!\left( \tfrac{f'}{f}, a_i \right).
+	\]
+	Since $\operatorname{Res}(\tfrac{f'}{f},a_i) = \ord_{a_i}(f)$, this proves the claim.
+\end{proof}
+	
+	\begin{definition}[Weierstrass Data Set]
+		Let $E = \{a_1, a_2, \ldots, a_s\} \subset \PP^1$ be a finite set of distinct points. For each $k$, $1\leq k \leq s,$ let $n_k\in  \mathbb{Z}$.  We call $\{(a_1, n_1), \ldots, (a_s, n_s)\}$ a Weierstrass data set, where $n_i \in \N$ for each $i$.
+	\end{definition}
+	
+	\begin{theorem}[Weierstrass Problem]
+		Given a Weierstrass data set $\{(a_1, n_1), \ldots, (a_s, n_s)\}$ on $\PP^1$, there exists a meromorphic function $f$ on $\PP^1$ such that $f$ has zeros of order exactly $n_i$ at $a_i$ for each $i = 1, \ldots, s$, and no other zeros.
+	\end{theorem}
+	
+\begin{theorem}
+	The Weierstrass problem for the data set 
+	$\{(a_1, n_1), \ldots, (a_s, n_s)\}$ 
+	is solvable if and only if 
+	\[
+	n_1 + \cdots + n_s = 0.
+	\]
+\end{theorem}
+
+\begin{proof}[Proof of the Weierstrass Problem]
+	We prove both necessity and sufficiency of the condition $\sum_{k=1}^s n_k = 0$.
+	
+	\medskip
+	\noindent\textbf{Necessity (Argument Principle).}
+	Let $f \in \mathcal{M}(\PP^1)$ with $f \not\equiv 0$. We show that $\sum_{a \in \PP^1} \ord_a(f) = 0$.
+	
+	Without loss of generality, we may assume that the points $a_k$ do not lie on the unit circle. Equivalently, we may choose $R$ so that $\partial D(R) \cap E = \varnothing$.
+	
+	By the Argument Principle,
+	\[
+	\frac{1}{2\pi i}\oint_{\partial D(R)}\frac{f'(z)}{f(z)}\,dz = \sum_{a_i\in D(R)}\operatorname{ord}_{a_i}(f),
+	\]
+	that is, the contour integral counts the number of zeros of $f$ inside $D(R)$ (counted with multiplicity) minus the number of poles inside $D(R)$ (also counted with multiplicity).
+	
+	Set $z = 1/\xi$, so $dz = -\xi^{-2}\,d\xi$, and define $s(\xi) := f(1/\xi)$. Differentiating gives
+	\[
+	f'(z) = \frac{d}{dz}s\!\left(\tfrac{1}{z}\right) = -\frac{1}{z^{2}}\,s'\!\left(\tfrac{1}{z}\right) = -\xi^2\,s'(\xi).
+	\]
+	Hence
+	\[
+	\frac{f'(z)}{f(z)}\,dz = \frac{-\xi^2\,s'(\xi)}{s(\xi)}\cdot\Bigl(-\tfrac{1}{\xi^2}\,d\xi\Bigr) = \frac{s'(\xi)}{s(\xi)}\,d\xi.
+	\]
+	Therefore
+	\[
+	\oint_{\partial D(R)}\frac{f'(z)}{f(z)}\,dz = -\oint_{\partial D(\tfrac{1}{R})}\frac{s'(\xi)}{s(\xi)}\,d\xi.
+	\]
+	
+	The negative sign happens because of orientation. The left integral computes $\sum_{a_i\in D(R)}\ord_{a_i}(f)$. The right integral computes $\sum_{a_k\in \PP^1\setminus\overline{D(R)}} \ord_{a_k}(f)$, since zeros of $s(\xi) = f(1/\xi)$ inside $|\xi| < 1/R$ correspond to zeros or poles of $f(z)$ outside $|z| > R$.
+	
+	From the Argument Principle we know that
+	\[
+	\frac{1}{2\pi i}\oint_{\partial D(R)}\frac{f'(z)}{f(z)}\,dz = \sum_{a_i\in D(R)}\ord_{a_i}(f).
+	\]
+	Similarly, by the change of variables argument above, we have
+	\[
+	\frac{1}{2\pi i}\oint_{\partial D(\frac{1}{R})}\frac{s'(\xi)}{s(\xi)}\,d\xi = \sum_{a_k\notin \overline{D(R)}}\ord_{a_k}(f).
+	\]
+	So we have 
+	\[
+	\sum_{a_i\in D(R)}\ord_{a_i}(f) =-\sum_{a_k\notin \overline{D(R)}}\ord_{a_k}(f).
+	\]
+	
+	Since every zero or pole $a_k$ of $f$ lies either inside $D(R)$ or outside $\overline{D(R)}$, and since poles contribute negative orders while zeros contribute positive orders, we arrive at
+	\[
+	\sum_{a_k\in \PP^1}\ord_{a_k}(f) = 0.
+	\]
+	Thus the total number of zeros of $f$ (counted with multiplicity) equals the total number of poles (counted with multiplicity).
+	
+	\medskip
+	\noindent\textbf{Sufficiency (Construction).}
+	Suppose we are given distinct points $E = \{a_1,\dots,a_s\} \subset \PP^1$ together with prescribed integers $n_1,\dots,n_s$ that sum to zero. We will construct a meromorphic function $f$ on $\PP^1$ such that $\ord_{a_k}(f) = n_k$ for each $k$.
+	
+	\medskip
+	\noindent\textbf{Case (a):} $\infty \notin E$.
+	Define
+	\[
+	f(z) := \prod_{k=1}^s (z-a_k)^{n_k}.
+	\]
+	Then clearly
+	\[
+	\ord_{a_k}(f) = n_k \quad\text{for all } k,\qquad 
+	\ord_a(f) = 0 \quad \text{for all } a\in \mathbb{C}\setminus E.
+	\]
+	Thus $f$ has exactly the prescribed zeros and poles at finite points. It remains to examine the behavior at $\infty$.
+	
+	We can write
+	\[
+	f(z) = \prod_{k=1}^s z^{\,n_k}\!\left(1-\tfrac{a_k}{z}\right)^{n_k} = z^{\sum_{k=1}^s n_k}\,h(z),
+	\]
+	where $h(z) := \prod_{k=1}^s \left(1-\tfrac{a_k}{z}\right)^{n_k}$ and $\lim_{z\to\infty} h(z) = 1$. Since $\sum_{k=1}^s n_k = 0$, we obtain
+	\[
+	\ord_\infty(f) = \ord_\infty(z^0 \cdot h(z)) = \ord_\infty(h) = 0.
+	\]
+	Thus $f$ also satisfies the prescribed condition at $\infty$.
+	
+	\medskip
+	\noindent\textbf{Case (b):} $\infty\in E$.
+	Without loss of generality assume $a_s = \infty$. In that case we set
+	\[
+	f(z) := \prod_{k=1}^{s-1}(z-a_k)^{n_k}.
+	\]
+	This function has
+	\[
+	\ord_{a_k}(f) = n_k \quad (k=1,\dots,s-1), \qquad \ord_a(f) = 0 \quad \text{for all other finite } a.
+	\]
+	
+	To determine the order at $\infty$, note that $\sum_{k=1}^{s-1} n_k = -n_s$, so
+	\[
+	f(z) = z^{-n_s}\prod_{k=1}^{s-1}\left(1-\frac{a_k}{z}\right)^{n_k} = z^{-n_s}h(z),
+	\]
+	where $\lim_{z\to\infty} h(z) = 1$. Therefore
+	\[
+	\ord_\infty(f) = \ord_\infty(z^{-n_s}) + \ord_\infty(h) = \ord_0(w^{n_s}) + 0 = n_s.
+	\]
+	
+	In both cases, $f$ realizes exactly the prescribed orders at all points of $\PP^1$. This completes the proof.
+\end{proof}
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	\section{Structure of $\mathcal{M}(\PP^1)$}
+	
+	\begin{definition}[Rational Functions]
+		Let $\text{Rat}(\PP^1)$ denote the field of rational functions on $\PP^1$, i.e., functions of the form $f(z) = \frac{P(z)}{Q(z)}$ where $P(z)$ and $Q(z)$ are polynomials with $Q(z) \not\equiv 0$.
+	\end{definition}
+	
+\begin{theorem}[Structure of $\mathcal{M}(\PP^1)$]
+	We have 
+	\[
+	\mathcal{M}(\PP^1) = \operatorname{Rat}(\PP^1),
+	\]
+	i.e.\ every meromorphic function on the Riemann sphere is a rational function.
+\end{theorem}
+
+\begin{proof}
+	This follows directly from the solution to the Weierstrass problem.
+	
+	Let $f \in \mathcal{M}(\PP^1)$ with $f \not\equiv 0$.  
+	Denote by $E = Z(f)\,\sqcup\, P(f)$ the finite set of zeros and poles of $f$.  
+	Write the divisor of $f$ as
+	\[
+	\{(a_1,n_1), \ldots, (a_s,n_s)\}, 
+	\qquad a_k \in E, \quad n_k = \operatorname{ord}_{a_k}(f)\in \mathbb{Z}.
+	\]
+	
+	By the same argument as in the proof of the Weierstrass problem, the total order of \(f\) on the sphere vanishes; that is,
+	\[
+	\sum_{k=1}^s n_k
+	= \sum_{a \in \PP^1} \ord_a(f)
+	= 0.
+	\]
+	By the solution to the Weierstrass problem on $\PP^1$, there exists a rational function 
+	$h \in \operatorname{Rat}(\PP^1)$ whose divisor is exactly 
+	$\{(a_k,n_k)\}_{k=1}^s$.
+	
+	Consider $g = f/h$. Then for every $x \in \PP^1$,
+	\[
+	\operatorname{ord}_x(g) 
+	= \operatorname{ord}_x(f) - \operatorname{ord}_x(h) 
+	= 0,
+	\]
+	since $h$ was constructed with the same divisor as $f$.
+	
+	Hence $g$ has neither zeros nor poles on $\PP^1$, i.e.\ $g$ is a holomorphic function
+	on the compact Riemann surface $\PP^1$.  
+	By the Maximum Principle (equivalently, by Liouville’s theorem), any such function must be constant.  
+	Thus $g \equiv c \in \mathbb{C}^\times$.
+	
+	Therefore $f = ch$ with $h$ rational, so $f$ itself is rational.  
+	Since clearly $\operatorname{Rat}(\PP^1) \subseteq \mathcal{M}(\PP^1)$, we conclude
+	\[
+	\mathcal{M}(\PP^1) = \operatorname{Rat}(\PP^1).
+	\]
+\end{proof}
+	
+\end{document}

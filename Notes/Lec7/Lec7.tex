@@ -1,0 +1,783 @@
+\documentclass[12pt]{article}
+
+% Packages for math and formatting
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage{epigraph}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, decorations.pathmorphing, positioning}
+
+% Page setup
+\geometry{margin=1in}
+
+% Theorem-like environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\HH}{\mathbb{H}} % upper half-plane
+
+% Operator names
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\FractLin}{FractLin}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\SL}{SL}
+
+\title{Compact Riemann surfaces of genus $g\geq 2$,\\
+	Part 2}
+\author{Joe}
+\date{November 19, 2025}
+
+\begin{document}
+	
+	\maketitle
+	
+
+	
+%	\tableofcontents
+%	\vspace{1em}
+	
+
+
+
+Let $X$ be a compact Riemann surface of genus $g \ge 2$.
+
+Recall Poincaré Series.
+Let $h \in H^\infty(\mathbb{D})$ and let $k \ge 2$ be an integer.
+Define the Poincaré series of weight $k$ by
+\[
+P^k_\Gamma(h)(z)
+= \sum_{\gamma \in \Gamma} h(\gamma z) \, (\gamma'(z))^k.
+\]
+For sufficiently large $k$, the series converges, and we obtain a holomorphic function
+$f = P^k_\Gamma(h)$ on $\mathbb{D}$ satisfying
+\[
+f(\gamma z) \, (\gamma'(z))^k = f(z),
+\qquad \forall \gamma \in \Gamma.
+\]
+Thus $f(z)(dz)^k$ defines a holomorphic $k$‑differential on $X = \mathbb{D} \backslash \Gamma$.
+
+\paragraph{Purpose.}
+We wish to prove that there exists an integer $k \gg 0$ such that
+the space of holomorphic $k$‑differentials on $X$ provides a projective embedding
+\[
+\Phi : X \hookrightarrow \mathbb{P}^N,
+\qquad
+\Phi = [\,s_0, s_1, \ldots, s_N\,].
+\]
+That is, there exist holomorphic $k$‑differentials
+\[
+s_j(z) = f_j(z) (dz)^k, \qquad 0 \le j \le N,
+\]
+such that $\Phi$ is an embedding.
+
+Locally, we may also write
+\[
+s_j(z) = f_j(z) \, \lambda(z) \, (dz)^k,
+\]
+where $\lambda(z)$ is a nowhere‑vanishing holomorphic function.
+Then
+\[
+[s_0(z) : s_1(z) : \cdots : s_N(z)]
+= [\,\lambda(z)s_0(z) : \lambda(z)s_1(z) : \cdots : \lambda(z)s_N(z)\,],
+\]
+so the projective point $\Phi(z)$ is independent of the local trivialization.
+Hence $\Phi$ is well defined on $X$.
+
+\begin{example}
+	It is possible to obtain an embedding of 
+	\[
+	X = \C / L \longrightarrow \mathbb{P}^2
+	\]
+	by means of \emph{theta functions}.
+	Define
+	\[
+	\tilde{\Phi}(z)
+	= [\,\theta_0(z) : \theta_1(z) : \theta_2(z)\,],
+	\]
+	where, for $k = 0,1,2$, the functions $\theta_k$ are classical theta functions satisfying
+	\[
+	\theta_k(z + \omega)
+	= \exp(A_\omega z + B_\omega)\,\theta_k(z),
+	\qquad \forall\, \omega \in L.
+	\]
+	Then for all $\omega \in L$ and $z \in \C$,
+	\[
+	\tilde{\Phi}(z + \omega) = \tilde{\Phi}(z).
+	\]
+	Hence $\tilde{\Phi}$ descends to a well‑defined holomorphic map
+	\[
+	\Phi : X \longrightarrow \mathbb{P}^2,
+	\]
+	which provides an embedding of $X$ into projective space via theta functions.
+\end{example}
+	
+	\medskip
+	
+We have proved previously that if 
+\[
+X = \mathbb{D} / \Gamma,
+\]
+where $\Gamma$ is a discrete torsion‑free subgroup of $\mathrm{Aut}(\mathbb{D})$,
+then for any point $z_0 \in \mathbb{D}$, 
+there exists a sufficiently large integer $k$ 
+such that there exists a holomorphic $k$‑differential
+\[
+\phi(z) = f(z)(dz)^k,
+\]
+invariant under~$\Gamma$ and satisfying
+\[
+\phi(z_0) \neq 0.
+\]
+
+\medskip
+We begin by decomposing
+\[
+\Gamma = \Gamma' \sqcup \Gamma'',
+\qquad
+\Gamma' = \{\,\gamma \in \Gamma : |\gamma'(z)| \ge \tfrac{1}{2}\,\}.
+\]
+
+\medskip
+\underline{Claim:}
+We can choose a function $h$ of the form $h = P|_{\mathbb{D}}$, 
+where $P$ is a polynomial $P \in \C[z]$ satisfying
+\[
+P(z_0) = 1, 
+\qquad
+P(\gamma z_0) = 0
+\quad \text{for all } \gamma \in \Gamma' \setminus \{\mathrm{id}\}.
+\]
+
+\medskip
+Then we form the Poincaré series of weight~$k$:
+\[
+f(z)
+= P^k_\Gamma(h)
+= \sum_{\gamma \in \Gamma}
+h(\gamma z)\,(\gamma'(z))^k.
+\]
+This sum can be split as
+\[
+f(z)
+= 
+\underbrace{
+	\sum_{\gamma \in \Gamma'} h(\gamma z)\,(\gamma'(z))^k
+}_{f(z_0)=1}
+\;+\;
+\underbrace{
+	\sum_{\gamma \in \Gamma''} h(\gamma z)\,(\gamma'(z))^k
+}_{\le M}.
+\]
+
+
+\begin{proof}[Proof of the Claim]
+	In general, let $z_1, z_2, \dots, z_m \in \C$ be distinct points, 
+	and let $a_1, a_2, \dots, a_m \in \C$ be prescribed values.  
+	We seek a polynomial $P \in \C[z]$ such that
+	\[
+	P(z_k) = a_k, \qquad \text{for } k = 1,2,\dots,m.
+	\]
+	This classical interpolation problem is solved by the 
+	\emph{Lagrange interpolation formula}.
+	
+	\smallskip
+	Define
+	\[
+	Q(z) = \prod_{k=1}^{m}(z - z_k),
+	\qquad
+	R_k(z) = \frac{Q(z)}{(z - z_k)}.
+	\]
+	Then
+	\[
+	R_k(z_k) \neq 0, 
+	\qquad 
+	R_\ell(z_k) = 0 \quad \text{for all } \ell \ne k.
+	\]
+	Hence the required polynomial is given by
+	\[
+	P(z)
+	= \sum_{k=1}^{m}
+	a_k \frac{R_k(z)}{R_k(z_k)}
+	= \sum_{k=1}^{m}
+	a_k 
+	\frac{\displaystyle\prod_{\ell=1}^{m}(z - z_\ell)}
+	{\displaystyle (z - z_k) \prod_{\ell \ne k}(z_k - z_\ell)}.
+	\]
+	This polynomial satisfies $P(z_k) = a_k$ for all $k=1,\dots,m$.
+\end{proof}
+
+\medskip
+
+By the compactness of $X$, we may choose $k \gg 0$ and finitely many 
+holomorphic $k$‑differentials on $X$,
+\[
+\phi_0, \phi_1, \dots, \phi_N,
+\]
+such that for every $x \in X$, 
+there exists some index $i \in \{0,1,\dots,N\}$ with
+\[
+\phi_i(x) \ne 0.
+\]
+
+
+For instance, suppose there exist points $x_1, x_2 \in X$ and differentials $\phi_1,\phi_2$ satisfying
+\[
+\begin{cases}
+	\phi_1(x_1) \neq 0, \\
+	\phi_1(x_2) = 0,
+\end{cases}
+\qquad
+\begin{cases}
+	\phi_2(x_1) = 0, \\
+	\phi_2(x_2) \neq 0.
+\end{cases}
+\]
+By scaling and small perturbation, we may assume
+\[
+\begin{cases}
+	\phi_1(x_1) = 1, & |\phi_1(x_2)| < \varepsilon,\\[3pt]
+	|\phi_2(x_1)| < \varepsilon, & \phi_2(x_2) = 1,
+\end{cases}
+\]
+for some small $\varepsilon > 0$.  
+Then the map
+\[
+\Phi : X \to \mathbb{P}^N, \qquad
+\Phi(x) = [\,\phi_0(x) : \phi_1(x) : \cdots : \phi_N(x)\,],
+\]
+is non‑constant, since the images of $x_1$ and $x_2$ differ:
+\[
+\Phi(x_1) \ne \Phi(x_2).
+\]
+
+
+\noindent
+\textbf{Alternative argument.}
+Fix a point $x_0 \in X$ and choose a lift $z_0 \in \mathbb{D}$ 
+so that $\pi(z_0) = x_0$ (i.e. $x_0 = z_0 \bmod \Gamma$).  
+Let $\phi_0$ be a holomorphic $k$‑differential on $X$ for $k \gg 0$.  
+Because $X$ is compact, $\phi_0$ must have a zero somewhere on $X$;
+that is, there exists $x_1 \in X$, $x_1 \neq x_0$, such that
+\[
+\phi_0(x_1) = 0, \phi_0(x_0)\neq 0
+\]
+(When $g=1$, i.e. $X$ is an elliptic curve, there exists a 
+nowhere‑vanishing holomorphic $k$‑differential for some $k$,
+and this distinction characterizes $g=1.$ )
+
+Now choose another holomorphic $k$‑differential $\phi_1$ such that 
+$\phi_1(x_1) \ne 0$.  
+Then the pairs of projective coordinates
+\[
+(\phi_0(x_0), \phi_1(x_0))
+\quad\text{and}\quad
+(\phi_0(x_1), \phi_1(x_1)) = (0, \phi_1(x_1))
+\]
+are not proportional.  
+Hence
+\[
+\Phi(x_0) \ne \Phi(x_1),
+\]
+showing that $\Phi : X \to \mathbb{P}^N$ is a non‑constant holomorphic map.
+
+
+Now we aim to conduct the next three steps:
+
+\medskip
+\noindent
+\textbf{Step 1.} 
+\[
+\Phi = [\,\phi_0, \dots, \phi_N\,] : X \hookrightarrow \mathbb{P}^N
+\quad \text{holomorphic map (actually non‑constant).}
+\]
+This part is done.
+
+\medskip
+\noindent
+\textbf{Step 2.} 
+\[
+\Phi \text{ is a holomorphic immersion for some } k \gg 0.
+\]
+
+\medskip
+\noindent
+\textbf{Step 3.} 
+To prove that 
+\[
+\Phi \text{ separates points (for some } k \gg 0).
+\]
+
+
+\paragraph{Step 2.}  
+To prove that $\Phi$ is a holomorphic immersion for $k \gg 0$,  
+it suffices to show the following local statement:
+
+Given $z_0 \in \mathbb{D}$, find two holomorphic $k$‑differentials
+$f$ and $g$ such that  
+\[
+\text{(a)}\; f = P^k_\Gamma(t) \text{ satisfies } f(z_0) \ne 0,
+\qquad
+\text{(b)}\; g = P^k_\Gamma(s) \text{ satisfies }
+\left(\frac{g}{f}\right)'(z_0) \ne 0.
+\]
+Indeed, in the inhomogeneous coordinates
+\[
+\Phi = [t,s_1,\dots,s_m] 
+= \biggl(\frac{s_1}{t}, \dots, \frac{s_m}{t} \biggr),
+\]
+the immersion condition requires 
+$\bigl(\frac{s_j}{t}\bigr)'(z_0) \ne 0$ for some $j$,
+i.e. the derivative does not vanish at $z_0$.
+
+
+
+\begin{proof}
+	We first construct a pair of polynomials realizing prescribed
+	value and derivative data under the $\Gamma$–relations.
+	
+	We wish to prove that for given complex numbers $a,b \in \C$,
+	there exists a polynomial $R(z)$ such that
+	\[
+	R(z_0) = a, \qquad R'(z_0) = b,
+	\]
+	and moreover
+	\[
+	R(\gamma z_0) = 0, \qquad R'(\gamma z_0) = 0
+	\quad \text{for all } \gamma \in \Gamma \setminus \{\mathrm{id}\}.
+	\]
+	
+	Let
+	\[
+	P(z) = \prod_{i=2}^{N}(z - \gamma_i z_0)^2,
+	\qquad 
+	\Gamma_0 = \{\gamma_1 = \mathrm{id}, \gamma_2, \dots, \gamma_N\}.
+	\]
+	Define
+	\[
+	Q(z) = (z - z_0) \prod_{i=2}^{N}(z - \gamma_i z_0)^2
+	= (z - z_0) P(z).
+	\]
+	Then
+	\[
+	P(z_0) =a \ne 0, 
+	\qquad 
+	P'(z_0) = b,
+	\]
+	and hence
+	\[
+	Q(z_0) = 0, 
+	\qquad 
+	Q'(z_0) = P(z_0) \ne 0.
+	\]
+	
+	Therefore, at $z_0$ we have
+	\[
+	(P(z_0), P'(z_0)) = (a,b),
+	\qquad 
+	(Q(z_0), Q'(z_0)) = (0,a), \quad a \ne 0.
+	\]
+	Since these pairs are linearly independent,
+	for any prescribed $(\tilde a, \tilde b) \in \C^2$
+	there exist $\alpha, \beta \in \C$ such that
+	\[
+	R(z) = \alpha P(z) + \beta Q(z)
+	\]
+	satisfies
+	\[
+	R(z_0) = \tilde a, \qquad R'(z_0) = \tilde b.
+	\]
+	We may take in particular
+	\[
+	(\tilde a, \tilde b) = (1,0)
+	\quad \text{(Polynomial A)},
+	\qquad
+	(\tilde a, \tilde b) = (0,1)
+	\quad \text{(Polynomial B)}.
+	\]
+	
+	Observe that
+	\[
+	P(\gamma_i z_0) = P'(\gamma_i z_0) = 0,
+	\qquad 
+	Q(\gamma_i z_0) = Q'(\gamma_i z_0) = 0,
+	\quad \forall\, 2 \le i \le N.
+	\]
+	
+	Now let
+	\[
+	t = A|_{\mathbb{D}},
+	\qquad
+	s = B|_{\mathbb{D}},
+	\]
+	and for $k \gg 0$ define
+	\[
+	f = P^k_\Gamma(t), 
+	\qquad 
+	g = P^k_\Gamma(s),
+	\]
+	where $P^k_\Gamma$ denotes the Poincaré series operator.
+	
+	\medskip
+	\noindent\textbf{Claim.}
+	For sufficiently large $k$, the pair $(f,g)$ satisfies the required
+	conditions in the proposition:
+	\[
+	f(z_0) \ne 0,
+	\qquad 
+	\bigl(\tfrac{g}{f}\bigr)'(z_0) \ne 0,
+	\]
+	where
+	\[
+	f(z) = \sum_{\gamma \in \Gamma_0} t(\gamma z)\,(\gamma'(z))^k,
+	\qquad 
+	g(z) = \sum_{\gamma \in \Gamma \setminus \Gamma_0}
+	s(\gamma z)\,(\gamma'(z))^k.
+	\]
+	Thus $\Phi$ is a holomorphic immersion when $k \gg 0$.
+\end{proof}
+
+
+\paragraph{Step 3.}
+To complete the proof of the theorem that 
+\[
+X \hookrightarrow \mathbb{P}^N
+\]
+is an embedding for sufficiently large \(k\), we must show that
+for the pluricanonical map
+\[
+\Phi = [s_0, s_1, \dots, s_N],
+\]
+we have
+\[
+\Phi(x_0) \neq \Phi(x_1)
+\quad
+\text{for all distinct } x_0, x_1 \in X,
+\quad \text{when } k \gg 0.
+\]
+
+
+
+
+For two distinct points \(x_0, x_1 \in X\), it suffices to find
+two holomorphic \(k\)-differentials \(s_0, s_1\) such that
+\[
+\begin{cases}
+	s_0(x_0) \neq 0, & s_1(x_0) = 0,\\[4pt]
+	s_0(x_1) = 0,   & s_1(x_1) \neq 0.
+\end{cases}
+\]
+Then
+\[
+\Phi(x_0) = [1:0], \qquad \Phi(x_1) = [0:1],
+\]
+so the image points are distinct. Hence, \(\Phi\) separates \(x_0\) and \(x_1\).
+
+
+Subtlety (Heine–Borel type issue).
+At first, one can solve the separation problem for each \emph{individual pair}
+\((x_0, x_1)\) of distinct points by constructing corresponding
+sections \(s_0, s_1\). However, the degree \(k\) needed may depend
+on the chosen pair:
+\[
+k = k(x_0, x_1).
+\]
+To obtain a single embedding map \(\Phi_k\) valid for all pairs,
+we must ensure that one sufficiently large \(k\) works \emph{uniformly} for
+every pair \((x_0, x_1)\).
+
+Let
+\[
+S = \{(x_0, x_1) \in X \times X : x_0 \neq x_1\}
+= (X \times X) \setminus \mathrm{Diag}(X).
+\]
+Although \(X \times X\) is compact,
+\(S\) is open (the complement of the diagonal), hence \emph{not compact}.
+Therefore, we cannot directly argue by compactness to obtain a uniform \(k\).
+
+
+Suppose now that for some large \(k\), the map
+\[
+\Phi = [\phi_0, \dots, \phi_N] : X \hookrightarrow \mathbb{P}^N
+\]
+is already a holomorphic immersion (by Step 2). Then for each
+\(x \in X\), there exists a neighborhood \(U(x)\) such that
+for all \(x_1, x_2 \in U(x)\), \(x_1 \neq x_2\), we have
+\[
+\Phi(x_1) \neq \Phi(x_2).
+\]
+Thus, the image points are separated locally.
+
+Consequently, there exists a symmetric open set
+\(T \subset X \times X\) (a \emph{tubular neighborhood} of the diagonal)
+such that
+\[
+(x_1, x_2) \in T \quad \Rightarrow \quad \Phi(x_1) \neq \Phi(x_2),
+\qquad \text{and} \qquad (x_1, x_2) \in T \iff (x_2, x_1) \in T.
+\]
+
+The complement
+\[
+(X \times X) \setminus T
+\]
+is closed in \(X \times X\), hence compact (since \(X \times X\) is compact).
+
+\paragraph{Further subtlety}
+Start with an integer \(k_0 \gg 0\) chosen so that the map
+\(\Phi_{k_0}\) satisfies the immersion property (Step 1 and Step 2).
+To separate points, we work with pairs \((x_1,x_2)\in U=X\times X\setminus T\),
+where \(T\subset X\times X\) is the symmetric tubular neighborhood of the diagonal,
+introduced previously.
+
+For such pairs, we may need a larger degree
+\(k=k(x_1,x_2) > k_0\)
+to achieve point separation.
+This suggests a potential further subtlety: the degree required might depend on the pair of points,
+preventing a single, uniform choice of \(k\).
+
+\textbf{Conceptual explanation: why we can avoid this subtlety.}
+Suppose we already have a map
+\[
+\Phi = [s_0, s_1, s_2] : X \longrightarrow \mathbb{P}^2
+\]
+that is a holomorphic immersion and separates points
+\((x_1, x_2)\in T \subset X\times X\).
+To increase its separating power globally, we can apply the
+\emph{Veronese embedding} of projective space.
+
+Define a new map
+\[
+\nu_2 \circ \Phi : X \longrightarrow \mathbb{P}^{N'}
+\]
+given by all quadratic monomials in the coordinates of \(\Phi\):
+\[
+[s_0, s_1, s_2]
+\longmapsto
+[s_0^2,\, s_1^2,\, s_2^2,\, s_0s_1,\, s_0s_2,\, s_1s_2].
+\]
+This realizes the composition
+\[
+X \hookrightarrow \mathbb{P}^N \hookrightarrow \mathbb{P}^{N'},
+\]
+where
+\[
+N' = \frac{(N+1)(N+2)}{2} - 1.
+\]
+For instance, when \(N=2\), we have the classical Veronese embedding
+\(\mathbb{P}^2 \hookrightarrow \mathbb{P}^5\).
+
+Explicitly, if \((x,y,z)\) are homogeneous coordinates on \(\mathbb{P}^2\),
+then
+\[
+(x,y,z) \longmapsto (x,y,z)(x,y,z)^T
+=
+\begin{bmatrix}
+	x^2 & xy & xz \\
+	xy & y^2 & yz \\
+	xz & yz & z^2
+\end{bmatrix},
+\]
+whose entries (up to order) yield the six homogeneous coordinates of \(\mathbb{P}^5\).
+The target space here,
+\(\mathbb{P}(S^2 \mathbb{C}^3)\),
+is the projectivization of the space of symmetric \(3\times3\) matrices,
+which has dimension \(6\).
+
+
+In general, for any \(N\), the \emph{Veronese embedding}
+\[
+\nu_m : \mathbb{P}^N \hookrightarrow \mathbb{P}^{N_m}, 
+\qquad N_m = \binom{N+m}{m} - 1,
+\]
+is holomorphic and injective.  
+Composing \(\Phi_k\) with \(\nu_m\) corresponds to replacing the sections \(s_i\)
+by all degree‑\(m\) monomials in them, i.e. by sections of \((K_X^{\otimes k})^{\otimes m} = K_X^{\otimes mk}\).
+
+Thus, after fixing a symmetric tubular neighborhood \(T=T_k\subset X\times X\),
+the higher pluricanonical map
+\[
+\Phi_{mk}: X \longrightarrow \mathbb{P}^{N_{mk}}
+\]
+is still a holomorphic immersion and now separates all points
+\((x_1, x_2)\in X\times X \setminus T\).
+
+
+\paragraph{Final argument.}
+Given distinct points \((x_1, x_2) \in X \times X\) with \(x_1 \neq x_2\),
+we want to find \(k'_0\) large enough such that
+for every \(k \ge k'_0\), there exist holomorphic \(k\)-differentials
+\(s_1, s_2 \in H^0(X, K_X^{\otimes k})\) satisfying
+\[
+\begin{cases}
+	s_1(x_1) \neq 0, & s_1(x_2) = 0, \\[4pt]
+	s_2(x_1) = 0,   & s_2(x_2) \neq 0.
+\end{cases}
+\]
+Then their corresponding evaluation points in projective space satisfy
+\[
+[s_1(x_1):s_2(x_1)] \ne [s_1(x_2):s_2(x_2)].
+\]
+Hence the pluricanonical map
+\[
+\Phi_k = [s_0, s_1, \dots, s_N]: X \longrightarrow \mathbb{P}^N
+\]
+separates the distinct points \(x_1\) and \(x_2\).
+
+
+
+
+
+
+
+\begin{proof}
+	Let $\Gamma$ be the covering (Fuchsian) group acting on the unit disk $D$, 
+	with quotient $X = D/\Gamma$.
+	Fix two lifts $z_0, z_1 \in D$ corresponding to distinct points 
+	$x_0, x_1 \in X$.
+	
+	Define
+	\[
+	\Gamma' = 
+	\bigl\{\,
+	\gamma \in \Gamma :
+	|\gamma'(z_0)| \ge \tfrac{1}{2}
+	\ \text{or}\
+	|\gamma'(z_1)| \le \tfrac{1}{2}
+	\,\bigr\}.
+	\]
+	The set $\Gamma'$ is finite, because
+	\(\sum_{\gamma \in \Gamma} |\gamma'(z_0)|^2 < \infty\)
+	implies that only finitely many $\gamma$ have derivatives
+	not exponentially small.
+	Denote its complement by
+	\[
+	\Gamma'' = \Gamma \setminus \Gamma'
+	= \bigl\{\,
+	\gamma \in \Gamma : 
+	|\gamma'(z_0)| < \tfrac{1}{2}
+	\ \text{and}\
+	|\gamma'(z_1)| > \tfrac{1}{2}
+	\,\bigr\}.
+	\]
+	
+
+	We construct holomorphic polynomials \(P_1, P_2\) (by Lagrange interpolation) 
+	satisfying for all $\gamma \in \Gamma'$:
+	\[
+	\begin{cases}
+		P_1(z_0) = 1,\quad 
+		P_1(\gamma z_0) = 0 \ \text{for } \gamma \ne \mathrm{id},\\[2pt]
+		P_1(\gamma z_1) = 0,\\[4pt]
+		P_2(z_1) = 1,\quad 
+		P_2(\gamma z_1) = 0 \ \text{for } \gamma \ne \mathrm{id},\\[2pt]
+		P_2(\gamma z_0) = 0.
+	\end{cases}
+	\]
+	The finite nature of $\Gamma'$ guarantees that these interpolation conditions
+	determine $P_1$ and $P_2$.
+	
+	Let \(f_j = P_j|_D\) for \(j = 1,2\).
+	
+
+	For each integer \(k > 0\),
+	define
+	\[
+	s_j(z) = \sum_{\gamma \in \Gamma}
+	f_j(\gamma z)\, (\gamma'(z))^k, \qquad j=1,2.
+	\]
+	These functions are $\Gamma$‑automorphic $k$‑differentials since
+	for all $\delta \in \Gamma$,
+	\[
+	s_j(\delta z)\,(\delta'(z))^k = s_j(z).
+	\]
+	
+	We split the sum as
+	\[
+	s_j = 
+	\underbrace{\sum_{\gamma \in \Gamma'} 
+		f_j(\gamma z)(\gamma'(z))^k}_{\text{main part}}
+	\;+\;
+	\underbrace{\sum_{\gamma \in \Gamma''}
+		f_j(\gamma z)(\gamma'(z))^k}_{\text{tail}}.
+	\]
+	For $\gamma \in \Gamma''$,
+	we have $|\gamma'(z_0)| < \tfrac{1}{2}$,
+	thus
+	\(|(\gamma'(z))^k| \le 2^{-k}\),
+	so the tail decays exponentially with \(k\)
+	and vanishes uniformly as \(k\to\infty\).
+
+	By interpolation properties:
+	\[
+	f_1(z_0)=1, \quad
+	f_1(\gamma z_0)=0\ (\gamma\ne\mathrm{id}),\quad
+	f_1(\gamma z_1)=0,
+	\]
+	and analogously
+	\[
+	f_2(z_1)=1, \quad
+	f_2(\gamma z_1)=0\ (\gamma\ne\mathrm{id}),\quad
+	f_2(\gamma z_0)=0.
+	\]
+	Hence for the constructed series,
+	\[
+	\begin{aligned}
+		s_1(z_0)&= f_1(z_0) + O(2^{-k}) = 1 + O(2^{-k}), & 
+		s_1(z_1)&=0,\\
+		s_2(z_0)&=0, &
+		s_2(z_1)&= f_2(z_1) + O(2^{-k}) = 1 + O(2^{-k}).
+	\end{aligned}
+	\]
+	Therefore, for sufficiently large \(k\),
+	\[
+	[s_1(z_0):s_2(z_0)] = [1:0],
+	\qquad
+	[s_1(z_1):s_2(z_1)] = [0:1].
+	\]
+	
+
+	So as $k\to\infty$,
+	\(
+	[s_1(z_0):s_2(z_0)] \ne [s_1(z_1):s_2(z_1)].
+	\)
+	Thus the differentials \(s_1, s_2\) separate
+	the pair of points $x_0, x_1$ on $X$.
+	
+
+	Therefore, for every distinct pair \((x_0,x_1) \in X\times X\),
+	there exists \(k'_0\) such that for all \(k \ge k'_0\)
+	we can construct holomorphic $k$‑differentials \(s_1,s_2\) with
+	\[
+	[s_1(x_0):s_2(x_0)] \neq [s_1(x_1):s_2(x_1)].
+	\]
+	Hence the map $\Phi_k$ separates all points for $k \gg 0$,
+	and therefore defines a holomorphic embedding.
+\end{proof}
+
+
+
+
+	
+	
+	
+\end{document}tex

@@ -1,0 +1,123 @@
+\documentclass[12pt]{article}
+
+% Packages for math and formatting
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}   % math symbols & environments
+\usepackage{geometry}                   % page layout
+\usepackage{enumitem}                   % better lists
+\usepackage{hyperref}                   % clickable references
+\usepackage{mathtools}                  % extended math tools
+\usepackage{epigraph}                   % for quotes
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+% Page setup
+\geometry{margin=1in}
+
+% Theorem-like environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\D}{\mathbb{D}}
+% Linear groups
+\newcommand{\GL}{\operatorname{GL}}
+
+\newcommand{\HH}{\mathbb{H}} % upper half-plane
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\FractLin}{FractLin}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\SL}{SL}
+
+\title{Introduction}
+\author{Joe}
+\date{September 10, 2025}
+
+\begin{document}
+	
+	\maketitle
+	
+	\tableofcontents
+	\vspace{1em}
+	
+	\section{Foundations of Complex Analysis}
+	
+	Let $\Omega$ be a domain that is open and connected, and consider $f: \Omega \to \C$ as a complex differentiable function.
+	
+	There are three primary approaches to studying complex analytic (holomorphic) functions:
+	\begin{enumerate}
+		\item \textbf{Partial Differential Equations} (Cauchy-Riemann equations)
+		\item \textbf{Power Series}
+		\item \textbf{Integral Formulas}
+	\end{enumerate}
+	
+	\subsection{The Cauchy-Riemann Approach}
+	
+	For a function $f: \Omega \to \C$, we define the Wirtinger derivatives:
+	\begin{align}
+		\frac{\partial f}{\partial z} &= \frac{1}{2}\left(\frac{\partial f}{\partial x} - i\frac{\partial f}{\partial y}\right)\\
+		\frac{\partial f}{\partial \bar{z}} &= \frac{1}{2}\left(\frac{\partial f}{\partial x} + i\frac{\partial f}{\partial y}\right)
+	\end{align}
+	
+	The Cauchy-Riemann equations are equivalent to the condition:
+	$$\frac{\partial f}{\partial \bar{z}} = 0 \text{ everywhere on } \Omega$$
+	
+	\subsection{Power Series Approach}
+	
+	For $a \in \C$, consider a convergent power series $\sum_{n \geq 0} c_n(z-a)^n$ with radius of convergence $R > 0$. We define:
+	$$f(z) = \sum_{n=0}^{\infty} c_n(z-a)^n \text{ for } |z-a| < R$$
+	that is, for $z \in D(a; R)$ (the open disk centered at $a$ with radius $R$).
+	
+	\begin{theorem}
+		If $f$ is holomorphic in $D(a; R)$, then:
+		$$f'(z) = \sum_{n \geq 1} nc_n(z-a)^{n-1}$$
+	\end{theorem}
+	
+	\subsection{Cauchy Integral Formula}
+	
+	Suppose $f: D(a; R) \to \C$ is holomorphic. For any $0 < r < R$ and $z \in D(a; r)$, we have:
+	$$f(z) = \frac{1}{2\pi i} \oint_{\partial D(a;r)} \frac{f(\xi)}{z-\xi} d\xi$$
+	
+	\begin{theorem}[Taylor's Theorem for Holomorphic Functions]
+		Let $f : D(a;R) \to \C$ be holomorphic on the open disk $D(a;R) = \{ z \in \C : |z-a| < R \}$, where $R>0$.  
+		Then $f$ has a convergent power series expansion around $a$:
+		\[
+		f(z) = \sum_{n=0}^{\infty} c_n (z-a)^n, \qquad |z-a| < R,
+		\]
+		where
+		\[
+		c_n = \frac{f^{(n)}(a)}{n!}.
+		\]
+		Moreover, the radius of convergence of this series is at least $R$.
+	\end{theorem}
+	
+	
+	\section{Meromorpphic Functions}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+\end{document}

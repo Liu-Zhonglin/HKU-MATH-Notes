@@ -1,0 +1,1001 @@
+\documentclass[12pt]{article}
+
+% Packages for math and formatting
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage{epigraph}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, decorations.pathmorphing, positioning}
+
+% Page setup
+\geometry{margin=1in}
+
+% Theorem-like environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\HH}{\mathbb{H}} % upper half-plane
+
+% Operator names
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\FractLin}{FractLin}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\SL}{SL}
+
+\title{Sheaf Cohomology}
+\author{Joe}
+\date{December 3, 2025}
+
+\begin{document}
+	
+	\maketitle
+	
+	
+		\epigraph{You have to be able to pose questions otherwise there will be no mathematics.}{\textit{Prof. MOK Ngaiming}}
+		\tableofcontents
+		\vspace{1em}
+	
+
+
+In topology, let $X$ be a topological space. We have the singular (co)homology groups
+\[
+H_p(X, \mathbb{Z}), \qquad H^p(X, \mathbb{Z}).
+\]
+For example, for a compact Riemann surface $X$ of genus $g$,
+\[
+H_1(X, \mathbb{Z}) \cong \mathbb{Z}^{2g}, \qquad
+H^1(X, \mathbb{Z}) \cong \mathbb{Z}^{2g}.
+\]
+In this case, $H_p(X, \mathbb{Z}) = H_p^{\mathrm{sing}}(X, \mathbb{Z})$.
+
+\medskip
+
+\noindent
+\textbf{Cellular (co)homology:}
+Cells of dimension $n$ are homeomorphic to $\mathbb{R}^n$.
+
+\medskip
+
+\noindent
+\textbf{Example:}
+\[
+\mathbb{P}^n = \mathbb{C}^n \sqcup \mathbb{P}^{n-1}
+= \mathbb{C}^n \sqcup \mathbb{C}^{n-1} \sqcup \cdots \sqcup \{0\}.
+\]
+Then
+\[
+H^{k}(\mathbb{P}^m, \mathbb{Z}) \ \text{is the same, and} \
+H_{2k}(\mathbb{P}^m, \mathbb{Z}) \cong \mathbb{Z}
+\quad \text{for } k = 0, 1, 2, \dots, m.
+\]
+
+\section{Čech Cohomology for $\mathbb{Z}$}
+
+Let $X$ be a topological manifold, and let 
+$\mathcal{U} = \{ U_\alpha \}$ 
+be an open cover of $X$ such that every finite intersection
+\[
+U_{\alpha_0\alpha_1\cdots \alpha_m}
+:= U_{\alpha_0} \cap U_{\alpha_1} \cap \cdots \cap U_{\alpha_m}
+\]
+is either empty or connected.
+
+
+
+Let $p > 0$ be an integer.  
+Define the abelian group of $p$--cochains
+\[
+C^p(\mathcal{U}, \Z)
+\]
+as follows:
+
+A $p$--cochain is a collection of integers
+\[
+\{\, c_{\alpha_0 \alpha_1 \cdots \alpha_p} \,\}
+\]
+assigned to each nonempty $(p+1)$--fold intersection
+$U_{\alpha_0 \alpha_1 \cdots \alpha_p}$.
+
+The cochain is \emph{alternating}, meaning that for every permutation 
+$\sigma \in \mathrm{Perm}\{0,1,\ldots,p\}$,
+\[
+c_{\alpha_{\sigma(0)} \alpha_{\sigma(1)} \cdots \alpha_{\sigma(p)}}
+= \mathrm{sign}(\sigma)\, c_{\alpha_0 \alpha_1 \cdots \alpha_p},
+\]
+where if $\sigma$ is a composition of $q$ transpositions, then
+\[
+\mathrm{sign}(\sigma) = (-1)^q.
+\]
+
+
+
+
+Define the coboundary operator
+\[
+\delta_p : C^p(\mathcal{U}, \Z) \longrightarrow C^{p+1}(\mathcal{U}, \Z)
+\]
+as follows.
+
+For a cochain $c \in C^p(\mathcal{U}, \Z)$, the cochain 
+$e = \delta_p c \in C^{p+1}(\mathcal{U}, \Z)$ is defined by
+\[
+(\delta_p c)_{\alpha_0 \alpha_1 \cdots \alpha_{p+1}}
+=
+\sum_{i=0}^{p+1} 
+(-1)^i \, c_{\alpha_0 \cdots \widehat{\alpha_i} \cdots \alpha_{p+1}},
+\]
+where the hat $\widehat{\alpha_i}$ means that the index $\alpha_i$ is omitted.
+
+\begin{lemma}
+	For all $p \ge 0$, one has
+	\[
+	\delta_{p+1} \circ \delta_p = 0.
+	\]
+\end{lemma}
+
+\begin{example}
+	We check the case $p = 1$, that is, $\delta_2 \circ \delta_1 = 0$.
+	
+	Let $c = \{ c_{\alpha_0 \alpha_1} \}$ be a $1$--cochain.  
+	Then $\delta_1 c = e = \{ e_{\alpha_0 \alpha_1 \alpha_2} \}$ is given by
+	\[
+	e_{\alpha_0 \alpha_1 \alpha_2}
+	= c_{\alpha_1 \alpha_2}
+	- c_{\alpha_0 \alpha_2}
+	+ c_{\alpha_0 \alpha_1}.
+	\]
+	Now apply $\delta_2$ to $e$:
+	\[
+	(\delta_2 e)_{\alpha_0 \alpha_1 \alpha_2 \alpha_3}
+	= e_{\alpha_1 \alpha_2 \alpha_3}
+	- e_{\alpha_0 \alpha_2 \alpha_3}
+	+ e_{\alpha_0 \alpha_1 \alpha_3}
+	- e_{\alpha_0 \alpha_1 \alpha_2}.
+	\]
+	Expanding each $e_{\alpha_i \alpha_j \alpha_k}$ in terms of the $c_{\bullet\bullet}$ shows that all
+	terms cancel, hence
+	\[
+	(\delta_2 e)_{\alpha_0 \alpha_1 \alpha_2 \alpha_3} = 0.
+	\]
+
+\end{example}
+	
+\begin{definition}
+	\leavevmode
+	\begin{enumerate}
+		\item[(a)] A cochain $c \in C^p(\mathcal{U}, \Z)$ is called a 
+		\emph{$p$--cocycle} if and only if 
+		$\delta_p c = 0$.  
+		The set of all $p$--cocycles is denoted
+		\[
+		Z^p(\mathcal{U}, \Z) := \ker(\delta_p).
+		\]
+		
+		\item[(b)] A cochain $c \in C^p(\mathcal{U}, \Z)$ is called a 
+		\emph{$p$--coboundary} if there exists 
+		$b \in C^{p-1}(\mathcal{U}, \Z)$ such that 
+		$c = \delta_{p-1} b$.  
+		The set of all $p$--coboundaries is denoted
+		\[
+		B^p(\mathcal{U}, \Z) := \operatorname{im}(\delta_{p-1}).
+		\]
+	\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+	\[
+	B^p(\mathcal{U}, \Z) \subset Z^p(\mathcal{U}, \Z)
+	\quad \text{as a subgroup of } C^p(\mathcal{U}, \Z).
+	\]
+\end{lemma}
+
+\begin{proof}
+	Let $c = \delta_{p-1} b \in B^p(\mathcal{U}, \Z)$.
+	Then
+	\[
+	\delta_p c
+	= \delta_p (\delta_{p-1} b)
+	= (\delta_p \circ \delta_{p-1})(b)
+	= 0,
+	\]
+	since $\delta_p \circ \delta_{p-1} = 0$.
+
+\end{proof}
+
+\begin{definition}\label{def:cech-cohomology}
+	\leavevmode
+	\begin{enumerate}
+		\item[(a)] For a given open cover $\mathcal{U}$ of $X$, the 
+		$p$--th Čech cohomology group of the cover is defined as
+		\[
+		H^p(\mathcal{U}, \Z)
+		:= Z^p(\mathcal{U}, \Z) \big/ B^p(\mathcal{U}, \Z).
+		\]
+		
+		\item[(b)] The Čech cohomology of $X$ with coefficients in $\Z$ is defined as the direct limit over all open covers:
+		\[
+		\check{H}^p(X, \Z)
+		:= \varinjlim_{\mathcal{U}} \, H^p(\mathcal{U}, \Z).
+		\]
+	\end{enumerate}
+\end{definition}
+
+
+
+If $\mathcal{U} = \{ U_\alpha \}$ and 
+$\mathcal{V} = \{ V_i \}$ are two open covers such that, for every $i$, there exists an $\alpha(i)$ with
+\[
+V_i \subset U_{\alpha(i)},
+\]
+then $\mathcal{V}$ is called a \emph{refinement} of $\mathcal{U}$.
+In this case there is a natural \emph{restriction homomorphism}
+\[
+H^p(\mathcal{U}, \Z) \xrightarrow{\ \mathrm{Res}\ } H^p(\mathcal{V}, \Z),
+\]
+which is compatible with the direct limit system that defines 
+$\check{H}^p(X, \Z)$.
+
+\begin{theorem}
+	Let $\mathcal{U}$ be an \emph{acyclic cover} for the constant sheaf $\Z$ over $X$
+	—for example, if every finite intersection 
+	$U_{\alpha_0 \ldots \alpha_p} 
+	= U_{\alpha_0} \cap \cdots \cap U_{\alpha_p}$ 
+	is contractible (hence acyclic) for all $p, \alpha_0, \ldots, \alpha_p$.
+	Then we have a natural isomorphism
+	\[
+	\check{H}^p(X, \Z) \cong H^p(\mathcal{U}, \Z).
+	\]
+\end{theorem}
+
+\begin{theorem}
+	For a reasonable topological space (e.g., paracompact, such as a manifold),
+	the Čech cohomology with constant coefficients agrees with singular cohomology:
+	\[
+	\check{H}^p(X, \Z) \cong H^p_{\mathrm{sing}}(X, \Z).
+	\]
+\end{theorem}
+
+\medskip
+
+\underline{\text{Observation:}}  
+
+Let $c \in C^0(\mathcal{U}, \Z)$, given by local sections
+$c = (c_\alpha)$.
+Then $\delta c \in C^1(\mathcal{U}, \Z)$ is defined by
+\[
+(\delta c)_{\alpha_0 \alpha_1} 
+= c_{\alpha_1} - c_{\alpha_0} 
+\quad \text{on } U_{\alpha_0} \cap U_{\alpha_1}.
+\]
+Hence, $\delta c = 0$ if and only if 
+\[
+c_{\alpha_1} = c_{\alpha_0}
+\quad \text{on } U_{\alpha_0} \cap U_{\alpha_1},
+\]
+i.e. the local data $\{ c_\alpha \}$ glue together to define a global element
+of $C^0(X, \Z)$.
+	
+	
+	
+\section{Čech Cohomology of Sheaves}
+
+\begin{definition}[Sheaf of Abelian groups over topological manifolds $X$]
+	A continuous map 
+	\[
+	\pi : \mathcal{F} \to X
+	\]
+	is called a \emph{sheaf of abelian groups over $X$} if the following conditions hold:
+	
+	\begin{enumerate}
+		\item $\mathcal{F}$ is a topological space and 
+		$\pi$ is a continuous map which is a \emph{local homeomorphism}.
+		
+		\item For each $x \in X$, the fibre 
+		\[
+		\mathcal{F}_x := \pi^{-1}(x)
+		\]
+		is an abelian group.
+		
+		\item Let $e_x \in \mathcal{F}_x$ denote the identity element of the group $\mathcal{F}_x$. 
+		Then the map 
+		\[
+		e : X \longrightarrow \mathcal{F}, 
+		\qquad x \longmapsto e_x,
+		\]
+		is continuous.
+		
+		\item Denote by 
+		\[
+		\mathcal{F} \times_\pi \mathcal{F}
+		= \{ (a,b) \in \mathcal{F} \times \mathcal{F} \mid \pi(a) = \pi(b) \}
+		\]
+		the fibre product of $\mathcal{F}$ with itself over $X$.
+		Then the group operations (pointwise addition and inverse)
+		\[
+		(a,b) \longmapsto a \cdot b,
+		\qquad
+		a \longmapsto a^{-1},
+		\]
+		defined fibrewise on $\mathcal{F} \times_\pi \mathcal{F}$,
+		are continuous maps.
+	\end{enumerate}
+\end{definition}
+
+\begin{remark}
+	The condition that “$\pi$ is a local homeomorphism” means that for every 
+	$a \in \mathcal{F}$ with $\pi(a) = x$, there exist open neighbourhoods 
+	$\mathcal{W}$ of $a$ in $\mathcal{F}$ and $U$ of $x$ in $X$ 
+	such that the restriction 
+	\[
+	\pi|_{\mathcal{W}} : \mathcal{W} \to U
+	\]
+	is a homeomorphism. 
+	Intuitively, each small open set $U \subset X$ is locally identified with 
+	its “slice” $\mathcal{W} \subset \mathcal{F}$ lying above it.
+\end{remark}
+	
+\begin{example}[Constant Sheaf]
+	Let 
+	\[
+	\mathcal{F} = X \times \mathbb{Z},
+	\]
+	with the product topology, where $\mathbb{Z}$ carries the discrete topology.  
+	
+	Then the projection
+	\[
+	\pi : \mathcal{F} \longrightarrow X, \qquad (x,n) \longmapsto x,
+	\]
+	is continuous and a local homeomorphism.  
+	For each $x \in X$, the fibre
+	\[
+	\mathcal{F}_x = \pi^{-1}(x) = \{(x,n) \mid n \in \mathbb{Z}\}
+	\]
+	is naturally identified with the group $\mathbb{Z}$ by $(x,n) \mapsto n$.
+	Each fibre $\mathcal{F}_x$ therefore carries the abelian group structure of $\mathbb{Z}$,
+	and the operations of addition and inverse
+	\[
+	(x,n_1) + (x,n_2) = (x, n_1 + n_2), 
+	\qquad 
+	-(x,n) = (x, -n),
+	\]
+	are continuous because $\mathbb{Z}$ is discrete.
+	The identity section $e(x) = (x,0)$ is also continuous.
+	
+
+	
+	\medskip
+	\noindent
+	\emph{Geometric interpretation.}
+	Since $\mathbb{Z}$ is discrete, the total space decomposes as a 
+	disjoint union
+	\[
+	\mathcal{F} 
+	= \bigsqcup_{n \in \mathbb{Z}} (X \times \{n\}),
+	\]
+	where each piece $X \times \{n\}$ is homeomorphic to $X$.
+	Hence $\mathcal{F}$ can be viewed as 
+	a countable family of ``layers,'' each one a copy of $X$,
+	indexed by the integers $n \in \mathbb{Z}$.
+	Over each point $x \in X$, the fibre $\mathcal{F}_x$ consists of
+	countably many points $(x,n)$ stacked vertically, one for each $n$,
+	forming a discrete abelian group isomorphic to $\mathbb{Z}$.
+	
+\end{example}
+
+\medskip
+
+Now let $X$ be a topological manifold.  
+We construct another fundamental example: the sheaf of germs of continuous functions on $X$.
+
+Consider all triples $(U, f, x)$ where
+$U$ is a connected open neighbourhood of $x \in X$, and  
+$f : U \to \C$ is a continuous function.
+
+Define an equivalence relation:
+\[
+(U, f, x) \sim (V, h, y)
+\quad \Longleftrightarrow \quad
+\begin{cases}
+	x = y, \\[4pt]
+	\text{and there exists an open neighbourhood } 
+	W \subset U \cap V \text{ of } x \\[4pt]
+	\text{such that } f|_W = h|_W.
+\end{cases}
+\]
+
+\begin{lemma}
+	Let
+	\[
+	\mathcal{F} := \{ (U, f, x) \} \big/ \sim
+	\]
+	be the set of equivalence classes of such triples, and define
+	\[
+	\pi : \mathcal{F} \to X, 
+	\qquad 
+	\pi([U,f,x]) = x.
+	\]
+	Then $\mathcal{F}$, with the natural topology induced by neighbourhoods of the form
+	\[
+	\{ [V, f|_V, x] \mid x \in V \subset U \},
+	\]
+	is a sheaf of abelian groups over $X$.
+	Each fibre $\mathcal{F}_x$ consists of germs of continuous functions at $x$.
+	This is called the \emph{sheaf of germs of continuous functions} on $X$.
+\end{lemma}
+
+	
+\begin{example}[Sheaf of Holomorphic Functions]
+	In this example we denote by 
+	\[
+	\mathcal{F} = \mathcal{O}_X
+	\]
+	the \emph{sheaf of germs of holomorphic functions} on a complex manifold \(X\).
+	
+	Given a germ \(f_x \in \mathcal{O}_x\) (the equivalence class of a holomorphic function \(f\) defined near \(x\)),
+	the connected component of the domain of definition containing \(x\)
+	determines the \emph{maximal domain of existence} of that germ.
+	Geometrically, one can think of this as the \emph{Riemann surface}
+	spread over \(\C\) that describes a locally defined holomorphic function.
+\end{example}
+
+\begin{example}[Sheaf of Holomorphic Sections of a Vector Bundle]
+	Let \(E \to X\) be a holomorphic vector bundle over a complex manifold \(X\).
+	Then the sheaf
+	\[
+	\mathcal{O}(E)
+	\quad (\text{often written simply as } \mathcal{E})
+	\]
+	is the \emph{sheaf of germs of holomorphic sections of \(E\)}.
+	That is, the fibre of the projection
+	\[
+	\pi : \mathcal{O}(E) \to X
+	\]
+	at a point \(x \in X\) consists of all germs of local holomorphic
+	sections \(s : U \to E\) defined in a neighbourhood \(U\) of \(x\).
+\end{example}
+
+\begin{example}[Sheaf of Nowhere–Vanishing Holomorphic Functions]
+	Let
+	\[
+	\mathcal{O}_X^* \subset \mathcal{O}_X
+	\]
+	denote the subset consisting of germs of \emph{nowhere-vanishing}
+	holomorphic functions.
+	The projection
+	\[
+	\pi : \mathcal{O}_X^* \to X
+	\]
+	is again a local homeomorphism.
+	Each fibre \(\mathcal{O}_x^*\) is the multiplicative group of nonzero complex numbers
+	under the operation
+	\[
+	(f_x, h_x) \longmapsto (f h)_x,
+	\qquad \text{with identity } e_x = 1.
+	\]
+	Thus \(\mathcal{O}_X^*\) is a sheaf of \emph{abelian groups under multiplication}.
+\end{example}
+
+
+\section{Mittag--Leffler Problem}
+	
+\begin{definition}\label{def:acyclic-cover}
+	With the terminology introduced in Definition~\ref{def:cech-cohomology}, 
+	an open cover $\mathcal{U} = \{ U_\alpha \}$ of a topological space $X$ is called 
+	an \emph{acyclic cover for a sheaf $\mathcal{F}$} if
+	for all finite intersections 
+	$U_{\alpha_0 \dots \alpha_p} := U_{\alpha_0} \cap \cdots \cap U_{\alpha_p}$ we have
+	\[
+	H^k(U_{\alpha_0 \dots \alpha_p}, \mathcal{F}) = 0
+	\quad \text{for all } k > 0.
+	\]
+\end{definition}
+
+\begin{example}[Acyclic Cover on a Riemann Surface]
+	Let $X$ be a Riemann surface and let $\mathcal{O}_X$ denote the sheaf of holomorphic functions on $X$.
+	If $\mathcal{U} = \{ U_\alpha \}$ is a covering of $X$ by open sets each biholomorphic to a domain in $\mathbb{C}$,
+	then $\mathcal{U}$ is an \emph{acyclic cover} for $\mathcal{O}_X$.
+	
+	This follows from the fact that each $U_\alpha$ is a Stein domain, and by the Cauchy–Riemann equations
+	we have
+	\[
+	H^k(U_\alpha, \mathcal{O}_X) = 0 \quad \text{for } k > 0.
+	\]
+\end{example}
+
+\underline{Fact:} For any Riemann surface $X$, we have
+\[
+H^2(X, \mathcal{O}_X) = 0.
+\]
+
+\begin{example}[Computation for the Projective Line]
+	Let $X = \mathbb{P}^1$ and consider the standard covering
+	\[
+	\mathcal{U} = \{ U_0, U_1 \}, \qquad 
+	U_0 = \{ [z_0 : z_1] \mid z_0 \neq 0 \} \cong \mathbb{C}, \quad
+	U_1 = \{ [z_0 : z_1] \mid z_1 \neq 0 \} \cong \mathbb{C}.
+	\]
+	Since $\mathcal{U}$ consists of Stein open sets, it is acyclic for $\mathcal{O}_X$, and hence
+	\[
+	C^2(\mathcal{U}, \mathcal{O}) = 0 \;\Rightarrow\;
+	H^2(\mathbb{P}^1, \mathcal{O}) = 0.
+	\]
+\end{example}
+
+\begin{remark}[Dolbeault Cohomology Perspective]
+	To compute cohomology more analytically,
+	one introduces the $\bar{\partial}$--complex (Dolbeault complex)
+	\[
+	0 \;\longrightarrow\; \mathcal{A}^{0,0}
+	\xrightarrow{\;\bar{\partial}\;}
+	\mathcal{A}^{0,1}
+	\xrightarrow{\;\bar{\partial}\;}
+	\mathcal{A}^{0,2} \;\longrightarrow\; \cdots
+	\]
+	where $\mathcal{A}^{0,q}$ denotes the sheaf of smooth $(0,q)$-forms.
+	The Dolbeault theorem identifies
+	\[
+	H^q(X, \mathcal{O}_X) \;\cong\; H_{\bar{\partial}}^{0,q}(X).
+	\]
+	On a Riemann surface ($\dim_{\mathbb{C}}X = 1$), 
+	there are no nonzero $(0,2)$-forms, so $H^2(X, \mathcal{O}_X)=0$.
+\end{remark}
+
+\begin{example}[Čech–Dolbeault Description of Cocycles]
+	Let $\mathcal{U} = \{ U_0, U_1 \}$ be the standard covering of $\mathbb{P}^1$,
+	and let $\mathcal{O} = \mathcal{O}_X$ denote the sheaf of holomorphic functions.
+	Suppose $s_0 \in \mathcal{O}(U_0)$ and $s_1 \in \mathcal{O}(U_1)$ are local
+	holomorphic sections.  
+	
+	The \emph{Čech coboundary operator} acts on a $0$--cochain
+	$s = (s_0, s_1) \in C^0(\mathcal{U}, \mathcal{O})$
+	according to the general formula
+	\[
+	(\delta^0 s)_{\alpha\beta}
+	= s_\beta|_{U_\alpha \cap U_\beta} - s_\alpha|_{U_\alpha \cap U_\beta}.
+	\]
+	For our two--set cover, this gives
+	\[
+	(\delta^0 s)_{01}
+	= s_1|_{U_0 \cap U_1} - s_0|_{U_0 \cap U_1}.
+	\]
+	
+	Up to a sign convention, we may write the same difference as
+	\[
+	\phi_{01} = s_0 - s_1,
+	\]
+	which is a holomorphic function on the overlap $U_0 \cap U_1$.  
+	Hence
+	\[
+	\phi = \{ \phi_{01} \} \in C^1(\mathcal{U}, \mathcal{O}),
+	\]
+	and since there is no triple intersection,
+	this automatically satisfies $\delta^1 \phi = 0$.
+	Thus $\phi$ defines a \emph{$1$--cocycle} in $C^1(\mathcal{U}, \mathcal{O})$.
+	
+	If one can find local sections $s_0, s_1$ such that
+	$\phi_{01} = s_0 - s_1 = (\delta^0 s)_{01}$,
+	then the cocycle $\phi$ is a coboundary, implying
+	\[
+	H^1(\mathcal{U}, \mathcal{O}) = 0.
+	\]
+	Because the covering $\mathcal{U}$ is acyclic for $\mathcal{O}$,
+	we conclude
+	\[
+	H^1(\mathbb{P}^1, \mathcal{O}) = 0.
+	\]
+\end{example}
+
+
+\begin{proposition}[Mittag--Leffler Problem]
+	On a complex manifold $X$, if $H^1(X, \mathcal{O}_X) = 0$, 
+	then the \emph{Mittag--Leffler problem} for meromorphic functions on $X$ 
+	has a solution.
+\end{proposition}
+
+\begin{proof}
+	Let $\mathcal{U} = \{ U_\alpha \}_{\alpha \in A}$ be an acyclic open cover of $X$ for the sheaf $\mathcal{O}_X$.
+	Suppose that on each $U_\alpha$ we are given a meromorphic function 
+	$f_\alpha \in \mathcal{M}(U_\alpha)$,
+	and that on overlaps $U_{\alpha\beta} := U_\alpha \cap U_\beta$ 
+	the differences
+	\[
+	s_{\alpha\beta} := f_\alpha - f_\beta \in \Gamma(U_{\alpha\beta}, \mathcal{O}_X)
+	\]
+	are holomorphic. 
+	
+	First, we check that $\{ s_{\alpha\beta} \}$ defines a Čech $1$--cocycle in $Z^1(\mathcal{U}, \mathcal{O}_X)$.
+	Recall that the Čech coboundary for a $1$--cochain $\{s_{\alpha\beta}\}$ is given by
+	\[
+	(\delta s)_{\alpha\beta\gamma}
+	= s_{\beta\gamma} - s_{\alpha\gamma} + s_{\alpha\beta}.
+	\]
+	Substituting $s_{\mu\nu} = f_\mu - f_\nu$, we get
+	\[
+	(\delta s)_{\alpha\beta\gamma}
+	= (f_\beta - f_\gamma)
+	- (f_\alpha - f_\gamma)
+	+ (f_\alpha - f_\beta)
+	= 0.
+	\]
+	Hence $(\delta s)_{\alpha\beta\gamma} = 0$ on all triple intersections, and therefore
+	$\{ s_{\alpha\beta} \} \in Z^1(\mathcal{U}, \mathcal{O}_X)$.
+	
+	Since $H^1(X, \mathcal{O}_X) = 0$ and $\mathcal{U}$ is acyclic,
+	we have $H^1(\mathcal{U}, \mathcal{O}_X) = 0$.
+	This means that every $1$--cocycle is a $1$--coboundary; that is,
+	\[
+	\{ s_{\alpha\beta} \} \in B^1(\mathcal{U}, \mathcal{O}_X).
+	\]
+	Hence there exists a $0$--cochain $\{ c_\alpha \}$ with $c_\alpha \in \Gamma(U_\alpha, \mathcal{O}_X)$ such that
+	\[
+	(\delta c)_{\alpha\beta} = c_\beta - c_\alpha = s_{\alpha\beta}.
+	\]
+	By the definition of $s_{\alpha\beta}$, this means
+	\[
+	f_\alpha - f_\beta = c_\beta - c_\alpha
+	\quad \text{on } U_{\alpha\beta}.
+	\]
+	
+	Now define holomorphic functions
+	\[
+	h_\alpha := f_\alpha + c_\alpha \quad \text{on } U_\alpha.
+	\]
+	On intersections $U_{\alpha\beta}$ we have
+	\[
+	h_\alpha - h_\beta
+	= (f_\alpha - f_\beta) + (c_\alpha - c_\beta)
+	= s_{\alpha\beta} - s_{\alpha\beta} = 0.
+	\]
+	Thus the functions $h_\alpha$ agree on overlaps and therefore glue together to give a global meromorphic function
+	\[
+	h \in \Gamma(X, \mathcal{M}_X),
+	\quad \text{with } h|_{U_\alpha} = h_\alpha = f_\alpha + c_\alpha.
+	\]
+	
+	On each $U_\alpha$, the difference between $h$ and $f_\alpha$ is
+	\[
+	h|_{U_\alpha} - f_\alpha = c_\alpha,
+	\]
+	where $c_\alpha$ is holomorphic. Since adding a holomorphic function does not change the polar part of a meromorphic function, the poles and their coefficients of $h$ and $f_\alpha$ coincide.
+	In the quotient sheaf $\mathcal{M}_X / \mathcal{O}_X$, this means
+	\[
+	[h|_{U_\alpha}] = [f_\alpha],
+	\]
+	so $h$ and $f_\alpha$ have the same principal part on $U_\alpha$.
+	
+	Consequently, $h$ is a global meromorphic function on $X$ having on each $U_\alpha$ the prescribed principal part of $f_\alpha$.
+	This proves that the Mittag--Leffler problem has a global solution.
+\end{proof}
+
+ \medskip
+ 
+For the multiplicative sheaf $\mathcal{O}^*$ and an acyclic cover $\mathcal{U}$ for $\mathcal{O}^*$, we have
+\[
+H^1(X,\mathcal{O}^*) = H^1(\mathcal{U},\mathcal{O}^*) = \{1\}
+\]
+if and only if every $1$--cocycle in $\mathcal{O}^*$ is a $1$--coboundary.
+
+A \emph{$1$--cocycle} in the multiplicative sheaf has components
+\[
+\{\phi_{\alpha\beta}\}_{\alpha,\beta}
+\quad \text{such that} \quad
+\phi_{\alpha\beta}\phi_{\beta\gamma}\phi_{\gamma\alpha} = 1
+\quad \text{on } U_{\alpha\beta\gamma}.
+\]
+It is a \emph{$1$--coboundary} if there exist $\{\psi_\alpha\}$ (a $0$--cochain with values in $\mathcal{O}^*$) such that
+\[
+\phi_{\alpha\beta} = (\delta^0\psi)_{\alpha\beta} = \frac{\psi_\beta}{\psi_\alpha}.
+\]
+
+Hence
+\[
+H^1(X,\mathcal{O}^*) = \{1\}
+\quad \Longleftrightarrow \quad
+\forall\,\{\phi_{\alpha\beta}\}\in Z^1(\mathcal{U},\mathcal{O}^*),
+\ \exists\,\{\psi_\alpha\} \text{ with } 
+\phi_{\alpha\beta} = \frac{\psi_\beta}{\psi_\alpha}.
+\]
+
+ 
+ \medskip
+ 
+ Then $\mathrm{Pic}(X)$ is trivial if and only if $H^1(X, \mathcal{O}^*) = 0.$
+ 
+ \medskip
+ 
+ Since holomorphic line bundles on $X$ are described by their transition functions
+ $\{\phi_{\alpha\beta}\} \in Z^1(\mathcal{U}, \mathcal{O}^*)$,
+ two line bundles $E$ and $E'$ defined on the same cover by
+ $\{\phi_{\alpha\beta}\}$ and $\{\phi'_{\alpha\beta}\}$ are \emph{isomorphic}
+ if there exist nowhere–vanishing holomorphic functions $\{\psi_\alpha\}$ on $\{U_\alpha\}$
+ such that
+ \[
+ \frac{\phi'_{\alpha\beta}}{\phi_{\alpha\beta}}
+ = \frac{\psi_\beta}{\psi_\alpha}.
+ \]
+ That is, the ratio of their $1$--cocycles is a $1$--coboundary.
+ 
+ \medskip
+ 
+ Equation above means the ratio 
+ $\{\phi'_{\alpha\beta}/\phi_{\alpha\beta}\}$ 
+ is of the special form
+ \[
+ \frac{\phi'_{\alpha\beta}}{\phi_{\alpha\beta}}
+ = (\delta^0 \psi)_{\alpha\beta}
+ = \frac{\psi_\beta}{\psi_\alpha},
+ \]
+ that is, $\phi'/\phi \in B^1(\mathcal{U},\mathcal{O}^*)$, the group of $1$--coboundaries.
+ 
+ Thus two cocycles $\phi,\phi'\in Z^1(\mathcal{U},\mathcal{O}^*)$
+ represent \emph{isomorphic line bundles}
+ if and only if they differ by a coboundary.
+ This defines an equivalence relation on $Z^1(\mathcal{U},\mathcal{O}^*)$:
+ \[
+ \phi' \sim \phi
+ \quad \Longleftrightarrow \quad
+ \exists\,\psi\ \text{such that}\ 
+ \phi'_{\alpha\beta} = (\delta^0\psi)_{\alpha\beta}\phi_{\alpha\beta}.
+ \]
+ 
+ \medskip
+ 
+ Hence the set of isomorphism classes of holomorphic line bundles
+ is precisely the group of $1$--cocycles modulo $1$--coboundaries:
+ \[
+ \mathrm{Pic}(X)
+ = Z^1(\mathcal{U}, \mathcal{O}^*) / B^1(\mathcal{U}, \mathcal{O}^*)
+ \cong H^1(X, \mathcal{O}^*).
+ \]
+ 
+ In particular, $\mathrm{Pic}(X)$ is \emph{trivial} 
+ (i.e.\ every holomorphic line bundle over $X$ is isomorphic to the trivial one)
+ if and only if
+ \[
+ H^1(X, \mathcal{O}^*) = 0,
+ \]
+ since this condition means every $1$--cocycle $\{\phi_{\alpha\beta}\}$
+ is a $1$--coboundary of the form $\phi_{\alpha\beta} = \psi_\beta / \psi_\alpha$,
+ so all transition functions can be trivialized by changing local frames.
+ 
+ 
+ 
+ \section{Sequences in Sheaf Cohomology}
+
+ 
+ 
+ 
+\begin{definition}[Short exact sequence of sheaves]
+	\label{def:short_exact_sequence}
+	A sequence of sheaves
+	\[
+	0 \longrightarrow \mathcal{F}' 
+	\xrightarrow{i} \mathcal{F}
+	\xrightarrow{\sigma} \mathcal{F}'' 
+	\longrightarrow 0
+	\]
+	is called a short exact sequence of sheaves if and only if:
+	\begin{enumerate}
+		\item $i$ is injective;
+		\item $\sigma$ is surjective;
+		\item $\mathrm{im}(i) = \ker(\sigma)$.
+	\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Long exact sequence in cohomology]
+	\label{thm:long_exact_sequence}
+	Given a short exact sequence of sheaves as in Definition~\ref{def:short_exact_sequence},
+	\[
+	0 \longrightarrow \mathcal{F}' 
+	\xrightarrow{i} \mathcal{F}
+	\xrightarrow{\sigma} \mathcal{F}'' 
+	\longrightarrow 0,
+	\]
+	there exists a natural long exact sequence in sheaf cohomology:
+	\[
+	\begin{aligned}
+		0 \longrightarrow
+		&H^0(X, \mathcal{F}')
+		\xrightarrow{i_*} H^0(X, \mathcal{F})=\Gamma(X,\mathcal{F})
+		\xrightarrow{\sigma_*} H^0(X, \mathcal{F}'')
+		\xrightarrow{\delta} H^1(X, \mathcal{F}') \\
+		&\xrightarrow{i_*} H^1(X, \mathcal{F})
+		\xrightarrow{\sigma_*} H^1(X, \mathcal{F}'')
+		\xrightarrow{\delta} H^2(X, \mathcal{F}')
+		\longrightarrow \cdots
+	\end{aligned}
+	\]
+	where $\delta$ denotes the connecting homomorphisms in cohomology.
+\end{theorem}
+
+\begin{example}[Connecting homomorphism in the long exact sequence]
+	\label{ex:connecting_map}
+	Let $s \in H^0(X, \mathcal{F}'') = \Gamma(X, \mathcal{F}'')$ be a global section. 
+	Choose an open cover $\mathcal{U} = \{ U_\alpha \}$ of $X$ such that, 
+	by Definition~\ref{def:short_exact_sequence}, each restriction 
+	$s|_{U_\alpha}$ can be locally lifted to a section 
+	$t_\alpha \in \Gamma(U_\alpha, \mathcal{F})$ satisfying 
+	\[
+	\sigma(t_\alpha) = s|_{U_\alpha}.
+	\]
+	
+	On the overlaps $U_{\alpha\beta} = U_\alpha \cap U_\beta$, we have
+	\[
+	\sigma_*(t_\alpha - t_\beta)
+	= \sigma(t_\alpha) - \sigma(t_\beta)
+	= s|_{U_\alpha} - s|_{U_\beta}
+	= 0.
+	\]
+	Hence
+	\[
+	u_{\alpha\beta} := t_\alpha - t_\beta 
+	\in \Gamma(U_{\alpha\beta}, \mathcal{F}').
+	\]
+	
+	Moreover, on triple overlaps $U_{\alpha\beta\gamma}$,
+	\[
+	u_{\alpha\beta} + u_{\beta\gamma} + u_{\gamma\alpha} = 0,
+	\]
+	so that $\{u_{\alpha\beta}\}$ is a $1$--cocycle:
+	\[
+	\{ u_{\alpha\beta} \} \in Z^1(\mathcal{U}, \mathcal{F}').
+	\]
+	
+	The cohomology class $[ \{ u_{\alpha\beta} \} ] \in H^1(X, \mathcal{F}')$ 
+	is by definition the image $\delta(s)$ of $s$ under the connecting homomorphism
+	\[
+	\delta : H^0(X, \mathcal{F}'') \longrightarrow H^1(X, \mathcal{F}').
+	\]
+\end{example}
+ 
+\underline{Claim:} 
+\[
+\varinjlim_{\mathcal{U}} H^1(\mathcal{U}, \mathcal{O}^*) \cong \mathrm{Pic}(X).
+\]
+
+\begin{remark}
+	$\mathrm{Pic}(X)$ is trivial $\;\Longleftrightarrow\; H^1(X, \mathcal{O}^*) = \{1\}.$
+\end{remark}
+
+\noindent
+\textbf{Sketch of the idea.}
+Let $L$ and $L'$ be holomorphic line bundles on $X$, defined respectively by transition functions
+\[
+\{\phi_{\alpha\beta}\} \subset \mathcal{O}^*(U_{\alpha\beta})
+\quad \text{and} \quad
+\{\phi'_{\alpha\beta}\} \subset \mathcal{O}^*(U_{\alpha\beta})
+\]
+on an open cover $\mathcal{U} = \{U_\alpha\}$ of $X$.
+These satisfy
+\[
+\phi_{\alpha\beta} \phi_{\beta\alpha} = 1, 
+\qquad
+\phi_{\alpha\beta} \phi_{\beta\gamma} \phi_{\gamma\alpha} = 1,
+\]
+for all indices $\alpha, \beta, \gamma$,
+which means that $\{\phi_{\alpha\beta}\}$ defines a Čech $1$--cocycle:
+\[
+\{\phi_{\alpha\beta}\} \in Z^1(\mathcal{U}, \mathcal{O}^*).
+\]
+
+\medskip
+
+\noindent
+Two bundles $L$ and $L'$ are isomorphic if and only if their transition functions 
+differ by a Čech 1--coboundary; that is, there exist local nowhere-vanishing holomorphic functions 
+$\{\psi_\alpha\} \subset \mathcal{O}^*(U_\alpha)$ such that
+\[
+\frac{\phi'_{\alpha\beta}}{\phi_{\alpha\beta}}
+= \frac{\psi_\alpha}{\psi_\beta}, 
+\qquad \forall\, \alpha, \beta.
+\]
+Hence $\{\phi_{\alpha\beta}\}$ and $\{\phi'_{\alpha\beta}\}$ represent the same cohomology class in 
+$H^1(\mathcal{U}, \mathcal{O}^*)$.
+
+\medskip
+
+\noindent
+The correspondence
+\[
+[\{\phi_{\alpha\beta}\}] \;\longmapsto\; [L]
+\]
+defines a bijection between elements of $H^1(\mathcal{U}, \mathcal{O}^*)$ and 
+isomorphism classes of line bundles defined with respect to the cover $\mathcal{U}$.
+Passing to the direct limit over refinements of covers gives the natural identification
+\[
+\varinjlim_{\mathcal{U}} H^1(\mathcal{U}, \mathcal{O}^*) \cong \mathrm{Pic}(X).
+\]
+
+
+
+\begin{theorem}[Exponential sequence on a Riemann surface $X$]
+	There is a short exact sequence of sheaves
+	\[
+	\begin{array}{ccccccccc}
+		0 & \longrightarrow & \underline{\mathbb{Z}} 
+		& \longrightarrow & \mathcal{O} 
+		& \xrightarrow{\;\exp(2\pi i \cdot)\;} & \mathcal{O}^* 
+		& \longrightarrow & 1, \\[1ex]
+		& & & & f_x & \longmapsto & e^{2\pi i f_x} & &
+	\end{array}
+	\]
+	called the \emph{exponential sequence} on $X$.
+	
+	\medskip
+	
+	The associated long exact sequence in cohomology is
+	\[
+	H^1(X, \mathcal{O})
+	\;\longrightarrow\;
+	H^1(X, \mathcal{O}^*) \cong \mathrm{Pic}(X)
+	\;\xrightarrow{\,c_1\,}\;
+	H^2(X, \underline{\mathbb{Z}})
+	\;\longrightarrow\;
+	H^2(X, \mathcal{O}),
+	\]
+	where $c_1$ denotes the first Chern class map.
+\end{theorem}
+
+\begin{example}[$X = \mathbb{P}^1$]
+	For the Riemann sphere $\mathbb{P}^1$, the exponential sequence yields
+	\[
+	H^1(\mathbb{P}^1, \mathcal{O})
+	\;\longrightarrow\;
+	\mathrm{Pic}(\mathbb{P}^1)
+	\;\longrightarrow\;
+	H^2(\mathbb{P}^1, \mathbb{Z}) = \mathbb{Z}
+	\;\longrightarrow\;
+	H^2(\mathbb{P}^1, \mathcal{O}) = 0.
+	\]
+	Hence
+	\[
+	\mathrm{Pic}(\mathbb{P}^1) \cong \mathbb{Z}.
+	\]
+\end{example}
+
+\begin{example}[$X = \mathbb{C}/L$ (complex torus)]
+	On a complex torus $X = \mathbb{C}/L$ with lattice $L \cong \mathbb{Z}^2$, the corresponding portion of the long exact sequence is
+	\[
+	\begin{array}{ccccccccc}
+		H^1(X, \underline{\mathbb{Z}}) & \hookrightarrow & H^1(X, \mathcal{O})
+		& \longrightarrow & H^1(X, \mathcal{O}^*)=\mathrm{Pic}(X)
+		& \xrightarrow{\,c_1\,} & H^2(X, \underline{\mathbb{Z}}) & \longrightarrow & 0 \\[2.5ex]
+		
+		\shortparallel & & & & \shortparallel & & \\[-1ex]
+		
+		\mathbb{Z}^2 & \longrightarrow & \mathbb{C}
+		& \twoheadrightarrow &
+		\mathbb{C}/\mathbb{Z}^2 = \mathrm{Jac}(X) = \mathrm{Pic}_0(X). & &
+	\end{array}
+	\]
+	Thus, $\mathrm{Pic}_0(X)$ is the group of degree-zero line bundles on $X$, and one has
+	\[
+	\mathrm{Pic}(X) \;\cong\; \mathrm{Pic}_0(X) \times \mathbb{Z},
+	\]
+	where the integer factor corresponds to the image of the first Chern class 
+	$c_1 : H^1(X,\mathcal{O}^*) \to H^2(X,\mathbb{Z})$.
+\end{example}
+ 
+	
+\end{document}

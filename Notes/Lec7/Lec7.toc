@@ -1,0 +1,5 @@
+\contentsline {paragraph}{Purpose.}{1}{section*.2}%
+\contentsline {paragraph}{Step 2.}{4}{section*.3}%
+\contentsline {paragraph}{Step 3.}{6}{section*.4}%
+\contentsline {paragraph}{Further subtlety}{7}{section*.5}%
+\contentsline {paragraph}{Final argument.}{8}{section*.6}%

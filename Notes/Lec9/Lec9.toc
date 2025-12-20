@@ -1,0 +1,4 @@
+\contentsline {section}{\numberline {1}Čech Cohomology for $\mathbb {Z}$}{2}{section.1}%
+\contentsline {section}{\numberline {2}Čech Cohomology of Sheaves}{4}{section.2}%
+\contentsline {section}{\numberline {3}Mittag--Leffler Problem}{6}{section.3}%
+\contentsline {section}{\numberline {4}Sequences in Sheaf Cohomology}{10}{section.4}%
