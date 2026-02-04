@@ -1,0 +1,471 @@
+\documentclass[8pt,landscape]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{top=0.3cm,left=0.3cm,right=0.3cm,bottom=0.3cm}
+
+\pagestyle{empty}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+	{-1ex plus -.5ex minus -.2ex}%
+	{0.5ex plus .2ex}%
+	{\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+	{-1explus -.5ex minus -.2ex}%
+	{0.5ex plus .2ex}%
+	{\normalfont\small\bfseries}}
+\makeatother
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+\setlist{nosep, leftmargin=*}
+
+\begin{document}
+	\raggedright
+	\footnotesize
+	\begin{multicols}{3}
+		
+		\setlength{\premulticols}{1pt}
+		\setlength{\postmulticols}{1pt}
+		\setlength{\multicolsep}{1pt}
+		\setlength{\columnsep}{2pt}
+		
+		\begin{center}
+			\Large{\textbf{Multivariable Calculus}} \\
+			\small{HKPFS Math PhD Interview Prep}
+		\end{center}
+		
+		\section{1. Vectors \& Geometry}
+		
+		\subsection{Dot Product}
+		$\mathbf{u} \cdot \mathbf{v} = u_1v_1 + u_2v_2 + \cdots + u_nv_n$
+		
+		$\mathbf{u} \cdot \mathbf{v} = \|\mathbf{u}\| \|\mathbf{v}\| \cos \theta$
+		
+		$\|\mathbf{v}\| = \sqrt{\mathbf{v} \cdot \mathbf{v}}$
+		
+		\textbf{Orthogonal:} $\mathbf{u} \perp \mathbf{v} \Leftrightarrow \mathbf{u} \cdot \mathbf{v} = 0$
+		
+		\textbf{Projection of $\mathbf{u}$ onto $\mathbf{v}$:} 
+		
+		$\text{proj}_{\mathbf{v}}\mathbf{u} = \left(\frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{v}\|^2}\right)\mathbf{v}$
+		
+		\subsection{Cross Product (in $\mathbb{R}^3$)}
+		$\mathbf{u} \times \mathbf{v} = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ u_1 & u_2 & u_3 \\ v_1 & v_2 & v_3 \end{vmatrix}$
+		
+		$= (u_2v_3 - u_3v_2, u_3v_1 - u_1v_3, u_1v_2 - u_2v_1)$
+		
+		$\|\mathbf{u} \times \mathbf{v}\| = \|\mathbf{u}\| \|\mathbf{v}\| \sin \theta$ (area of parallelogram)
+		
+		\textbf{Properties:} $\mathbf{u} \times \mathbf{v} = -\mathbf{v} \times \mathbf{u}$, $\mathbf{u} \times \mathbf{u} = \mathbf{0}$
+		
+		\textbf{Scalar triple product:} 
+		
+		$(\mathbf{u} \times \mathbf{v}) \cdot \mathbf{w} = \begin{vmatrix} u_1 & u_2 & u_3 \\ v_1 & v_2 & v_3 \\ w_1 & w_2 & w_3 \end{vmatrix}$ (volume)
+		
+		\subsection{Lines \& Planes}
+		\textbf{Line through point $P$ parallel to $\mathbf{v}$:} 
+		
+		$\mathbf{r}(t) = \mathbf{p} + t\mathbf{v}$
+		
+		\textbf{Plane with normal $\mathbf{n} = (A,B,C)$ through $(a,b,c)$:}
+		
+		$A(x-a) + B(y-b) + C(z-c) = 0$
+		
+		General form: $Ax + By + Cz = D$
+		
+		\subsection{Coordinate Systems}
+		\textbf{Polar:} $x = r\cos\theta$, $y = r\sin\theta$
+		
+		$r = \sqrt{x^2+y^2}$, $\tan\theta = \frac{y}{x}$
+		
+		\textbf{Cylindrical:} $(r,\theta,z)$ where $(r,\theta)$ is polar in $xy$-plane
+		
+		\textbf{Spherical:} $(\rho,\phi,\theta)$
+		\begin{align*}
+			x &= \rho\sin \phi\cos \theta, \quad y = \rho\sin \phi\sin \theta \\
+			z &= \rho\cos \phi \\
+			\rho &= \sqrt{x^2+y^2+z^2}, \quad \tan \phi = \frac{\sqrt{x^2+y^2}}{z}
+		\end{align*}
+		
+		\section{2. Functions \& Limits}
+		
+		\subsection{Multivariable Functions}
+		\textbf{Domain:} Set $X \subseteq \mathbb{R}^n$ where $f$ is defined
+		
+		\textbf{Range:} $\{f(\mathbf{x}) : \mathbf{x} \in X\}$
+		
+		\textbf{Level curve at height $c$:} $\{(x,y) : f(x,y) = c\}$
+		
+		\textbf{Graph:} $\{(x,y,f(x,y)) : (x,y) \in X\} \subseteq \mathbb{R}^3$
+		
+		\subsection{Quadric Surfaces}
+		\textbf{Ellipsoid:} $\frac{x^2}{a^2} + \frac{y^2}{b^2} + \frac{z^2}{c^2} = 1$
+		
+		\textbf{Elliptic paraboloid:} $\frac{z}{c} = \frac{x^2}{a^2} + \frac{y^2}{b^2}$
+		
+		\textbf{Hyperbolic paraboloid:} $\frac{z}{c} = \frac{y^2}{b^2} - \frac{x^2}{a^2}$
+		
+		\textbf{Hyperboloid (1 sheet):} $\frac{x^2}{a^2} + \frac{y^2}{b^2} - \frac{z^2}{c^2} = 1$
+		
+		\textbf{Hyperboloid (2 sheets):} $\frac{x^2}{a^2} + \frac{y^2}{b^2} - \frac{z^2}{c^2} = -1$
+		
+		\subsection{Topology}
+		\textbf{Open ball:} $B(\mathbf{a}, r) = \{\mathbf{x} : \|\mathbf{x} - \mathbf{a}\| < r\}$
+		
+		\textbf{Closed ball:} $\overline{B}(\mathbf{a}, r) = \{\mathbf{x} : \|\mathbf{x} - \mathbf{a}\| \leq r\}$
+		
+		\textbf{Interior point:} $\mathbf{a} \in X$ is interior if $\exists r > 0: B(\mathbf{a},r) \subseteq X$
+		
+		\textbf{Boundary point:} Every ball around $\mathbf{a}$ contains points in $X$ and not in $X$
+		
+		\textbf{Open set:} Every point is an interior point
+		
+		\textbf{Closed set:} Complement is open (equivalently: contains all boundary points)
+		
+		\textbf{Bounded:} $\exists M > 0: \|\mathbf{x}\| \leq M$ for all $\mathbf{x} \in X$
+		
+		\textbf{Compact:} Closed and bounded
+		
+		\subsection{Limits \& Continuity}
+		\textbf{Limit:} $\lim_{\mathbf{x} \to \mathbf{a}} f(\mathbf{x}) = L$ if $\forall \varepsilon > 0, \exists \delta > 0:$
+		
+		$0 < \|\mathbf{x} - \mathbf{a}\| < \delta \Rightarrow \|f(\mathbf{x}) - L\| < \varepsilon$
+		
+		\textbf{Continuous at $\mathbf{a}$:} $\lim_{\mathbf{x} \to \mathbf{a}} f(\mathbf{x}) = f(\mathbf{a})$
+		
+		\textbf{Showing limit DNE:} Approach along different paths and get different limits
+		
+		\textbf{Sandwich theorem:} If $f \leq g \leq h$ and $\lim f = \lim h = L$, then $\lim g = L$
+		
+		\section{3. Differentiation}
+		
+		\subsection{Partial Derivatives}
+		$\frac{\partial f}{\partial x_j}(\mathbf{a}) = \lim_{h \to 0} \frac{f(\mathbf{a} + h\mathbf{e}_j) - f(\mathbf{a})}{h}$
+		
+		\textbf{Notation:} $f_{x_j}(\mathbf{a})$, $D_{x_j}f(\mathbf{a})$, $\frac{\partial f}{\partial x_j}$
+		
+		\textbf{Higher order:} $f_{x_ix_j} = \frac{\partial^2 f}{\partial x_j \partial x_i}$
+		
+		\textbf{Clairaut's theorem:} If $f \in C^k$, then mixed partials commute:
+		
+		$f_{x_ix_j} = f_{x_jx_i}$
+		
+		\subsection{Gradient \& Derivative}
+		\textbf{Gradient:} $\nabla f(\mathbf{a}) = \left(\frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n}\right)$
+		
+		\textbf{Derivative (Jacobian):} For $f: \mathbb{R}^n \to \mathbb{R}^m$, $f = (f_1, \ldots, f_m)$:
+		
+		$Df = \begin{pmatrix} \frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n} \\
+			\vdots & \ddots & \vdots \\
+			\frac{\partial f_m}{\partial x_1} & \cdots & \frac{\partial f_m}{\partial x_n} \end{pmatrix}$
+		
+		For scalar $f$: $Df = (\nabla f)^T$ (row vector)
+		
+		\subsection{Differentiability}
+		$f$ is \textbf{differentiable at $\mathbf{a}$} if $\nabla f(\mathbf{a})$ exists and
+		
+		$\lim_{\mathbf{x} \to \mathbf{a}} \frac{f(\mathbf{x}) - [f(\mathbf{a}) + \nabla f(\mathbf{a}) \cdot (\mathbf{x} - \mathbf{a})]}{\|\mathbf{x} - \mathbf{a}\|} = 0$
+		
+		\textbf{Sufficient condition:} If all partial derivatives exist and are continuous in a neighborhood of $\mathbf{a}$, then $f$ is differentiable at $\mathbf{a}$
+		
+		\textbf{Class $C^k$:} All partial derivatives up to order $k$ exist and are continuous
+		
+		Differentiable $\Rightarrow$ continuous (but not conversely)
+		
+		\subsection{Tangent Plane}
+		Tangent plane to $z = f(x,y)$ at $(a,b,f(a,b))$:
+		
+		$z = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)$
+		
+		For surface $F(x,y,z) = c$: Normal vector is $\nabla F = (F_x, F_y, F_z)$
+		
+		\subsection{Directional Derivative}
+		$D_{\mathbf{u}}f(\mathbf{a}) = \lim_{h \to 0} \frac{f(\mathbf{a} + h\mathbf{u}) - f(\mathbf{a})}{h}$
+		
+		where $\mathbf{u}$ is a unit vector.
+		
+		If $f$ is differentiable: $D_{\mathbf{u}}f(\mathbf{a}) = \nabla f(\mathbf{a}) \cdot \mathbf{u}$
+		
+		\textbf{Maximum rate of increase:} Direction of $\nabla f$, rate $= \|\nabla f\|$
+		
+		\textbf{Minimum rate:} Direction of $-\nabla f$, rate $= -\|\nabla f\|$
+		
+		$\nabla f$ is perpendicular to level curves/surfaces
+		
+		\subsection{Chain Rule}
+		For $h = f \circ \mathbf{g}$ where $f: \mathbb{R}^n \to \mathbb{R}^k$, $\mathbf{g}: \mathbb{R}^m \to \mathbb{R}^n$:
+		
+		$Dh(\mathbf{t}) = Df(\mathbf{g}(\mathbf{t})) \cdot D\mathbf{g}(\mathbf{t})$
+		
+		\textbf{Special case:} $z = f(x,y)$, $x = x(t)$, $y = y(t)$:
+		
+		$\frac{dz}{dt} = \frac{\partial f}{\partial x}\frac{dx}{dt} + \frac{\partial f}{\partial y}\frac{dy}{dt}$
+		
+		\textbf{Polar coordinates conversion:}
+		
+		$\frac{\partial f}{\partial r} = \cos\theta \frac{\partial f}{\partial x} + \sin\theta \frac{\partial f}{\partial y}$
+		
+		$\frac{\partial f}{\partial \theta} = -r\sin\theta \frac{\partial f}{\partial x} + r\cos\theta \frac{\partial f}{\partial y}$
+		
+		\section{4. Optimization}
+		
+		\subsection{Taylor's Theorem}
+		\textbf{First order:} $f(\mathbf{x}) = f(\mathbf{a}) + Df(\mathbf{a})(\mathbf{x} - \mathbf{a}) + R_1(\mathbf{x},\mathbf{a})$
+		
+		where $\lim_{\mathbf{x} \to \mathbf{a}} \frac{R_1(\mathbf{x},\mathbf{a})}{\|\mathbf{x} - \mathbf{a}\|} = 0$
+		
+		\textbf{Second order:} 
+		
+		$f(\mathbf{x}) = f(\mathbf{a}) + Df(\mathbf{a})(\mathbf{x}-\mathbf{a}) + \frac{1}{2}(\mathbf{x}-\mathbf{a})^T H_f(\mathbf{a})(\mathbf{x}-\mathbf{a}) + R_2$
+		
+		\textbf{Hessian matrix:} 
+		
+		$H_f = \begin{pmatrix} f_{x_1x_1} & \cdots & f_{x_1x_n} \\ \vdots & \ddots & \vdots \\ f_{x_nx_1} & \cdots & f_{x_nx_n} \end{pmatrix}$
+		
+		\textbf{Total differential:} $df(\mathbf{a},\mathbf{h}) = Df(\mathbf{a})\mathbf{h}$
+		
+		\textbf{Incremental change:} 
+		
+		$\Delta f = f(\mathbf{a} + \mathbf{h}) - f(\mathbf{a}) \approx df(\mathbf{a},\mathbf{h})$
+		
+		\subsection{Extrema}
+		\textbf{Critical point:} $\nabla f(\mathbf{a}) = \mathbf{0}$ or $\nabla f(\mathbf{a})$ DNE
+		
+		\textbf{Necessary condition:} If $\mathbf{a}$ is interior local extremum and $\nabla f(\mathbf{a})$ exists, then $\nabla f(\mathbf{a}) = \mathbf{0}$
+		
+		\textbf{Saddle point:} Critical point that is not a local extremum
+		
+		\subsection{Second Derivative Test}
+		Let $\mathbf{a}$ be a critical point of $f \in C^2$.
+		\begin{itemize}
+			\item If $H_f(\mathbf{a})$ is positive definite $\Rightarrow$ local min
+			\item If $H_f(\mathbf{a})$ is negative definite $\Rightarrow$ local max
+			\item If $\det H_f(\mathbf{a}) \neq 0$ and $H_f(\mathbf{a})$ is indefinite $\Rightarrow$ saddle point
+		\end{itemize}
+		
+		\textbf{Sylvester's criterion:} Let $d_k = \det(H_k)$ (leading principal minors)
+		\begin{itemize}
+			\item Positive definite: $d_k > 0$ for all $k = 1, \ldots, n$
+			\item Negative definite: $d_k < 0$ for odd $k$, $d_k > 0$ for even $k$
+		\end{itemize}
+		
+		\textbf{For $n=2$:} Let $D = f_{xx}f_{yy} - (f_{xy})^2$
+		\begin{itemize}
+			\item $D > 0, f_{xx} > 0 \Rightarrow$ local min
+			\item $D > 0, f_{xx} < 0 \Rightarrow$ local max
+			\item $D < 0 \Rightarrow$ saddle point
+			\item $D = 0 \Rightarrow$ inconclusive
+		\end{itemize}
+		
+		\subsection{Extreme Value Theorem}
+		If $f: X \to \mathbb{R}$ is continuous and $X$ is compact, then $f$ attains global max and min on $X$
+		
+		\textbf{Strategy:} Find critical points in interior, then check boundary
+		
+		\subsection{Lagrange Multipliers}
+		To optimize $f(\mathbf{x})$ subject to $g(\mathbf{x}) = c$:
+		
+		At extremum $\mathbf{a}$ (if $\nabla g(\mathbf{a}) \neq \mathbf{0}$): 
+		
+		$\exists \lambda: \nabla f(\mathbf{a}) = \lambda \nabla g(\mathbf{a})$
+		
+		\textbf{Multiple constraints} $g_1 = c_1, \ldots, g_k = c_k$ (with $\{\nabla g_j\}$ linearly indep.):
+		
+		$\nabla f = \lambda_1 \nabla g_1 + \cdots + \lambda_k \nabla g_k$
+		
+		\textbf{Procedure:}
+		\begin{enumerate}
+			\item Solve $\nabla f = \lambda \nabla g$ and $g = c$ simultaneously
+			\item Evaluate $f$ at all solutions
+			\item Compare to find max/min
+		\end{enumerate}
+		
+		\section{5. Integration}
+		
+		\subsection{Double Integrals}
+		\textbf{Definition:} 
+		
+		$\iint_R f \, dA = \lim_{\Delta x, \Delta y \to 0} \sum_{i,j} f(\mathbf{x}_{ij}) \Delta x_i \Delta y_j$
+		
+		\textbf{Fubini's theorem (rectangle):} $R = [a,b] \times [c,d]$
+		
+		$\iint_R f \, dA = \int_a^b \int_c^d f(x,y) \, dy \, dx = \int_c^d \int_a^b f(x,y) \, dx \, dy$
+		
+		\textbf{Type 1 region:} $D = \{(x,y) : a \leq x \leq b, g(x) \leq y \leq h(x)\}$
+		
+		$\iint_D f \, dA = \int_a^b \int_{g(x)}^{h(x)} f(x,y) \, dy \, dx$
+		
+		\textbf{Type 2 region:} $D = \{(x,y) : c \leq y \leq d, g(y) \leq x \leq h(y)\}$
+		
+		$\iint_D f \, dA = \int_c^d \int_{g(y)}^{h(y)} f(x,y) \, dx \, dy$
+		
+		\textbf{Volume under graph:} $V = \iint_D f(x,y) \, dA$ (if $f \geq 0$)
+		
+		\textbf{Area of region:} $A = \iint_D 1 \, dA$
+		
+		\subsection{Triple Integrals}
+		$\iiint_B f \, dV = \int_a^b \int_c^d \int_p^q f(x,y,z) \, dz \, dy \, dx$
+		
+		For elementary region:
+		
+		$\iiint_D f \, dV = \int_a^b \int_{g(x)}^{h(x)} \int_{\varphi(x,y)}^{\psi(x,y)} f \, dz \, dy \, dx$
+		
+		\textbf{Volume:} $V = \iiint_D 1 \, dV$
+		
+		\subsection{Change of Variables}
+		\textbf{Jacobian:} For $x = x(u,v)$, $y = y(u,v)$:
+		
+		$\frac{\partial(x,y)}{\partial(u,v)} = \begin{vmatrix} x_u & x_v \\ y_u & y_v \end{vmatrix} = x_u y_v - x_v y_u$
+		
+		\textbf{Change of variables formula:}
+		
+		$\iint_D f(x,y) \, dx \, dy = \iint_{D'} f(x(u,v), y(u,v)) \left|\frac{\partial(x,y)}{\partial(u,v)}\right| du \, dv$
+		
+		\textbf{Polar coordinates:} $x = r\cos\theta$, $y = r\sin\theta$
+		
+		$dA = dx \, dy = r \, dr \, d\theta$
+		
+		\textbf{Cylindrical:} $x = r\cos\theta$, $y = r\sin\theta$, $z = z$
+		
+		$dV = r \, dr \, d\theta \, dz$
+		
+		\textbf{Spherical:} $x = \rho\sin \phi\cos \theta$, $y = \rho\sin \phi\sin \theta$, $z = \rho\cos \phi$
+		
+		$dV = \rho^2 \sin \phi \, d\rho \, d\phi \, d\theta$
+		
+		For $\mathbb{R}^3$: 
+		
+		$\frac{\partial(x,y,z)}{\partial(u,v,w)} = \begin{vmatrix} x_u & x_v & x_w \\ y_u & y_v & y_w \\ z_u & z_v & z_w \end{vmatrix}$
+		
+		\section{6. Vector Calculus}
+		
+		\subsection{Curves \& Paths}
+		\textbf{Path:} $\boldsymbol{\gamma}: I \to \mathbb{R}^n$ continuous, $I \subseteq \mathbb{R}$ interval
+		
+		\textbf{Curve:} Image $\boldsymbol{\gamma}(I)$
+		
+		\textbf{Velocity:} $\mathbf{v}(t) = \boldsymbol{\gamma}'(t)$
+		
+		\textbf{Speed:} $\|\mathbf{v}(t)\| = \|\boldsymbol{\gamma}'(t)\|$
+		
+		\textbf{Arc length:} $L = \int_a^b \|\boldsymbol{\gamma}'(t)\| \, dt$
+		
+		\textbf{Parametrization:} Injective $C^1$ path with image $C$
+		
+		\textbf{Reparametrization:} $\boldsymbol{\gamma}_2 = \boldsymbol{\gamma}_1 \circ \phi$ 
+		
+		where $\phi: [c,d] \to [a,b]$ bijective $C^1$
+		
+		Orientation-preserving if $\phi(c) = a$, $\phi(d) = b$
+		
+		Orientation-reversing if $\phi(c) = b$, $\phi(d) = a$
+		
+		\subsection{Differential Operators}
+		\textbf{Del operator:} $\nabla = \frac{\partial}{\partial x_1}\mathbf{e}_1 + \cdots + \frac{\partial}{\partial x_n}\mathbf{e}_n$
+		
+		\textbf{Gradient:} $\nabla f = \left(\frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n}\right)$ 
+		
+		(scalar $\to$ vector)
+		
+		\textbf{Divergence:} 
+		
+		$\nabla \cdot \mathbf{F} = \text{div } \mathbf{F} = \frac{\partial F_1}{\partial x_1} + \cdots + \frac{\partial F_n}{\partial x_n}$ 
+		
+		(vector $\to$ scalar)
+		
+		\textbf{Curl (in $\mathbb{R}^3$):} 
+		
+		$\nabla \times \mathbf{F} = \text{curl } \mathbf{F} = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ \frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\ F_1 & F_2 & F_3 \end{vmatrix}$
+		
+		$= \left(\frac{\partial F_3}{\partial y} - \frac{\partial F_2}{\partial z}\right)\mathbf{i} + \left(\frac{\partial F_1}{\partial z} - \frac{\partial F_3}{\partial x}\right)\mathbf{j} + \left(\frac{\partial F_2}{\partial x} - \frac{\partial F_1}{\partial y}\right)\mathbf{k}$
+		
+		\textbf{Key identities:}
+		\begin{itemize}
+			\item $\nabla \times (\nabla f) = \mathbf{0}$ (curl of gradient is zero)
+			\item $\nabla \cdot (\nabla \times \mathbf{F}) = 0$ (divergence of curl is zero)
+		\end{itemize}
+		
+		\textbf{Conservative field:} $\mathbf{F} = \nabla f$ for some scalar $f$
+		
+		\subsection{Line Integrals}
+		\textbf{Scalar line integral:} 
+		
+		$\int_{\boldsymbol{\gamma}} f \, ds = \int_a^b f(\boldsymbol{\gamma}(t)) \|\boldsymbol{\gamma}'(t)\| \, dt$
+		
+		Independent of orientation
+		
+		\textbf{Vector line integral:} 
+		
+		$\int_{\boldsymbol{\gamma}} \mathbf{F} \cdot d\mathbf{s} = \int_a^b \mathbf{F}(\boldsymbol{\gamma}(t)) \cdot \boldsymbol{\gamma}'(t) \, dt$
+		
+		Also written: $\int_{\boldsymbol{\gamma}} F_1 \, dx_1 + \cdots + F_n \, dx_n$
+		
+		\textbf{Orientation:} Reversing orientation changes sign of vector line integral but not scalar
+		
+		\textbf{Closed curve notation:} $\oint_C f \, ds$, $\oint_C \mathbf{F} \cdot d\mathbf{s}$
+		
+		\subsection{Surface Integrals}
+		\textbf{Parametrized surface:} $\boldsymbol{\Phi}: D \subseteq \mathbb{R}^2 \to \mathbb{R}^3$, $D$ open connected
+		
+		\textbf{Tangent vectors:} $\mathbf{T}_s = \frac{\partial \boldsymbol{\Phi}}{\partial s}$, $\mathbf{T}_t = \frac{\partial \boldsymbol{\Phi}}{\partial t}$
+		
+		\textbf{Normal vector:} $\mathbf{N}(s,t) = \mathbf{T}_s \times \mathbf{T}_t$
+		
+		\textbf{Smooth surface:} $\mathbf{N} \neq \mathbf{0}$ everywhere
+		
+		\textbf{Surface area:} $A = \iint_D \|\mathbf{N}(s,t)\| \, ds \, dt$
+		
+		\textbf{Scalar surface integral:} 
+		
+		$\iint_{\boldsymbol{\Phi}} f \, dS = \iint_D f(\boldsymbol{\Phi}(s,t)) \|\mathbf{N}(s,t)\| \, ds \, dt$
+		
+		\textbf{Vector surface integral:} 
+		
+		$\iint_{\boldsymbol{\Phi}} \mathbf{F} \cdot d\mathbf{S} = \iint_D \mathbf{F}(\boldsymbol{\Phi}(s,t)) \cdot \mathbf{N}(s,t) \, ds \, dt$
+		
+		\textbf{Orientable surface:} Can define continuous unit normal everywhere
+		
+		\textbf{Closed surface notation:} $\oint_S f \, dS$, $\oint_S \mathbf{F} \cdot d\mathbf{S}$
+		
+		\subsection{Fundamental Theorems}
+		
+		\textbf{Green's theorem:} Let $C = \partial D$ positively oriented, $\mathbf{F} = (F_1, F_2)$:
+		
+		$\oint_C \mathbf{F} \cdot d\mathbf{s} = \oint_C F_1 \, dx + F_2 \, dy$
+		
+		$= \iint_D \left(\frac{\partial F_2}{\partial x} - \frac{\partial F_1}{\partial y}\right) dx \, dy$
+		
+		Equivalently: $\oint_C \mathbf{F} \cdot d\mathbf{s} = \iint_D (\nabla \times \mathbf{F}) \cdot \mathbf{k} \, dA$
+		
+		\textbf{Divergence theorem ($\mathbb{R}^2$):} Let $C = \partial D$, $\mathbf{n}$ outward normal:
+		
+		$\oint_C \mathbf{F} \cdot \mathbf{n} \, ds = \iint_D \nabla \cdot \mathbf{F} \, dA$
+		
+		\textbf{Stokes' theorem:} Let $S$ be orientable surface, $\partial S$ oriented consistently:
+		
+		$\iint_S (\nabla \times \mathbf{F}) \cdot d\mathbf{S} = \oint_{\partial S} \mathbf{F} \cdot d\mathbf{s}$
+		
+		\textbf{Gauss/Divergence theorem:} Let $D$ be solid region, $\partial D$ oriented outward:
+		
+		$\oint_{\partial D} \mathbf{F} \cdot d\mathbf{S} = \iint_D \nabla \cdot \mathbf{F} \, dV$
+		
+		\subsection{Important Facts}
+		\begin{itemize}
+			\item Positively oriented boundary: $D$ on left when traversing $C$
+			\item Right-hand rule for consistent orientation on surface
+			\item Green's is 2D Stokes
+			\item For conservative field $\mathbf{F} = \nabla f$: 
+			
+			$\int_{\boldsymbol{\gamma}} \mathbf{F} \cdot d\mathbf{s} = f(\text{end}) - f(\text{start})$ (path-independent)
+		\end{itemize}
+		
+	\end{multicols}
+\end{document}

@@ -1,0 +1,401 @@
+\documentclass[11pt, a4paper]{article}
+
+% Packages for mathematical formatting and layout
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{multicol}
+
+% Page layout settings
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{HKPFS PhD Interview Prep}
+\lhead{Math Review Sheet}
+\cfoot{\thepage}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+
+\title{\textbf{Mathematics Interview Preparation}}
+
+\date{}
+
+\begin{document}
+	
+	\maketitle
+	
+
+	
+	% =============================================================================
+	\section{Linear Algebra}
+
+	
+	\subsection{Systems and Matrices}
+	\begin{enumerate}
+		\item Define the \textbf{Rank} and \textbf{Nullity} of a matrix. State the \textbf{Dimension Formula} (Rank-Nullity Theorem) for a matrix $A \in M_{n \times m}$.
+		\item What are the conditions for a system $Ax=b$ to be \textbf{inconsistent}? Relate this to the RREF of the augmented matrix $(A|b)$.
+		\item List at least 5 equivalent conditions for an $n \times n$ matrix $A$ to be \textbf{Invertible} (The Invertible Matrix Theorem).
+		\item Explain \textbf{Cramer's Rule}. When is it applicable?
+	\end{enumerate}
+	
+	\subsection{Vector Spaces and Linear Maps}
+\begin{enumerate}
+	\item Define a \textbf{Subspace}. Why is the union of two subspaces generally not a subspace?
+	\item Define \textbf{Linear Independence}. How do you test if a set of vectors is linearly independent using a homogeneous system?
+	\item Let $T: V \to W$ be a linear transformation. Define the \textbf{Kernel} (Null Space) and \textbf{Image} (Range).
+	\item What does it mean for a linear map to be an \textbf{Isomorphism}? What does this imply about the dimensions of $V$ and $W$?
+	\item Explain the relationship between the matrix of a transformation $[T]_{\mathcal{B}}^{\mathcal{C}}$ and a change of basis matrix $Q$. How does $Q$ relate $[v]_{\mathcal{B}}$ and $[v]_{\mathcal{B}'}$?\\[3pt]
+	\textit{Quick note:} The change-of-basis matrix $Q$ converts coordinates between bases: 
+	$[v]_{\mathcal{B}} = Q [v]_{\mathcal{B}'}$, and $[v]_{\mathcal{B}'} = Q^{-1}[v]_{\mathcal{B}}$. 
+	Matrices of the same transformation in different bases are related by 
+	\[
+	[T]_{\mathcal{B}'} = Q^{-1} [T]_{\mathcal{B}} Q.
+	\]
+		\item Define the \textbf{Dual Space} $V^*$. If $V$ is finite-dimensional, is $V \cong V^*$?\\[3pt]
+	Quick note: The dual space $V^*$ is the set of all linear functionals $f: V \to \mathbb{F}$, forming a vector space itself.  
+	If $\dim(V) = n$, then $\dim(V^*) = n$, so $V$ and $V^*$ are isomorphic as vector spaces.  
+	However, this isomorphism is \emph{not canonical}—it depends on the choice of basis (or an extra structure such as an inner product).  
+	The dual basis $\{e^1, \ldots, e^n\}$ is defined by $e^i(e_j) = \delta_{ij}$.
+\end{enumerate}
+	
+	\subsection{Inner Products and Orthogonality}
+	\begin{enumerate}
+		\item State the properties of an \textbf{Inner Product}. What is the relationship between the inner product and the norm?
+		\item State the \textbf{Cauchy-Schwarz Inequality}. When does equality hold?
+	\item Describe the \textbf{Gram-Schmidt Process}. What is its geometric interpretation?\\[3pt]
+	\textit{Quick note:} The \textbf{Gram-Schmidt process} takes a linearly independent set of vectors 
+	$\{v_1, v_2, \dots, v_n\}$ in an inner product space and converts it into an \textbf{orthonormal set}
+	$\{q_1, q_2, \dots, q_n\}$ that spans the same subspace.  
+	Each new vector is made orthogonal to the previous ones by subtracting its projection components:
+	\[
+	q_1 = \frac{v_1}{\|v_1\|}, \quad
+	q_k = \frac{v_k - \sum_{j=1}^{k-1} \langle v_k, q_j \rangle q_j}{\|v_k - \sum_{j=1}^{k-1} \langle v_k, q_j \rangle q_j\|}.
+	\]
+	\textbf{Geometric interpretation:} Gram–Schmidt can be seen as the process of constructing 
+	a sequence of perpendicular directions from arbitrary basis vectors — like turning skewed axes into orthogonal ones.  
+	It provides an orthonormal basis suitable for projections and for QR decomposition ($A = Q R$).
+		\item Define the \textbf{Orthogonal Complement} $S^\perp$. What is the dimension of $W^\perp$ if $W$ is a subspace of a finite-dimensional space $V$?
+		\item Explain the \textbf{Least Squares Problem}. Deriving from the geometry of projections, why is the solution given by the normal equation $A^T A x = A^T y$?\\[3pt]
+		\textit{Quick note:} The least squares solution $x_{\text{LS}}$ minimizes $\|A x - y\|^2$ by projecting $y$ onto the column space of $A$. 
+		The residual $r = y - A x_{\text{LS}}$ is orthogonal to $\text{Col}(A)$, giving the condition $A^T r = 0$, which leads to the \textbf{normal equation:}
+		\[
+		A^T A x_{\text{LS}} = A^T y.
+		\]
+		When the columns of $A$ are linearly independent, $A^T A$ is invertible and the unique solution is 
+		\[
+		x_{\text{LS}} = (A^T A)^{-1} A^T y.
+		\]
+		\item Under what condition is the matrix $A^T A$ invertible?
+		
+		\item What is a \textbf{Positive Definite Matrix}? Give three equivalent characterizations (e.g., eigenvalues, pivots, energy).\\[3pt]
+		\textit{Quick note:} A symmetric matrix $A \in \mathbb{R}^{n \times n}$ is \textbf{positive definite} if 
+		\[
+		x^T A x > 0 \quad \text{for all } x \neq 0.
+		\]
+		This means it defines a strictly positive quadratic form.  Several equivalent characterizations exist:
+		\begin{itemize}
+			\item \textbf{Energy test:} $x^T A x > 0$ for all nonzero $x$ (definition).
+			\item \textbf{Eigenvalue test:} All eigenvalues of $A$ are positive.
+			\item \textbf{Pivot (principal minors) test:} All leading principal minors $\det(A_k)$ are positive.
+		\end{itemize}
+
+	\end{enumerate}
+	
+	\subsection{Eigenvalues and Diagonalization}
+	\begin{enumerate}
+		\item Define \textbf{Algebraic Multiplicity} and \textbf{Geometric Multiplicity}. What is the inequality relationship between them?\\[3pt]
+		\textit{Quick note:} Algebraic multiplicity $m_a(\lambda)$ = number of times $\lambda$ is a root of the characteristic polynomial $\det(A - \lambda I)=0$.  
+		Geometric multiplicity $m_g(\lambda)$ = $\dim(\operatorname{Ker}(A - \lambda I))$.  
+		Inequality: $1 \le m_g(\lambda) \le m_a(\lambda)$, with equality $\Rightarrow$ the eigenvalue’s eigenspace is “complete.”
+		
+		\item What is the precise condition for a matrix $A$ to be \textbf{Diagonalizable}?\\[3pt]
+		\textit{Quick note:} A matrix $A$ is diagonalizable $\iff$ it has $n$ linearly independent eigenvectors $\iff$  
+		$m_g(\lambda) = m_a(\lambda)$ for each eigenvalue.  
+		If $A$ has $n$ distinct eigenvalues $\Rightarrow$ automatically diagonalizable.
+		
+	\item If a matrix $A$ is symmetric ($A^T = A$), what can you say about its eigenvalues and eigenvectors?\\[3pt]
+	\textit{Quick note:} Real symmetric $\Rightarrow$ all eigenvalues are real, eigenvectors for distinct eigenvalues are orthogonal, 
+	and $A$ is orthogonally diagonalizable: 
+	\[
+	A = Q D Q^T, \quad Q^T Q = I.
+	\]
+	(Spectral Theorem.)
+		
+		\item Explain how to compute the matrix exponential $e^A$ using diagonalization.\\[3pt]
+		\textit{Quick note:} If $A = P D P^{-1}$ with $D = \text{diag}(\lambda_1,\dots,\lambda_n)$, then  
+		\[
+		e^{A} = P e^{D} P^{-1}, \quad \text{where } e^{D} = \text{diag}(e^{\lambda_1},\dots,e^{\lambda_n}).
+		\] 
+		This works since $A^k = P D^k P^{-1}$ and exponentials preserve similarity transformations.
+	\end{enumerate}
+	% =============================================================================
+	\section{Mathematical Analysis}
+
+	\subsection{Real Numbers and Topology}
+	\begin{enumerate}
+		\item Define the \textbf{Supremum} (LUB). How does the \textbf{Completeness Axiom} distinguish $\R$ from $\Q$?\\[3pt]
+		\textit{Quick note:} The \textbf{supremum} $\sup S$ of a nonempty, bounded-above set $S \subseteq \R$ is the smallest real number $u$ with $s \le u$ for all $s \in S$.  
+		The \textbf{Completeness Axiom} states every nonempty, bounded-above subset of $\R$ has a supremum in $\R$.  
+		$\R$ is \textbf{complete}; $\Q$ is not — e.g. $\{q\in\Q: q^2<2\}$ has no supremum in $\Q$.
+		
+		\item State the \textbf{Archimedean Property} and the \textbf{Density of $\Q$}.
+		
+		\item What is a \textbf{Cauchy Sequence}? State the Cauchy Criterion for convergence in $\R$.
+		
+		\item State the \textbf{Bolzano-Weierstrass Theorem}.\\[3pt]
+		\textit{Quick note:} Every bounded sequence in $\R$ has a \textbf{convergent subsequence}.  
+		This expresses the compactness of closed, bounded intervals in $\R$: bounded $\Rightarrow$ at least one limit (accumulation) point exists.
+		
+		\item Define \textbf{Limit Superior} ($\limsup$) and \textbf{Limit Inferior} ($\liminf$). Under what condition does a sequence converge?
+	\end{enumerate}
+	
+	\subsection{Series and Convergence}
+	\begin{enumerate}
+		\item Distinguish between \textbf{Absolute Convergence} and \textbf{Conditional Convergence}.
+		\item State the \textbf{Ratio Test} and \textbf{Root Test}. When are these tests inconclusive?
+		\item Does $\sum a_n$ converging imply $\sum a_n^2$ converges? 
+		\item If $a_n \to 0$, does $\sum a_n$ necessarily converge? Give a counter-example.
+	\end{enumerate}
+	
+\subsection{Continuity and Differentiation}
+\begin{enumerate}
+	\item Define \textbf{Continuity} using the $\epsilon-\delta$ definition.
+	
+	\item Define \textbf{Uniform Continuity}. How does the definition differ from pointwise continuity?
+	
+	\item True or False: If $f$ is continuous on a bounded interval $(a,b)$, it is uniformly continuous. (Hint: Consider $f(x) = 1/x$).
+	
+	\item State the \textbf{Intermediate Value Theorem} and the \textbf{Extreme Value Theorem}. What topological properties of the domain are required?\\[3pt]
+	\textit{Quick note:}  
+	\textbf{Intermediate Value Theorem (IVT):}  
+	If $f$ is continuous on $[a,b]$ and $y$ lies between $f(a)$ and $f(b)$, then $\exists c \in (a,b)$ such that $f(c) = y$.  
+	Requires the domain to be \textbf{connected (interval)}.  
+	
+	\textbf{Extreme Value Theorem (EVT):}  
+	If $f$ is continuous on a closed, bounded interval $[a,b]$, then $\exists c,d \in [a,b]$ such that  
+	\[
+	f(c) = \max_{x \in [a,b]} f(x), \qquad f(d) = \min_{x \in [a,b]} f(x).
+	\]  
+	Requires the domain to be \textbf{compact (closed and bounded)}.
+	
+	\item Does differentiability at a point imply continuity at that point? Does continuity imply differentiability? (Provide the standard counter-example for the latter).
+	
+	\item State the \textbf{Mean Value Theorem}.\\[3pt]
+	\textit{Quick note:}  
+	If $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, then  
+	\[
+	\exists c \in (a,b) \text{ such that } f'(c) = \frac{f(b) - f(a)}{b - a}.
+	\]  
+	Requires $f$ to be \textbf{continuous on } $[a,b]$ and \textbf{differentiable on } $(a,b)$.
+	
+	\item Can a derivative $f'$ exist everywhere but be discontinuous? (Hint: $x^2 \sin(1/x)$).
+\end{enumerate}
+	
+\subsection{Sequences of Functions and Integration}
+\begin{enumerate}
+	\item Define \textbf{Pointwise Convergence} vs. \textbf{Uniform Convergence} of a sequence of functions $(f_n)$.
+	
+	\item Why is Uniform Convergence important for swapping limits with integrals or derivatives?\\[3pt]
+	\textit{Quick note:} Uniform convergence allows limit operations to pass through continuous processes like integration and differentiation.  
+	If $f_n \to f$ \textbf{uniformly} and each $f_n$ is integrable on $[a,b]$, then  
+	\[
+	\lim_{n \to \infty} \int_a^b f_n(x)\,dx = \int_a^b \lim_{n \to \infty} f_n(x)\,dx.
+	\]  
+	Uniform convergence also ensures $f$ is continuous if each $f_n$ is continuous.  
+	Pointwise convergence alone \textbf{does not} guarantee these properties.
+	
+	\item State the \textbf{Weierstrass M-Test}.
+	
+	\item Define the \textbf{Riemann Integral} using partitions and Darboux sums ($U(f,P)$ and $L(f,P)$).
+	
+	\item State both parts of the \textbf{Fundamental Theorem of Calculus}.\\[3pt]
+	\textit{Quick note:}  
+	\textbf{FTC Part I (Derivative of Integral):}  
+	If $f$ is continuous on $[a,b]$ and $F(x) = \int_a^x f(t)\,dt$, then $F'(x) = f(x)$.  
+	
+	\textbf{FTC Part II (Integral of Derivative):}  
+	If $F$ is differentiable on $[a,b]$ with continuous derivative $F'$, then  
+	\[
+	\int_a^b F'(x)\,dx = F(b) - F(a).
+	\]  
+
+\end{enumerate}
+	% =============================================================================
+	\section{Multivariable Calculus}
+
+	
+\subsection{Differentiation in $\mathbb{R}^n$}
+
+
+
+\begin{enumerate}
+	\item Define the \textbf{Gradient} $\nabla f$. What is its geometric relationship to level surfaces?
+	
+	\item True or False: If all partial derivatives exist at a point, the function is differentiable at that point.\\[3pt]
+	\textit{Quick note:} \textbf{False.} Existence of all partials does not guarantee differentiability — they must fit together to form a linear approximation.  
+	Example: $f(x,y)=\frac{x^2y}{x^2+y^2}$ at $(0,0)$ has partials $0$, but $f$ isn’t differentiable.  
+	
+	\item State the \textbf{Inverse Function Theorem}. What does the Jacobian determinant tell you about local invertibility?\\[3pt]
+	\textit{Quick note:} If $f:\mathbb{R}^n \to \mathbb{R}^n$ is continuously differentiable near $a$ and  
+	$\det(Df(a)) \neq 0$, then there exist neighborhoods $V$ of $a$ and $W$ of $f(a)$  
+	such that $f:V \to W$ is a bijection with a continuously differentiable inverse $f^{-1}$.  
+	\[
+	D(f^{-1})(f(a)) = [Df(a)]^{-1}.
+	\]
+	
+	\item State \textbf{Clairaut's Theorem} regarding mixed partial derivatives.\\[3pt]
+	\textit{Quick note:} If $f_{xy}$ and $f_{yx}$ exist and are \textbf{continuous} near a point $(a,b)$, then  
+	\[
+	f_{xy}(a,b) = f_{yx}(a,b).
+	\]  
+	
+	\item Explain the method of \textbf{Lagrange Multipliers}. Why do we solve $\nabla f = \lambda \nabla g$?
+	
+	\item How do you classify critical points using the \textbf{Hessian Matrix} (Second Derivative Test)? Relate this to positive/negative definiteness.
+\end{enumerate}
+	
+\subsection{Integration and Vector Calculus}
+\begin{enumerate}
+	\item State \textbf{Fubini's Theorem}. When can you swap the order of integration?\\[3pt]
+	Quick note: If $f(x,y)$ is continuous (or absolutely integrable) on a rectangular region, then  
+	\[
+	\int_a^b\!\!\int_c^d f(x,y)\,dy\,dx = \int_c^d\!\!\int_a^b f(x,y)\,dx\,dy.
+	\]
+	Order of integration may be swapped when $f$ is continuous or $|f|$ is integrable (Fubini/Tonelli).
+	
+	\item Explain the \textbf{Change of Variables Formula} for multiple integrals. What is the role of the Jacobian determinant?\\[3pt]
+	Quick note: For a transformation $T(u,v) = (x,y)$,
+	\[
+	\int_V f(x,y)\,dA = \int_U f(T(u,v))\,\big|\det J_T(u,v)\big|\,du\,dv.
+	\]
+	The Jacobian determinant $\big|\det J_T\big|$ gives the local area or volume scaling factor caused by the coordinate change.  
+	Examples: polar ($dA = r\,dr\,d\theta$), spherical ($dV = \rho^2 \sin\phi\,d\rho\,d\phi\,d\theta$).
+	
+	\item Define the \textbf{Curl} and \textbf{Divergence} of a vector field.\\[3pt]
+	Quick note:
+	\[
+	\nabla \cdot \mathbf{F} = \frac{\partial P}{\partial x} + \frac{\partial Q}{\partial y} + \frac{\partial R}{\partial z}, \quad
+	\nabla \times \mathbf{F} = 
+	\left(
+	\frac{\partial R}{\partial y} - \frac{\partial Q}{\partial z},
+	\frac{\partial P}{\partial z} - \frac{\partial R}{\partial x},
+	\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}
+	\right).
+	\]
+	$\nabla \cdot \mathbf{F}$ (divergence) is a scalar measuring outflow or source strength.  
+	$\nabla \times \mathbf{F}$ (curl) is a vector measuring local rotation.
+	
+	\item State \textbf{Green's Theorem}.\\[3pt]
+	Quick note:
+	\[
+	\oint_C (P\,dx + Q\,dy)
+	= \iint_R \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right) dA.
+	\]
+	Relates a line integral around a closed curve to a double integral over the enclosed region (circulation = curl form in $\mathbb{R}^2$).
+	
+	\item State the \textbf{Divergence Theorem} (Gauss's Theorem).\\[3pt]
+	Quick note:
+	\[
+	\oint_{\partial V} \mathbf{F}\cdot\mathbf{n}\,dS
+	= \iiint_V (\nabla\cdot\mathbf{F})\,dV.
+	\]
+
+	
+	\item State \textbf{Stokes' Theorem}.\\[3pt]
+	Quick note:
+	\[
+	\oint_{\partial S} \mathbf{F}\cdot d\mathbf{r}
+	= \iint_S (\nabla\times\mathbf{F})\cdot\mathbf{n}\,dS.
+	\]
+
+	
+	\item What is a \textbf{Conservative Vector Field}? How is it related to path independence of line integrals?\\[3pt]
+	Quick note:
+	A vector field $\mathbf{F}$ is conservative if there exists a scalar potential $\phi$ such that $\mathbf{F} = \nabla\phi$.  
+	Then $\int_C \mathbf{F}\cdot d\mathbf{r}$ is path-independent and $\oint_C \mathbf{F}\cdot d\mathbf{r} = 0$ for every closed curve $C$.  
+	In simply connected regions, $\mathbf{F}$ is conservative if and only if $\nabla\times\mathbf{F} = \mathbf{0}$.
+\end{enumerate}
+
+	\section{Topology and Metric Spaces}
+
+\begin{enumerate}
+	\item Define a \textbf{Metric Space}. What are the three properties of a distance function?
+	
+	\item Define \textbf{Open} and \textbf{Closed} sets. Can a set be both? Can a set be neither?
+	
+	\item What is the definition of \textbf{Compactness} (using open covers)?\\[3pt]
+	\textit{Quick note:} A set $K$ in a topological space is \textbf{compact} if every open cover of $K$ has a finite subcover.  
+	
+	
+	\item State the \textbf{Heine-Borel Theorem}. In which spaces does it apply?\\[3pt]
+	\textit{Quick note:} In $\mathbb{R}^n$, a set is \textbf{compact} if and only if it is \textbf{closed and bounded}.  
+	This equivalence (the Heine-Borel property) holds only in finite-dimensional Euclidean spaces.  
+	In infinite-dimensional spaces, closed and bounded sets need not be compact (for example, the unit ball in $\ell^2$).
+	
+\item Define \textbf{Connectedness}.\\[3pt]
+\textit{Rigorous definition:}  
+A topological space $X$ is said to be \textbf{connected} if there do not exist two nonempty disjoint open sets $U, V \subseteq X$ such that  
+\[
+X = U \cup V.
+\]
+Equivalently, $X$ is connected if the only subsets of $X$ that are both open and closed (clopen sets) are $\varnothing$ and $X$ itself.  
+If such a decomposition $X = U \cup V$ exists with both $U$ and $V$ nonempty and open (or equivalently, both closed), then $X$ is said to be \textbf{disconnected}.\\[6pt]
+\end{enumerate}
+
+	\section{The ``Trap" Section: Common Counter-Examples}
+
+	
+\begin{enumerate}
+	\item \textbf{Trap:} If a sequence of continuous functions $f_n$ converges pointwise to $f$ on $[0,1]$, is $f$ continuous?\\[3pt]
+	\textit{Counterexample:} Let 
+	\[
+	f_n(x) = x^n \quad \text{on } [0,1].
+	\]
+	Each $f_n$ is continuous, but $f_n \to f$ pointwise where
+	\[
+	f(x) = 
+	\begin{cases}
+		0, & 0 \le x < 1,\\
+		1, & x = 1.
+	\end{cases}
+	\]
+	The limit function $f$ is \emph{not} continuous at $x=1$.  
+	Pointwise convergence of continuous functions does not, in general, preserve continuity.
+	
+	\item \textbf{Trap:} Is the union of an infinite number of closed sets always closed?\\[3pt]
+	\textit{Counterexample:} Define
+	\[
+	F_n = \left[ \frac{1}{n}, 1 \right].
+	\]
+	Each $F_n$ is closed, but
+	\[
+	\bigcup_{n=1}^{\infty} F_n = (0,1].
+	\]
+
+	
+	\item \textbf{Trap:} If a function has a local minimum at $a$, is the Hessian matrix $H_f(a)$ always positive definite?\\[3pt]
+	\textit{Counterexample:} Let
+	\[
+	f(x,y) = x^4 + y^4.
+	\]
+	At $(0,0)$, $f$ has a local (and global) minimum, yet
+	\[
+	H_f(0,0) = 
+	\begin{bmatrix}
+		0 & 0\\
+		0 & 0
+	\end{bmatrix},
+	\]
+	which is \emph{positive semidefinite}, not positive definite.  
+
+\end{enumerate}
+
+\end{document}

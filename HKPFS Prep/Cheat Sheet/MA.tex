@@ -1,0 +1,503 @@
+\documentclass[8pt,landscape]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{top=0.3cm,left=0.3cm,right=0.3cm,bottom=0.3cm}
+
+\pagestyle{empty}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+	{-1ex plus -.5ex minus -.2ex}%
+	{0.5ex plus .2ex}%
+	{\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+	{-1explus -.5ex minus -.2ex}%
+	{0.5ex plus .2ex}%
+	{\normalfont\small\bfseries}}
+\makeatother
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+\setlist{nosep, leftmargin=*}
+
+\begin{document}
+	\raggedright
+	\footnotesize
+	\begin{multicols}{3}
+		
+		\setlength{\premulticols}{1pt}
+		\setlength{\postmulticols}{1pt}
+		\setlength{\multicolsep}{1pt}
+		\setlength{\columnsep}{2pt}
+		
+		\begin{center}
+			\Large{\textbf{Mathematical Analysis Cheat Sheet}} \\
+			\small{HKPFS Math PhD Interview Prep}
+		\end{center}
+		
+		\section{1. Real Numbers}
+		
+		\subsection{Field Axioms}
+		Field $F$ with operations $+$ and $\cdot$:
+		
+		\textbf{Addition:} (A1) Commutative, (A2) Associative, (A3) Zero exists, (A4) Additive inverse exists
+		
+		\textbf{Multiplication:} (M1) Commutative, (M2) Associative, (M3) Unity $1 \neq 0$ exists, (M4) Multiplicative inverse exists (for $a \neq 0$)
+		
+		\textbf{Distributive:} (D) $a(b+c) = ab + ac$
+		
+		\textbf{Key facts:} $0 \cdot a = 0$; $(-1)(-1) = 1$; $ab = 0 \Rightarrow a=0$ or $b=0$
+		
+		\subsection{Ordered Field}
+		Relation $\leq$ satisfying:
+		
+		(a) Reflexive: $a \leq a$
+		
+		(b) Antisymmetric: $a \leq b$ and $b \leq a \Rightarrow a = b$
+		
+		(c) Transitive: $a \leq b$ and $b \leq c \Rightarrow a \leq c$
+		
+		(d) Compatible with $+$: $a \leq b \Rightarrow a+c \leq b+c$
+		
+		(e) Compatible with $\cdot$: $a \leq b, 0 \leq c \Rightarrow ac \leq bc$
+		
+		\textbf{Properties:} $a > 0 \Leftrightarrow -a < 0$; $1 > 0$; $a > b > 0 \Rightarrow b^{-1} > a^{-1} > 0$
+		
+		\textbf{Absolute value:} $|a| = \max\{a, -a\}$
+		
+		$|a| \geq 0$; $|ab| = |a||b|$; $|a+b| \leq |a| + |b|$ (triangle inequality); $||a| - |b|| \leq |a-b|$
+		
+		\subsection{Completeness (LUB Property)}
+		\textbf{Supremum:} For non-empty $S \subseteq \mathbb{R}$ bounded above, $\sup(S)$ exists and is the \textit{least} upper bound
+		
+		\textbf{Infimum:} For non-empty $S$ bounded below, $\inf(S) = -\sup(-S)$
+		
+		\textbf{Archimedean Property:} For any $a \in \mathbb{R}$, $\exists N \in \mathbb{N}: N > a$
+		
+		\textbf{Corollary:} $\forall \epsilon > 0, \exists N: 1/N < \epsilon$
+		
+		\textbf{Density of $\mathbb{Q}$:} For $a < b$, $\exists p/q \in \mathbb{Q}: a < p/q < b$
+		
+		\textbf{Nested Intervals:} If $I_n = [a_n, b_n]$ with $I_{n+1} \subseteq I_n$, then $\bigcap_{n=1}^\infty I_n \neq \emptyset$
+		
+		$\mathbb{R}$ is uncountable (Cantor's diagonal argument)
+		
+		\section{2. Sequences}
+		
+		\subsection{Convergence}
+		$(a_n) \to L$ if $\forall \epsilon > 0, \exists N: |a_n - L| < \epsilon$ for all $n \geq N$
+		
+		\textbf{Uniqueness:} Limit is unique if it exists
+		
+		\textbf{Boundedness:} Convergent sequences are bounded
+		
+		\textbf{Negation:} $(a_n) \not\to L$ if $\exists \epsilon > 0$ and infinitely many $n$ with $|a_n - L| \geq \epsilon$
+		
+		\subsection{Arithmetic of Limits}
+		If $(a_n) \to L_1$ and $(b_n) \to L_2$:
+		
+		- $(ca_n) \to cL_1$
+		- $(a_n + b_n) \to L_1 + L_2$
+		- $(a_n b_n) \to L_1 L_2$
+		- $(a_n/b_n) \to L_1/L_2$ if $b_n \neq 0, L_2 \neq 0$
+		- If $a_n \leq b_n$, then $L_1 \leq L_2$
+		
+		\textbf{Sandwich Theorem:} If $a_n \leq c_n \leq b_n$ and $(a_n), (b_n) \to L$, then $(c_n) \to L$
+		
+		\subsection{Subsequences and Monotone Sequences}
+		\textbf{Subsequence:} $(a_{n_k})$ where $n_1 < n_2 < \cdots$
+		
+		If $(a_n) \to L$, then every subsequence $\to L$
+		
+		\textbf{Monotone Convergence Theorem:} Bounded monotone sequence converges
+		
+		- Increasing bounded above: $(a_n) \to \sup\{a_n\}$
+		- Decreasing bounded below: $(a_n) \to \inf\{a_n\}$
+		
+		\subsection{Limit Superior and Inferior}
+		For bounded $(a_n)$:
+		
+		$\limsup_{n \to \infty} a_n = \lim_{n \to \infty} \sup\{a_k : k \geq n\}$
+		
+		$\liminf_{n \to \infty} a_n = \lim_{n \to \infty} \inf\{a_k : k \geq n\}$
+		
+		Always: $\liminf a_n \leq \limsup a_n$
+		
+		$(a_n)$ converges $\Leftrightarrow$ $\liminf a_n = \limsup a_n$
+		
+		\textbf{Bolzano-Weierstrass:} Every bounded sequence has convergent subsequence
+		
+		\subsection{Cauchy Sequences}
+		$(a_n)$ is Cauchy if $\forall \epsilon > 0, \exists N: |a_m - a_n| < \epsilon$ for all $m,n \geq N$
+		
+		\textbf{Cauchy Criterion:} $(a_n)$ converges $\Leftrightarrow$ $(a_n)$ is Cauchy
+		
+		Cauchy sequences are bounded
+		
+		\section{3. Series}
+		
+		\subsection{Convergence of Series}
+		Series $\sum_{i=1}^\infty a_i$ converges if partial sums $s_n = \sum_{i=1}^n a_i$ converge
+		
+		If $\sum a_i$ converges, then $a_n \to 0$
+		
+		\textbf{Cauchy Criterion:} $\sum a_i$ converges $\Leftrightarrow$ $\forall \epsilon > 0, \exists N: |a_{n+1} + \cdots + a_m| < \epsilon$ for all $m > n \geq N$
+		
+		\subsection{Absolute Convergence}
+		$\sum a_i$ is \textbf{absolutely convergent} if $\sum |a_i| < \infty$
+		
+		Absolute convergence $\Rightarrow$ convergence
+		
+		\textbf{Rearrangement:} Absolutely convergent series can be rearranged without changing sum
+		
+		\subsection{Convergence Tests}
+		\textbf{Comparison Test:} If $0 \leq a_n \leq b_n$ and $\sum b_n$ converges, then $\sum a_n$ converges
+		
+		\textbf{Root Test:} Let $\alpha = \limsup |a_n|^{1/n}$
+		- If $\alpha < 1$: absolutely convergent
+		- If $\alpha > 1$: divergent
+		
+		\textbf{Ratio Test:}
+		- If $\limsup |a_{n+1}/a_n| < 1$: absolutely convergent
+		- If $\liminf |a_{n+1}/a_n| > 1$: divergent
+		
+		\textbf{Alternating Series Test:} If $a_1 \geq a_2 \geq \cdots \geq 0$ and $a_n \to 0$, then $\sum (-1)^{n+1} a_n$ converges
+		
+		\textbf{Integral Test:} If $f: [1,\infty) \to \mathbb{R}_{\geq 0}$ decreasing, then $\sum f(n)$ converges $\Leftrightarrow$ $\int_1^\infty f(x)dx < \infty$
+		
+		\section{4. Limits of Functions}
+		
+		\subsection{Definition}
+		$\lim_{x \to \alpha} f(x) = L$ if $\forall \epsilon > 0, \exists \delta > 0: |f(x) - L| < \epsilon$ whenever $0 < |x - \alpha| < \delta$
+		
+		\textbf{One-sided limits:}
+		- Right: $\lim_{x \to \alpha^+} f(x) = L$
+		- Left: $\lim_{x \to \alpha^-} f(x) = L$
+		
+		$\lim_{x \to \alpha} f = L \Leftrightarrow \lim_{x \to \alpha^-} f = L = \lim_{x \to \alpha^+} f$
+		
+		\subsection{Sequential Criterion}
+		$\lim_{x \to \alpha} f(x) = L \Leftrightarrow$ for all sequences $(a_n) \to \alpha$ (with $a_n \neq \alpha$), $f(a_n) \to L$
+		
+		\subsection{Arithmetic of Limits}
+		If $\lim_{x \to \alpha} f = L_1$ and $\lim_{x \to \alpha} g = L_2$:
+		
+		- $\lim(cf) = cL_1$
+		- $\lim(f+g) = L_1 + L_2$
+		- $\lim(fg) = L_1L_2$
+		- $\lim(f/g) = L_1/L_2$ if $L_2 \neq 0$
+		
+		\textbf{Sandwich Theorem:} If $f \leq h \leq g$ and $\lim f = \lim g = L$, then $\lim h = L$
+		
+		\subsection{Limits at Infinity}
+		$\lim_{x \to \infty} f(x) = L$ if $\forall \epsilon > 0, \exists M: |f(x) - L| < \epsilon$ for all $x > M$
+		
+		$\lim_{x \to \alpha} f(x) = \infty$ if $\forall C > 0, \exists \delta > 0: f(x) > C$ whenever $0 < |x-\alpha| < \delta$
+		
+		\section{5. Continuity}
+		
+		\subsection{Definition}
+		$f: I \to \mathbb{R}$ is \textbf{continuous at $\alpha \in I$} if $\forall \epsilon > 0, \exists \delta > 0: |f(x) - f(\alpha)| < \epsilon$ whenever $|x - \alpha| < \delta$
+		
+		Equivalently: $\lim_{x \to \alpha} f(x) = f(\alpha)$
+		
+		\textbf{Sequential Criterion:} $f$ continuous at $\alpha \Leftrightarrow$ for all $(a_n) \to \alpha$, $f(a_n) \to f(\alpha)$
+		
+		\subsection{Properties}
+		If $f, g$ continuous at $\alpha$:
+		- $cf, f \pm g, fg$ continuous at $\alpha$
+		- $f/g$ continuous at $\alpha$ if $g(\alpha) \neq 0$
+		
+		\textbf{Composition:} If $f$ continuous at $\alpha$ and $g$ continuous at $f(\alpha)$, then $g \circ f$ continuous at $\alpha$
+		
+		\subsection{Key Theorems}
+		\textbf{Extreme Value Theorem:} If $f: [a,b] \to \mathbb{R}$ continuous, then $f$ attains max and min on $[a,b]$
+		
+		\textbf{Intermediate Value Theorem:} If $f: [a,b] \to \mathbb{R}$ continuous, then $f$ takes every value between $f(a)$ and $f(b)$
+		
+		\textbf{Image of Interval:} Continuous image of interval is interval
+		
+		\textbf{Inverse Function:} If $f: I \to \mathbb{R}$ continuous and injective, then:
+		- $f$ strictly monotone
+		- $f^{-1}: f(I) \to I$ is continuous
+		
+		\subsection{Uniform Continuity}
+		$f: I \to \mathbb{R}$ is \textbf{uniformly continuous} if $\forall \epsilon > 0, \exists \delta > 0: |f(x) - f(y)| < \epsilon$ whenever $|x-y| < \delta$ (for all $x,y \in I$)
+		
+		\textbf{Key difference:} $\delta$ depends only on $\epsilon$, not on point
+		
+		Uniform continuity $\Rightarrow$ continuity
+		
+		\textbf{Theorem:} Continuous on $[a,b] \Rightarrow$ uniformly continuous
+		
+		\textbf{Lipschitz:} $|f(x) - f(y)| \leq C|x-y|$ for all $x,y$ ($C > 0$)
+		
+		Lipschitz $\Rightarrow$ uniformly continuous
+		
+		\section{6. Sequences of Functions}
+		
+		\subsection{Pointwise Convergence}
+		$(f_n) \to f$ pointwise if $\forall x \in I$, $f_n(x) \to f(x)$
+		
+		Pointwise limit of continuous functions may not be continuous
+		
+		\subsection{Uniform Convergence}
+		$(f_n) \to f$ uniformly (written $(f_n) \Rightarrow f$) if $\forall \epsilon > 0, \exists N: |f_n(x) - f(x)| < \epsilon$ for all $n \geq N$ and all $x \in I$
+		
+		\textbf{Key:} $N$ depends only on $\epsilon$, not on $x$
+		
+		\textbf{Cauchy Criterion:} $(f_n) \Rightarrow f \Leftrightarrow$ $(f_n)$ uniformly Cauchy:
+		
+		$\forall \epsilon > 0, \exists N: |f_m(x) - f_n(x)| < \epsilon$ for all $m > n \geq N$ and all $x$
+		
+		\subsection{Properties}
+		\textbf{Continuity Preservation:} If $f_n$ continuous and $(f_n) \Rightarrow f$, then $f$ continuous
+		
+		Uniform convergence $\Rightarrow$ pointwise convergence (not converse!)
+		
+		\textbf{Weierstrass M-Test:} If $|f_n(x)| \leq M_n$ for all $x$ and $\sum M_n < \infty$, then $\sum f_n$ converges uniformly
+		
+		\section{7. Power Series}
+		
+		\subsection{Radius of Convergence}
+		Power series: $f(x) = \sum_{n=0}^\infty a_n(x-x_0)^n$
+		
+		Let $\beta = \limsup |a_n|^{1/n}$ and $R = 1/\beta$ (radius of convergence)
+		
+		\textbf{Convergence:}
+		- Absolutely for $|x - x_0| < R$
+		- Diverges for $|x - x_0| > R$
+		- Uniformly on $[x_0 - R_0, x_0 + R_0]$ for any $R_0 < R$
+		
+		\subsection{Differentiation and Integration}
+		$f(x) = \sum a_n(x-x_0)^n$ with radius $R$
+		
+		\textbf{Term-by-term differentiation:}
+		$f'(x) = \sum n a_n(x-x_0)^{n-1}$ has same radius $R$
+		
+		$f$ is infinitely differentiable on $(x_0-R, x_0+R)$
+		
+		$f^{(n)}(x_0) = n! a_n$
+		
+		\textbf{Term-by-term integration:}
+		$\int_{x_0}^x f(t)dt = \sum \frac{a_n}{n+1}(x-x_0)^{n+1}$ has same radius $R$
+		
+		\subsection{Important Series}
+		$e^x = \sum_{n=0}^\infty \frac{x^n}{n!}$ (all $x$)
+		
+		$\sin x = \sum_{n=0}^\infty \frac{(-1)^n x^{2n+1}}{(2n+1)!}$ (all $x$)
+		
+		$\cos x = \sum_{n=0}^\infty \frac{(-1)^n x^{2n}}{(2n)!}$ (all $x$)
+		
+		$\frac{1}{1-x} = \sum_{n=0}^\infty x^n$ ($|x| < 1$)
+		
+		$\ln(1+x) = \sum_{n=1}^\infty \frac{(-1)^{n+1}x^n}{n}$ ($|x| < 1$)
+		
+		\section{8. Differentiation}
+		
+		\subsection{Definition}
+		$f'(\alpha) = \lim_{x \to \alpha} \frac{f(x) - f(\alpha)}{x - \alpha}$ if limit exists
+		
+		Differentiable at $\alpha \Rightarrow$ continuous at $\alpha$
+		
+		\subsection{Rules}
+		$(cf)' = cf'$; $(f \pm g)' = f' \pm g'$
+		
+		\textbf{Product:} $(fg)' = f'g + fg'$
+		
+		\textbf{Quotient:} $(f/g)' = \frac{f'g - fg'}{g^2}$ if $g \neq 0$
+		
+		\textbf{Chain Rule:} $(g \circ f)'(\alpha) = g'(f(\alpha)) \cdot f'(\alpha)$
+		
+		\textbf{Inverse:} If $f$ differentiable, bijective, $f' \neq 0$, then $(f^{-1})'(y) = \frac{1}{f'(f^{-1}(y))}$
+		
+		\subsection{Mean Value Theorems}
+		\textbf{Rolle's Theorem:} If $f$ continuous on $[a,b]$, differentiable on $(a,b)$, and $f(a) = f(b)$, then $\exists \zeta \in (a,b): f'(\zeta) = 0$
+		
+		\textbf{Mean Value Theorem:} If $f$ continuous on $[a,b]$, differentiable on $(a,b)$, then $\exists \zeta \in (a,b)$:
+		$$f'(\zeta) = \frac{f(b) - f(a)}{b-a}$$
+		
+		\textbf{Cauchy MVT:} $\exists \zeta \in (a,b)$:
+		$$f'(\zeta)(g(b) - g(a)) = g'(\zeta)(f(b) - f(a))$$
+		
+		\subsection{Applications of MVT}
+		$f' \equiv 0$ on interval $\Rightarrow$ $f$ constant
+		
+		$f' > 0 \Rightarrow$ $f$ strictly increasing
+		
+		$f' \geq 0 \Rightarrow$ $f$ increasing
+		
+		$f'$ bounded $\Rightarrow$ $f$ Lipschitz
+		
+		\subsection{L'Hôpital's Rules}
+		\textbf{Type $0/0$:} If $\lim_{x \to \alpha} f(x) = 0 = \lim_{x \to \alpha} g(x)$ and $\lim_{x \to \alpha} \frac{f'(x)}{g'(x)} = L$, then
+		$$\lim_{x \to \alpha} \frac{f(x)}{g(x)} = L$$
+		
+		\textbf{Type $\infty/\infty$:} If $\lim_{x \to \alpha} f(x) = \pm\infty$, $\lim_{x \to \alpha} g(x) = \pm\infty$, and $\lim_{x \to \alpha} \frac{f'(x)}{g'(x)} = L$, then
+		$$\lim_{x \to \alpha} \frac{f(x)}{g(x)} = L$$
+		
+		Works for $\alpha = \pm\infty$ and $L = \pm\infty$
+		
+		\subsection{Taylor's Theorem}
+		If $f$ is $n$ times differentiable:
+		$$f(x) = \sum_{k=0}^{n-1} \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k + R_n(x)$$
+		
+		\textbf{Lagrange Remainder:} $\exists \zeta$ between $x_0$ and $x$:
+		$$R_n(x) = \frac{f^{(n)}(\zeta)}{n!}(x-x_0)^n$$
+		
+		\textbf{Cauchy Remainder:}
+		$$R_n(x) = \int_{x_0}^x \frac{(x-t)^{n-1}}{(n-1)!} f^{(n)}(t)dt$$
+		
+		\textbf{Taylor Series:} If $\lim_{n \to \infty} R_n(x) = 0$:
+		$$f(x) = \sum_{n=0}^\infty \frac{f^{(n)}(x_0)}{n!}(x-x_0)^n$$
+		
+		\section{9. Riemann Integration}
+		
+		\subsection{Definitions}
+		\textbf{Partition:} $P = \{a = x_0 < x_1 < \cdots < x_n = b\}$
+		
+		Norm: $\|P\| = \max(x_i - x_{i-1})$
+		
+		\textbf{Tagged partition:} Choose $t_i \in [x_{i-1}, x_i]$
+		
+		\textbf{Riemann sum:} $S(f; \dot{P}) = \sum_{i=1}^n f(t_i)(x_i - x_{i-1})$
+		
+		$f$ is \textbf{Riemann integrable} if $\exists L: \forall \epsilon > 0, \exists \delta > 0$ such that $|S(f; \dot{P}) - L| < \epsilon$ whenever $\|\dot{P}\| < \delta$
+		
+		Write $L = \int_a^b f(x)dx$
+		
+		\subsection{Darboux Sums}
+		\textbf{Upper sum:} $U(f;P) = \sum \sup_{[x_{i-1},x_i]} f \cdot (x_i - x_{i-1})$
+		
+		\textbf{Lower sum:} $L(f;P) = \sum \inf_{[x_{i-1},x_i]} f \cdot (x_i - x_{i-1})$
+		
+		$U(f) = \inf_P U(f;P)$; $L(f) = \sup_P L(f;P)$
+		
+		Always: $L(f;P) \leq L(f) \leq U(f) \leq U(f;P)$
+		
+		\textbf{Criterion:} $f$ Riemann integrable $\Leftrightarrow$ $U(f) = L(f)$
+		
+		$\Leftrightarrow$ $\forall \epsilon > 0, \exists P: U(f;P) - L(f;P) < \epsilon$
+		
+		\subsection{Integrability}
+		Riemann integrable functions are bounded
+		
+		\textbf{Monotone $\Rightarrow$ integrable}
+		
+		\textbf{Continuous $\Rightarrow$ integrable}
+		
+		\textbf{Lebesgue Criterion:} Bounded $f$ integrable $\Leftrightarrow$ discontinuity set has measure zero
+		
+		\subsection{Properties}
+		If $f, g$ integrable on $[a,b]$:
+		
+		$\int_a^b (cf) = c\int_a^b f$
+		
+		$\int_a^b (f+g) = \int_a^b f + \int_a^b g$
+		
+		$f \leq g \Rightarrow \int_a^b f \leq \int_a^b g$
+		
+		$|f|$ integrable and $|\int_a^b f| \leq \int_a^b |f|$
+		
+		$fg$ integrable
+		
+		$\int_a^b f = \int_a^c f + \int_c^b f$ for $c \in (a,b)$
+		
+		\subsection{Fundamental Theorems of Calculus}
+		\textbf{FTC I:} If $F$ continuous on $[a,b]$, differentiable on $(a,b)$, and $F'$ integrable:
+		$$\int_a^b F'(x)dx = F(b) - F(a)$$
+		
+		\textbf{FTC II:} If $f$ integrable on $[a,b]$, define $F(x) = \int_c^x f(t)dt$:
+		- $F$ is continuous on $[a,b]$
+		- If $f$ continuous at $x_0$, then $F'(x_0) = f(x_0)$
+		
+		\subsection{Techniques}
+		\textbf{Integration by parts:} If $u, v$ continuous, $u', v'$ integrable:
+		$$\int_a^b uv' + \int_a^b u'v = u(b)v(b) - u(a)v(a)$$
+		
+		\textbf{Substitution:} If $f$ continuous, $u$ continuously differentiable:
+		$$\int_a^b f(u(x))u'(x)dx = \int_{u(a)}^{u(b)} f(t)dt$$
+		
+		\textbf{MVT for Integrals:} If $f$ continuous on $[a,b]$, $\exists \zeta \in [a,b]$:
+		$$f(\zeta) = \frac{1}{b-a}\int_a^b f(x)dx$$
+		
+		\subsection{Integration of Series}
+		If $(f_n) \Rightarrow f$ uniformly on $[a,b]$ and each $f_n$ integrable:
+		
+		$f$ is integrable and $\lim_{n \to \infty} \int_a^b f_n = \int_a^b f$
+		
+		For power series: can integrate term-by-term within radius of convergence
+		
+		\section{10. Quick Reference}
+		
+		\subsection{Important Limits}
+		$\lim_{n \to \infty} \frac{1}{n} = 0$
+		
+		$\lim_{n \to \infty} n^{1/n} = 1$
+		
+		$\lim_{n \to \infty} c^{1/n} = 1$ for $c > 0$
+		
+		$\lim_{n \to \infty} \frac{c^n}{n!} = 0$ for any $c$
+		
+		$\lim_{x \to 0} \frac{\sin x}{x} = 1$
+		
+		$\lim_{x \to \infty} (1 + 1/x)^x = e$
+		
+		\subsection{Common Series}
+		Geometric: $\sum_{n=0}^\infty r^n = \frac{1}{1-r}$ if $|r| < 1$
+		
+		Harmonic: $\sum_{n=1}^\infty \frac{1}{n}$ diverges
+		
+		$p$-series: $\sum_{n=1}^\infty \frac{1}{n^p}$ converges iff $p > 1$
+		
+		\subsection{Key Inequalities}
+		Bernoulli: $(1+x)^n \geq 1 + nx$ for $x > -1, n \in \mathbb{N}$
+		
+		AM-GM: $\frac{a_1 + \cdots + a_n}{n} \geq \sqrt[n]{a_1 \cdots a_n}$
+		
+		Cauchy-Schwarz: $|\sum a_i b_i| \leq \sqrt{\sum a_i^2} \sqrt{\sum b_i^2}$
+		
+\subsection{Common Mistakes}
+
+\textbf{1. Pointwise convergence $\not\Rightarrow$ uniform convergence.}  
+Example: $f_n(x) = x^n$ on $[0,1]$.  
+Then $f_n(x) \to f(x) = 
+\begin{cases}
+	0, & x < 1\\
+	1, & x = 1
+\end{cases}$.  
+Limit $f$ is discontinuous $\Rightarrow$ convergence not uniform.
+
+\textbf{2. Continuous $\not\Rightarrow$ differentiable.}  
+Example: $f(x) = |x|$.  
+Continuous everywhere, not differentiable at $x = 0$.
+\textbf{3. Differentiable $\not\Rightarrow$ $f'$ continuous.}  
+Example: $f(x) =
+\begin{cases}
+	x^2\sin(1/x), & x \neq 0\\
+	0, & x = 0
+\end{cases}$.  
+Then $f'(x) = 2x\sin(1/x) - \cos(1/x)$ for $x \neq 0$, $f'(0)=0$.  
+$f'$ exists but oscillates wildly near $0$ (not continuous).
+
+\textbf{4. $\sum a_n$ converges $\not\Rightarrow$ $\sum a_n^2$ converges.}  
+Example: $a_n = \dfrac{(-1)^n}{\sqrt{n}}$.  
+$\sum a_n$ converges (Alternating Series Test), but  
+$\sum a_n^2 = \sum \frac{1}{n}$ diverges (harmonic series).
+
+\textbf{5. Ratio test inconclusive when limit $= 1$.}  
+Examples:  
+(a) $a_n = \frac{1}{n}$: $\frac{a_{n+1}}{a_n} \to 1$, yet $\sum a_n$ diverges.  
+(b) $a_n = \frac{1}{n^2}$: $\frac{a_{n+1}}{a_n} \to 1$, yet $\sum a_n$ converges.  
+
+$\Rightarrow$ Ratio test gives no information when the limit equals $1$.
+		
+	\end{multicols}
+\end{document}
