@@ -21,6 +21,7 @@ Each course branch typically contains:
 - **MATH3405 Differential Equations**
 - [**MATH3541 Introduction to Topology**](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH3541-Introduction-to-topology)
 - **MATH3601 Numerical Analysis**
+- **MATH3603 Probability theory**
 - **MATH3904 Introduction to Optimization**
 - **MATH3943 Network Models in Operations Research**
 - **[MATH4302 Algebra II](https://github.com/Liu-Zhonglin/HKU-MATH-Notes/tree/MATH4302-Algebra-II)**
