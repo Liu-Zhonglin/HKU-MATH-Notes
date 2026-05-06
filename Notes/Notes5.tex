@@ -39,3067 +39,1297 @@
 \newcommand{\dd}{\,\mathrm{d}}
 
 % ---------- Title info ----------
-\title{Markov Chains}
+\title{The Exponential Distribution and
+	the Poisson Process}
 \author{Joe and Tony}
 \date{\today}
 
 \begin{document}
 	\maketitle
 	\tableofcontents
-	\newpage
-	
-	
-	
-	A \emph{stochastic process} is a collection of random variables
-	\[
-	\{X_t\}_{t\in T},\qquad X_t:\Omega\to S,
-	\]
-	where \(\Omega\) is the sample space, \(T\) is the index set (time domain), and \(S\) is the state space.
-	
-	Typical examples:
-	\[
-	T=\N \ \text{or}\ [a,b),\qquad S\subseteq \R.
-	\]
-	
-	\begin{definition}
-		(Time domain and state space.)
-		\begin{itemize}[leftmargin=2em]
-			\item \textbf{Discrete time:} \(T\) is discrete.
-			\item \textbf{Continuous time:} \(T\) is continuous.
-			\item \textbf{Discrete-valued:} \(S\) is discrete.
-			\item \textbf{Continuous-valued:} \(S\) is continuous.
-		\end{itemize}
-	\end{definition}
-	
-	\begin{note}
-		A process can be classified into four types:
-		\begin{itemize}[leftmargin=2em]
-			\item discrete time, discrete-valued (this chapter mainly studies this case),
-			\item discrete time, continuous-valued,
-			\item continuous time, discrete-valued,
-			\item continuous time, continuous-valued.
-		\end{itemize}
-	\end{note}
-	
-	\begin{example}
-		\begin{itemize}[leftmargin=2em]
-			\item Random walk: discrete time, discrete-valued.
-			\item Poisson process: continuous time, discrete-valued.
-			\item Brownian motion: continuous time, continuous-valued.
-		\end{itemize}
-	\end{example}
-	
-	\begin{remark}
-		In the rest of these notes, we focus on \textbf{discrete time} and \textbf{discrete-valued} processes.
-		Very often, we take \(T=\N\) and \(S=\Z\), but not always.
-	\end{remark}
-	
-	% =========================================================
-	\section{Markov Chains}
-	% =========================================================
-	
-	\begin{remark}
-		If \(X_n=i\), we say the process is in state \(i\) at time \(n\).
-	\end{remark}
-	
-	\begin{definition}[Markov chain]
-		A discrete-time discrete-valued process \(\{X_n\}_{n\ge 0}\) is a Markov chain if for all \(n\ge 0\),
-		all states \(i,j\), and all histories \(i_0,\dots,i_{n-1}\),
-		\[
-		\mathbb{P}\!\left(X_{n+1}=j \,\middle|\, X_n=i, X_{n-1}=i_{n-1},\dots,X_0=i_0\right)
-		=
-		\mathbb{P}\!\left(X_{n+1}=j \,\middle|\, X_n=i\right).
-		\]
-	\end{definition}
-	
-	\begin{remark}
-		This is \emph{not} the same as saying \(X_{n+1}\) is independent of \(X_{n-1},X_{n-2},\dots\).
-		It says the \emph{conditional distribution} of the next state depends only on the current state.
-	\end{remark}
-	
-	\begin{definition}[Time-homogeneous]
-		A Markov chain is \emph{time-homogeneous} if the one-step conditional probabilities
-		\[
-		p_{ij}:=\mathbb{P}(X_{n+1}=j\mid X_n=i)
-		\]
-		do not depend on \(n\).
-	\end{definition}
-	
-	\begin{remark}
-		If a Markov chain is time-homogeneous, then we can often study it using linear algebra (transition matrices).
-	\end{remark}
-	
-	\begin{definition}
-		(One-step transition probability.)
-		For a time-homogeneous Markov chain, we write
-		\[
-		p_{ij}:=\mathbb{P}(X_{n+1}=j\mid X_n=i),\qquad \forall\, i,j.
-		\]
-	\end{definition}
-	
-	
-	
-	\begin{example}[General random walk]
-		Let \(\{\xi_k\}_{k\ge 1}\) be i.i.d.\ integer-valued r.v.'s with p.m.f.\ \(q(\cdot)\).
-		Let
-		\[
-		X_n:=X_0+\sum_{k=1}^n \xi_k,\qquad X_0\ \text{constant}.
-		\]
-		Then
-		\[
-		p_{ij}
-		=\mathbb{P}(X_{n+1}=j\mid X_n=i)
-		=\mathbb{P}(\xi_{n+1}=j-i)
-		=q(j-i).
-		\]
-	\end{example}
-	
-	\begin{example}[Branching process / Galton--Watson tree]
-		Let \(X_n\) be the number of individuals in the \(n\)-th generation.
-		Assume that given \(X_n\), the offspring numbers \(\{\xi_{n,m}\}_{m\ge 1}\) are i.i.d.
-		Define
-		\[
-		X_{n+1}:=\sum_{m=1}^{X_n}\xi_{n,m}.
-		\]
-		Then for \(i,j\in\N\),
-		\[
-		p_{ij}=\mathbb{P}(X_{n+1}=j\mid X_n=i).
-		\]
-	\end{example}
-	
-	\begin{example}[Ehrenfest chain]
-		Two urns with \(r\) balls in total. Suppose at time \(n\) there are \(l\) balls in the first urn
-		(and \(r-l\) in the second). Pick one of the \(r\) balls uniformly at random and move it to the other urn.
-		Let \(X_n\) be the number of balls in the first urn. Then for \(l\in\{0,1,\dots,r\}\),
-		\begin{align*}
-			\mathbb{P}(X_{n+1}=l+1\mid X_n=l) &= \frac{r-l}{r},\\
-			\mathbb{P}(X_{n+1}=l-1\mid X_n=l) &= \frac{l}{r},
-		\end{align*}
-		and \(p_{ij}=0\) otherwise.
-	\end{example}
-	
-	
-	
-	\begin{remark}
-		For each fixed \(i\),
-		\[
-		p_{ij}\ge 0,
-		\qquad
-		\sum_j p_{ij}=1.
-		\]
-	\end{remark}
-	
-	\begin{definition}
-		(Transition matrix.)
-		If the state space \(S\) is finite, the \emph{transition matrix} is
-		\[
-		P=(p_{ij}).
-		\]
-		Each entry is nonnegative and each row sums to \(1\).
-	\end{definition}
-	
-	\begin{example}[Mobile phone model]
-		State \(0=\) iPhone and state \(1=\) Android. Suppose
-		\[
-		P=\frac{1}{10}
-		\begin{pmatrix}
-			7 & 3\\
-			4 & 6
-		\end{pmatrix}.
-		\]
-		(One can compute \(P^n\) to study the distribution after \(n\) steps. In particular, if \(P^n\to P^\infty\),
-		then \(P^\infty\) has identical rows equal to the stationary distribution.)
-		
-		For this example,
-		\[
-		P^\infty=\frac{1}{7}
-		\begin{pmatrix}
-			4 & 3\\
-			4 & 3
-		\end{pmatrix}.
-		\]
-	\end{example}
-	
-	\begin{note}
-		The one-step probability \(p_{ij}\) answers
-		\[
-		\mathbb{P}(X_{n+1}=j\mid X_n=i)=p_{ij}.
-		\]
-		It does \emph{not} mean
-		\[
-		\mathbb{P}(X_{n+n}=j\mid X_n=i)=(p_{ij})^n.
-		\]
-		The correct object is the \(n\)-step transition probability \(p_{ij}^{(n)}\).
-	\end{note}
-	
-	% =========================================================
-	\section{Chapman--Kolmogorov Equation}
-	% =========================================================
-	
-	\begin{definition}
-		(\(n\)-step transition probabilities.)
-		For \(n\ge 0\), define
-		\[
-		p_{ij}^{(n)}:=\mathbb{P}(X_{m+n}=j\mid X_m=i).
-		\]
-		The superscript \((n)\) is a \emph{step index}, not a power.
-		For a time-homogeneous Markov chain, \(p_{ij}^{(n)}\) does not depend on the choice of \(m\).
-	\end{definition}
-	
-	\begin{theorem}[Chapman--Kolmogorov equation]
-		For all \(m,n\ge 0\) and all states \(i,j\),
-		\[
-		p_{ij}^{(m+n)}=\sum_{k} p_{ik}^{(m)}\,p_{kj}^{(n)}.
-		\]
-	\end{theorem}
-	
-	\begin{remark}
-		In the finite state space case,
-		\[
-		P^n=\bigl(p_{ij}^{(n)}\bigr),
-		\qquad\text{i.e.}\qquad
-		p_{ij}^{(n)}=(P^n)_{ij}.
-		\]
-	\end{remark}
-	
-	\begin{note}
-		Be careful: in general,
-		\[
-		p_{ik}^{(m+n)}\neq p_{ij}^{(m)}p_{jk}^{(n)}.
-		\]
-		The Chapman--Kolmogorov equation requires summing over all intermediate states \(k\).
-	\end{note}
-	
-	
-	Let \(S=\{0,1,\dots,r\}\) be finite. Write the law of \(X_n\) as a row vector
-	\[
-	\pi^{(n)}:=\bigl(\mathbb{P}(X_n=0),\mathbb{P}(X_n=1),\dots,\mathbb{P}(X_n=r)\bigr).
-	\]
-	Then
-	\[
-	\mathbb{P}(X_n = j)
-	= \sum_{i \in S} \mathbb{P}(X_0 = i)\,\mathbb{P}(X_n = j \mid X_0 = i)
-	= \sum_{i \in S} \pi_i^{(0)}\, p_{ij}^{(n)}.
-	\]
-	So we have 
-	\[
-	\pi^{(n)}=\pi^{(0)}P^n.
-	\]
+
 	
 	% =========================================================
 % =========================================================
-\section{Classification of States}
+\section{Poisson Processes}
 % =========================================================
 
-In this section, we classify states of a Markov chain according to reachability, communication, recurrence, and transience. A useful way to visualize these ideas is by using a directed graph: draw an arrow \(i\to j\) whenever \(p_{ij}>0\).
+In this section, we study Poisson processes. A Poisson process is a continuous-time counting process used to model random events occurring over time, such as arrivals of customers, phone calls, radioactive emissions, or births. Before defining the Poisson process, we recall two important ingredients: the exponential distribution and the Poisson distribution.
 
-Let \(\{X_n\}_{n\ge 0}\) be a Markov chain on state space \(S\) with transition matrix \(P=(p_{ij})\). For \(n\ge 0\), write
-\[
-p_{ij}^{(n)}:=\mathbb{P}(X_n=j\mid X_0=i).
-\]
-
-
-
-\begin{definition}[Accessibility]
-	We say that state \(j\) is \emph{accessible} from state \(i\), or that \(i\) \emph{leads to} \(j\), and write \(i\to j\), if there exists \(n\ge 0\) such that
+\begin{definition}[Exponential distribution]
+	A nonnegative random variable \(X\) is said to have an exponential distribution with rate \(\lambda>0\), written \(X\sim \operatorname{Exp}(\lambda)\), if its density is
 	\[
-	p_{ij}^{(n)}>0.
-	\]
-\end{definition}
-
-\begin{definition}[Communication]
-	If \(i\to j\) and \(j\to i\), then we say that \(i\) and \(j\) \emph{communicate}, denoted by
-	\[
-	i\leftrightarrow j.
-	\]
-\end{definition}
-
-\begin{remark}
-	Communication is an equivalence relation:
-	\begin{enumerate}[label=\arabic*)]
-		\item \(i\leftrightarrow i\) for all \(i\), since \(p_{ii}^{(0)}=1\).
-		\item If \(i\leftrightarrow j\), then \(j\leftrightarrow i\).
-		\item If \(i\leftrightarrow j\) and \(j\leftrightarrow k\), then \(i\leftrightarrow k\).
-	\end{enumerate}
-	For transitivity, use Chapman--Kolmogorov: if \(p_{ij}^{(n)}>0\) and \(p_{jk}^{(m)}>0\), then
-	\[
-	p_{ik}^{(n+m)}
+	f_X(x)
 	=
-	\sum_{\ell\in S}p_{i\ell}^{(n)}p_{\ell k}^{(m)}
-	\ge
-	p_{ij}^{(n)}p_{jk}^{(m)}
-	>0.
+	\begin{cases}
+		\lambda e^{-\lambda x}, & x\ge 0,\\
+		0, & x<0.
+	\end{cases}
 	\]
-	Thus \(i\to k\). Similarly, \(k\to i\).
-\end{remark}
-
-\begin{definition}[Communicating class]
-	A \emph{communicating class} is an equivalence class under the communication relation. Thus the state space is divided into disjoint communicating classes.
 \end{definition}
 
-\begin{definition}[Reducible and irreducible chains]
-	A Markov chain is called \emph{irreducible} if all states communicate with each other, i.e. the whole state space consists of one communicating class.
-	
-	If the state space contains more than one communicating class, then the chain is called \emph{reducible}.
-\end{definition}
-
-\begin{remark}
-	Properties such as recurrence, transience, periodicity, and positive recurrence are often \emph{class properties}. This means that if one state in a communicating class has the property, then every state in that class has the property.
-\end{remark}
-
-
-
-
-
-We now classify states according to whether the chain returns to them repeatedly or eventually leaves them forever.
-
-\begin{definition}[First return and hitting probabilities]
-	For states \(i,j\in S\), define
-	\[
-	f_{ij}:=\mathbb{P}_i(\exists\, n\ge 1 \text{ such that } X_n=j).
-	\]
-	In particular,
-	\[
-	f_i:=f_{ii}
-	=
-	\mathbb{P}_i(\exists\, n\ge 1 \text{ such that } X_n=i)
-	\]
-	is the probability that the chain ever returns to \(i\), starting from \(i\).
-\end{definition}
-
-For fixed \(i\), define the indicator variable
+For \(X\sim \operatorname{Exp}(\lambda)\), the distribution function is
 \[
-I_n
-:=
+F_X(x)=\mathbb{P}(X\le x)
+=
 \begin{cases}
-	1, & X_n=i,\\
-	0, & X_n\neq i.
+	1-e^{-\lambda x}, & x\ge 0,\\
+	0, & x<0.
 \end{cases}
 \]
-Then
+Hence \(\mathbb{P}(X>x)=e^{-\lambda x}\) for \(x\ge 0\). Also,
 \[
-\sum_{n=0}^{\infty}I_n
+\mathbb{E}[X]=\frac{1}{\lambda},
+\qquad
+\operatorname{Var}(X)=\frac{1}{\lambda^2},
+\qquad
+M_X(t)=\mathbb{E}[e^{tX}]=\frac{\lambda}{\lambda-t},\quad t<\lambda.
 \]
-is the total number of visits to state \(i\), including the visit at time \(0\) if \(X_0=i\).
 
-\begin{definition}[Recurrent and transient states]
-	A state \(i\) is called \emph{recurrent} if any, and hence all, of the following equivalent conditions hold:
-	\begin{enumerate}
-		\item \(f_i=1\).
-		\item \(\displaystyle \mathbb{E}_i\!\left[\sum_{n=0}^{\infty}I_n\right]=+\infty\).
-		\item \(\displaystyle \sum_{n=0}^{\infty}p_{ii}^{(n)}=+\infty\).
-	\end{enumerate}
+\begin{definition}[Memoryless property]
+	A nonnegative random variable \(X\) is said to be memoryless if
+	\[
+	\mathbb{P}(X>t+s\mid X>t)=\mathbb{P}(X>s)
+	\]
+	for all \(s,t\ge 0\).
+\end{definition}
+
+\begin{remark}
+	The memoryless property means that the fact that we have already waited for time \(t\) does not influence how much longer we still need to wait. For example, if \(X\) is the waiting time until the next arrival, then \(\mathbb{P}(X>t+s\mid X>t)\) is the probability that we still need to wait more than \(s\) additional units of time, given that we have already waited \(t\) units of time.
+\end{remark}
+
+\begin{proposition}
+	If \(X\sim \operatorname{Exp}(\lambda)\), then \(X\) is memoryless.
+\end{proposition}
+
+\begin{proof}
+	For \(s,t\ge 0\),
+	\[
+	\mathbb{P}(X>t+s\mid X>t)
+	=
+	\frac{\mathbb{P}(X>t+s)}{\mathbb{P}(X>t)}
+	=
+	\frac{e^{-\lambda(t+s)}}{e^{-\lambda t}}
+	=
+	e^{-\lambda s}
+	=
+	\mathbb{P}(X>s).
+	\]
+	Hence \(X\) is memoryless.
+\end{proof}
+
+\begin{proposition}[Small-time characterization of exponential waiting times]
+	Let \(X\) be a nonnegative random variable. Then \(X\sim \operatorname{Exp}(\lambda)\) if and only if, for every \(t\ge 0\),
+	\[
+	\mathbb{P}(X\le t+h\mid X>t)=\lambda h+o(h),
+	\qquad h\downarrow 0.
+	\]
+\end{proposition}
+
+\begin{remark}
+	The notation \(o(h)\) means any function of \(h\) such that
+	\[
+	\lim_{h\downarrow 0}\frac{o(h)}{h}=0.
+	\]
+	Thus \(\lambda h+o(h)\) means that, for a very small time interval of length \(h\), the probability that the waiting time ends in that interval is approximately \(\lambda h\).
+\end{remark}
+
+\begin{proof}
+	First suppose that \(X\sim \operatorname{Exp}(\lambda)\). By the memoryless property,
+	\[
+	\mathbb{P}(X\le t+h\mid X>t)
+	=
+	\mathbb{P}(X\le h)
+	=
+	1-e^{-\lambda h}.
+	\]
+	Using \(e^{-\lambda h}=1-\lambda h+o(h)\), we get
+	\[
+	1-e^{-\lambda h}=\lambda h+o(h).
+	\]
+	Hence \(\mathbb{P}(X\le t+h\mid X>t)=\lambda h+o(h)\).
 	
-	A state \(i\) is called \emph{transient} if any, and hence all, of the following equivalent conditions hold:
-	\begin{enumerate}
-		\item \(f_i<1\).
-		\item \(\displaystyle \mathbb{E}_i\!\left[\sum_{n=0}^{\infty}I_n\right]<+\infty\).
-		\item \(\displaystyle \sum_{n=0}^{\infty}p_{ii}^{(n)}<+\infty\).
+	Conversely, suppose that \(\mathbb{P}(X\le t+h\mid X>t)=\lambda h+o(h)\). Let \(G(t):=\mathbb{P}(X>t)\). Then
+	\[
+	\mathbb{P}(X>t+h\mid X>t)=1-\lambda h+o(h),
+	\]
+	so
+	\[
+	\frac{G(t+h)}{G(t)}=1-\lambda h+o(h).
+	\]
+	Equivalently,
+	\[
+	G(t+h)=G(t)\bigl(1-\lambda h+o(h)\bigr).
+	\]
+	Therefore,
+	\[
+	\frac{G(t+h)-G(t)}{h}
+	=
+	-\lambda G(t)+G(t)\frac{o(h)}{h}.
+	\]
+	Letting \(h\downarrow 0\) gives \(G'(t)=-\lambda G(t)\). Solving this differential equation gives \(G(t)=Ce^{-\lambda t}\). Since \(G(0)=\mathbb{P}(X>0)=1\), we have \(C=1\). Hence
+	\[
+	\mathbb{P}(X>t)=e^{-\lambda t},
+	\]
+	so \(X\sim \operatorname{Exp}(\lambda)\).
+\end{proof}
+
+\begin{definition}[Poisson distribution]
+	A random variable \(X\) has a Poisson distribution with parameter \(\alpha>0\), written \(X\sim \operatorname{Poisson}(\alpha)\), if
+	\[
+	\mathbb{P}(X=j)=e^{-\alpha}\frac{\alpha^j}{j!},
+	\qquad j=0,1,2,\dots.
+	\]
+\end{definition}
+
+If \(X\sim \operatorname{Poisson}(\alpha)\), then
+\[
+\mathbb{E}[X]=\alpha,
+\qquad
+\operatorname{Var}(X)=\alpha.
+\]
+The moment generating function is
+\[
+M_X(u)=\mathbb{E}[e^{uX}]=\exp\{\alpha(e^u-1)\}.
+\]
+Equivalently, the probability generating function is
+\[
+G_X(s)=\mathbb{E}[s^X]=\exp\{\alpha(s-1)\}.
+\]
+
+\begin{proposition}[Sum of independent Poisson random variables]
+	Let \(X_1,\dots,X_n\) be independent random variables such that \(X_i\sim \operatorname{Poisson}(\alpha_i)\). Then
+	\[
+	X_1+\cdots+X_n
+	\sim
+	\operatorname{Poisson}(\alpha_1+\cdots+\alpha_n).
+	\]
+\end{proposition}
+
+\begin{proof}
+	Using moment generating functions,
+	\[
+	M_{X_1+\cdots+X_n}(u)
+	=
+	M_{X_1}(u)\cdots M_{X_n}(u).
+	\]
+	Since \(M_{X_i}(u)=\exp\{\alpha_i(e^u-1)\}\), we obtain
+	\[
+	M_{X_1+\cdots+X_n}(u)
+	=
+	\exp\{(\alpha_1+\cdots+\alpha_n)(e^u-1)\}.
+	\]
+	This is the moment generating function of a Poisson random variable with parameter \(\alpha_1+\cdots+\alpha_n\). Therefore
+	\[
+	X_1+\cdots+X_n
+	\sim
+	\operatorname{Poisson}(\alpha_1+\cdots+\alpha_n).
+	\]
+\end{proof}
+
+\begin{definition}[Continuous-time discrete-valued stochastic process]
+	A stochastic process \(\{X(t):t\ge 0\}\) is called a continuous-time discrete-valued stochastic process if the time parameter \(t\) is continuous, while for each fixed \(t\), the random variable \(X(t)\) takes values in a discrete state space.
+\end{definition}
+
+\begin{definition}[Counting process]
+	A stochastic process \(\{N(t):t\ge 0\}\) is called a counting process if \(N(t)\) represents the total number of events that have occurred by time \(t\).
+\end{definition}
+
+\begin{example}
+	The following are examples of counting processes:
+	\begin{itemize}[leftmargin=2em]
+		\item \(N(t)\) is the number of customers who have entered a store by time \(t\).
+		\item \(N(t)\) is the number of babies born in a hospital by time \(t\).
+		\item \(N(t)\) is the number of phone calls received by time \(t\).
+		\item \(N(t)\) is the number of radioactive particles emitted by time \(t\).
+	\end{itemize}
+\end{example}
+
+A general counting process satisfies the following properties:
+\begin{itemize}[leftmargin=2em]
+	\item \(N(t)\ge 0\) for all \(t\ge 0\).
+	\item \(N(t)\) is integer-valued.
+	\item If \(s<t\), then \(N(s)\le N(t)\).
+	\item If \(s<t\), then \(N(t)-N(s)\) represents the number of events occurring during the time interval \((s,t]\).
+\end{itemize}
+
+\begin{remark}
+	In a general counting process, the increments \(N(t_1)-N(s_1)\) and \(N(t_2)-N(s_2)\) need not be independent, even if the intervals \((s_1,t_1]\) and \((s_2,t_2]\) are disjoint. Also, the distribution of \(N(t)-N(s)\) may depend on the actual values of \(s\) and \(t\), not just on the length \(t-s\).
+\end{remark}
+
+\begin{definition}[Independent increments]
+	A counting process \(\{N(t):t\ge 0\}\) is said to have independent increments if the numbers of events occurring in disjoint time intervals are independent. That is, if
+	\[
+	0\le t_0<t_1<\cdots<t_n,
+	\]
+	then the random variables
+	\[
+	N(t_1)-N(t_0),\quad
+	N(t_2)-N(t_1),\quad
+	\dots,\quad
+	N(t_n)-N(t_{n-1})
+	\]
+	are independent.
+\end{definition}
+
+\begin{definition}[Stationary increments]
+	A counting process \(\{N(t):t\ge 0\}\) is said to have stationary increments if the distribution of \(N(t)-N(s)\) depends only on the length of the interval \(t-s\). Equivalently, for all \(s,t\ge 0\), \(N(s+t)-N(s)\) has the same distribution as \(N(t)-N(0)\).
+\end{definition}
+
+\begin{definition}[Poisson process, first definition]
+	A counting process \(\{N(t):t\ge 0\}\) is called a Poisson process with rate \(\lambda>0\) if:
+	\begin{enumerate}[leftmargin=2em]
+		\item \(N(0)=0\).
+		\item The process has independent increments.
+		\item For all \(s,t\ge 0\),
+		\[
+		N(s+t)-N(s)
+		\sim
+		\operatorname{Poisson}(\lambda t).
+		\]
 	\end{enumerate}
 \end{definition}
 
-\begin{proof}[Proof of equivalence]
-	First,
-	\[
-	\mathbb{E}_i\!\left[\sum_{n=0}^{\infty}I_n\right]
-	=
-	\sum_{n=0}^{\infty}\mathbb{E}_i[I_n]
-	=
-	\sum_{n=0}^{\infty}\mathbb{P}_i(X_n=i)
-	=
-	\sum_{n=0}^{\infty}p_{ii}^{(n)}.
-	\]
-	Thus conditions involving the expected number of visits and the sum of return probabilities are equivalent.
-	
-	Now let \(N\) be the number of revisits to state \(i\), excluding time \(0\), when \(X_0=i\). After each return to \(i\), the Markov property says that the chain starts afresh from \(i\). Therefore,
-	\[
-	\mathbb{P}_i(N=n)=f_i^n(1-f_i),
-	\qquad n=0,1,2,\dots,
-	\]
-	when \(f_i<1\). Hence
-	\[
-	\mathbb{E}_i[N]
-	=
-	\begin{cases}
-		\dfrac{f_i}{1-f_i}, & f_i<1,\\[8pt]
-		+\infty, & f_i=1.
-	\end{cases}
-	\]
-	Since the total number of visits to \(i\) is \(1+N\), we get
-	\[
-	\mathbb{E}_i\!\left[\sum_{n=0}^{\infty}I_n\right]
-	=
-	\begin{cases}
-		\dfrac{1}{1-f_i}, & f_i<1,\\[8pt]
-		+\infty, & f_i=1.
-	\end{cases}
-	\]
-	Therefore \(i\) is recurrent if and only if \(f_i=1\), and transient if and only if \(f_i<1\).
-\end{proof}
+\begin{remark}
+	The third condition says two things at once: the number of events in an interval of length \(t\) has Poisson distribution with parameter \(\lambda t\), and the distribution depends only on the length of the interval, not on its location. Thus the process has stationary increments.
+\end{remark}
 
-
-
-% =========================================================
-% =========================================================
-\subsection{Class Properties}
-% =========================================================
-
-Before proving the class-property results, we fix some notation. For a state \(i\in S\), we write
-\[
-\mathbb{P}_i(A):=\mathbb{P}(A\mid X_0=i),
-\qquad
-\mathbb{E}_i[Y]:=\mathbb{E}[Y\mid X_0=i].
-\]
-Thus \(\mathbb{P}_i\) and \(\mathbb{E}_i\) mean that the Markov chain starts from state \(i\).
-
-In particular,
-\[
-p_{ij}^{(n)}
-=
-\mathbb{P}(X_n=j\mid X_0=i)
-=
-\mathbb{P}_i(X_n=j).
-\]
-
-\begin{proposition}[Recurrence and transience are class properties]
-	If \(i\leftrightarrow j\), then \(i\) is recurrent if and only if \(j\) is recurrent. Equivalently, \(i\) is transient if and only if \(j\) is transient.
-\end{proposition}
-
-\begin{proof}
-	Assume \(i\leftrightarrow j\). Then there exist \(m,k\ge 0\) such that
-	\[
-	p_{ij}^{(m)}>0,
-	\qquad
-	p_{ji}^{(k)}>0.
-	\]
-	By the Chapman--Kolmogorov equation, for any \(n\ge 0\),
-	\[
-	p_{ii}^{(m+n+k)}
-	=
-	\sum_{a,b\in S}p_{ia}^{(m)}p_{ab}^{(n)}p_{bi}^{(k)}
-	\ge
-	p_{ij}^{(m)}p_{jj}^{(n)}p_{ji}^{(k)}.
-	\]
-	Summing over \(n\ge 0\), we obtain
-	\[
-	\sum_{t=0}^{\infty}p_{ii}^{(t)}
-	\ge
-	\sum_{n=0}^{\infty}p_{ii}^{(m+n+k)}
-	\ge
-	p_{ij}^{(m)}p_{ji}^{(k)}
-	\sum_{n=0}^{\infty}p_{jj}^{(n)}.
-	\]
-	Therefore, if \(j\) is recurrent, then
-	\[
-	\sum_{n=0}^{\infty}p_{jj}^{(n)}=+\infty,
-	\]
-	and hence
-	\[
-	\sum_{t=0}^{\infty}p_{ii}^{(t)}=+\infty.
-	\]
-	So \(i\) is recurrent.
-	
-	By symmetry, if \(i\) is recurrent, then \(j\) is recurrent. Hence recurrence is a class property. Since a state is transient exactly when it is not recurrent, transience is also a class property.
-\end{proof}
-
-
-
-\begin{proposition}
-	If \(i\) is recurrent and \(i\to j\), then \(j\to i\). Consequently, \(i\leftrightarrow j\), and \(j\) is also recurrent.
-\end{proposition}
-
-\begin{proof}
-	Since \(i\to j\), there exists a path from \(i\) to \(j\) with positive probability. Choose such a path of minimal length:
-	\[
-	i=i_0\to i_1\to \cdots \to i_m=j.
-	\]
-	By minimality, the path does not visit \(i\) again before reaching \(j\). Thus there is positive probability that, starting from \(i\), the chain reaches \(j\) before returning to \(i\).
-	
-	Suppose, for contradiction, that \(j\not\to i\). Then once the chain reaches \(j\), it can never return to \(i\). Hence, starting from \(i\), there is positive probability that the chain never returns to \(i\). In symbols,
-	\[
-	\mathbb{P}_i(\text{the chain never returns to }i)>0.
-	\]
-	This contradicts the assumption that \(i\) is recurrent.
-	
-	Therefore \(j\to i\). Since we already have \(i\to j\), it follows that \(i\leftrightarrow j\). By the previous proposition, recurrence is a class property, so \(j\) is recurrent.
-\end{proof}
+\begin{definition}[Poisson process, second definition]
+	A counting process \(\{N(t):t\ge 0\}\) is called a Poisson process with rate \(\lambda>0\) if:
+	\begin{enumerate}[leftmargin=2em]
+		\item \(N(0)=0\).
+		\item The process has stationary and independent increments.
+		\item As \(h\downarrow 0\),
+		\[
+		\mathbb{P}(N(h)=1)=\lambda h+o(h).
+		\]
+		\item As \(h\downarrow 0\),
+		\[
+		\mathbb{P}(N(h)\ge 2)=o(h).
+		\]
+	\end{enumerate}
+\end{definition}
 
 \begin{remark}
-	If \(i\) is transient and \(i\to j\), then \(j\) is not necessarily transient, and \(j\to i\) does not necessarily hold. For example, a transient state may lead into a closed recurrent class.
+	The condition \(\mathbb{P}(N(h)=1)=\lambda h+o(h)\) means that, in a very small time interval of length \(h\), the probability of one event is approximately \(\lambda h\). The condition \(\mathbb{P}(N(h)\ge 2)=o(h)\) means that the probability of two or more events in a very small interval is negligible compared with \(h\).
 \end{remark}
 
 \begin{remark}
-	If \(i\) is transient and \(i\leftrightarrow j\), then \(j\) is transient, because transience is a class property.
+	From the two small-time conditions, we also get
+	\[
+	\mathbb{P}(N(h)=0)=1-\lambda h+o(h).
+	\]
+	Indeed,
+	\[
+	\mathbb{P}(N(h)=0)
+	=
+	1-\mathbb{P}(N(h)=1)-\mathbb{P}(N(h)\ge 2)
+	=
+	1-\lambda h+o(h).
+	\]
 \end{remark}
-
-
-
-\begin{proposition}
-	If a Markov chain has finitely many states, then it has at least one recurrent state.
-\end{proposition}
-
-\begin{proof}
-	Let the state space be
-	\[
-	S=\{1,\dots,r\}.
-	\]
-	Suppose, for contradiction, that every state is transient.
-	
-	For each state \(\ell\in S\), define
-	\[
-	N_\ell
-	:=
-	\sum_{n=0}^{\infty}\mathbf{1}_{\{X_n=\ell\}},
-	\]
-	the total number of visits to state \(\ell\). Since \(\ell\) is transient,
-	\[
-	\mathbb{E}_\ell[N_\ell]<\infty.
-	\]
-	
-	Now fix an arbitrary starting state \(a\in S\). Let
-	\[
-	T_\ell:=\inf\{n\ge 0:X_n=\ell\}
-	\]
-	be the first hitting time of state \(\ell\). Starting from \(a\), the chain can visit \(\ell\) only if \(T_\ell<\infty\). On the event \(\{T_\ell<\infty\}\), the strong Markov property says that after time \(T_\ell\), the chain starts afresh from \(\ell\). Hence
-	\[
-	\mathbb{E}_a[N_\ell]
-	=
-	\mathbb{P}_a(T_\ell<\infty)\mathbb{E}_\ell[N_\ell]
-	\le
-	\mathbb{E}_\ell[N_\ell]
-	<\infty.
-	\]
-	Therefore, for this starting state \(a\),
-	\[
-	\mathbb{E}_a[N_\ell]<\infty
-	\qquad
-	\text{for every } \ell\in S.
-	\]
-	Summing over all states gives
-	\[
-	\sum_{\ell=1}^r \mathbb{E}_a[N_\ell]<\infty.
-	\]
-	
-	On the other hand, at each time \(n\), the chain is in exactly one state. Therefore,
-	\[
-	\sum_{\ell=1}^r \mathbf{1}_{\{X_n=\ell\}}=1.
-	\]
-	Hence
-	\[
-	\sum_{\ell=1}^r N_\ell
-	=
-	\sum_{\ell=1}^r\sum_{n=0}^{\infty}\mathbf{1}_{\{X_n=\ell\}}
-	=
-	\sum_{n=0}^{\infty}\sum_{\ell=1}^r\mathbf{1}_{\{X_n=\ell\}}
-	=
-	\sum_{n=0}^{\infty}1
-	=
-	\infty
-	\qquad \mathbb{P}_a\text{-a.s.}
-	\]
-	Taking expectation under \(\mathbb{P}_a\), we get
-	\[
-	\sum_{\ell=1}^r \mathbb{E}_a[N_\ell]=\infty,
-	\]
-	which contradicts
-	\[
-	\sum_{\ell=1}^r \mathbb{E}_a[N_\ell]<\infty.
-	\]
-	Therefore not all states can be transient. Hence a finite Markov chain has at least one recurrent state.
-\end{proof}
 
 \begin{theorem}
-	All states of a finite irreducible Markov chain are recurrent.
+	The two definitions of a Poisson process are equivalent.
 \end{theorem}
 
 \begin{proof}
-	A finite Markov chain has at least one recurrent state. Since the chain is irreducible, every state communicates with every other state. Recurrence is a class property, so every state is recurrent.
-\end{proof}
-
-\begin{remark}
-	The finiteness assumption is important. An infinite irreducible Markov chain may be recurrent or transient. For example, the simple symmetric random walk on \(\mathbb{Z}\) is recurrent, while the simple symmetric random walk on \(\mathbb{Z}^3\) is transient.
-\end{remark}
-
-
-
-% =========================================================
-\subsection{Random Walks and Recurrence}
-% =========================================================
-
-Random walks are important examples of Markov chains. Since irreducible random walks have only one communicating class, it is enough to check recurrence or transience for one state, usually the origin.
-
-\begin{example}[One-dimensional nearest-neighbour random walk]
-	Let \(\{X_n\}_{n\ge 0}\) be a random walk on \(\mathbb{Z}\) with transition probabilities
-	\[
-	p_{i,i+1}=p,
-	\qquad
-	p_{i,i-1}=1-p.
-	\]
-	Assume \(0<p<1\). Then the chain is irreducible.
+	We prove both directions.
 	
-	Starting from \(0\), the chain can return to \(0\) only at even times. For \(m\ge 1\),
+	First assume that \(\{N(t):t\ge 0\}\) is a Poisson process according to the first definition. Then \(N(0)=0\) and the process has independent increments. Also,
 	\[
-	p_{00}^{(2m)}
-	=
-	\mathbb{P}_0(X_{2m}=0)
-	=
-	\binom{2m}{m}p^m(1-p)^m,
-	\qquad
-	p_{00}^{(2m+1)}=0.
-	\]
-	Using Stirling's approximation,
-	\[
-	\binom{2m}{m}
+	N(s+t)-N(s)
 	\sim
-	\frac{4^m}{\sqrt{\pi m}},
+	\operatorname{Poisson}(\lambda t),
 	\]
-	we get
-	\[
-	p_{00}^{(2m)}
-	\sim
-	\frac{\bigl(4p(1-p)\bigr)^m}{\sqrt{\pi m}}.
-	\]
+	so the increments are stationary.
 	
-	If \(p=1/2\), then \(4p(1-p)=1\), so
+	It remains to verify the two small-time conditions. Since \(N(h)\sim \operatorname{Poisson}(\lambda h)\), we have
 	\[
-	p_{00}^{(2m)}
-	\sim
-	\frac{1}{\sqrt{\pi m}}.
+	\mathbb{P}(N(h)=1)=e^{-\lambda h}\lambda h.
 	\]
-	Since \(\sum_{m=1}^{\infty}m^{-1/2}=+\infty\), we have
+	Using \(e^{-\lambda h}=1-\lambda h+o(h)\), we get
 	\[
-	\sum_{n=0}^{\infty}p_{00}^{(n)}=+\infty.
-	\]
-	Thus state \(0\) is recurrent, and hence all states are recurrent.
-	
-	If \(p\neq 1/2\), then \(4p(1-p)<1\). Hence \(p_{00}^{(2m)}\) decays geometrically up to a polynomial factor, so
-	\[
-	\sum_{n=0}^{\infty}p_{00}^{(n)}<+\infty.
-	\]
-	Thus state \(0\) is transient, and hence all states are transient.
-\end{example}
-
-\begin{remark}
-	For the one-dimensional nearest-neighbour random walk:
-	\[
-	\sum_{n=0}^{\infty}p_{00}^{(n)}
+	\mathbb{P}(N(h)=1)
 	=
-	\begin{cases}
-		+\infty, & p=\dfrac12,\\[8pt]
-		\dfrac{1}{|1-2p|}, & p\neq\dfrac12.
-	\end{cases}
-	\]
-	Therefore the walk is recurrent exactly in the symmetric case \(p=1/2\), and transient in the biased case \(p\neq 1/2\).
-\end{remark}
-
-
-
-
-
-\begin{example}[Two-dimensional simple symmetric random walk]
-	Let \(\{X_n\}_{n\ge 0}\) be the simple symmetric random walk on \(\mathbb{Z}^2\). At each step, the chain moves to one of the four nearest neighbours with probability \(1/4\).
-	
-	The chain is irreducible on \(\mathbb{Z}^2\), so it is enough to study the origin \((0,0)\). The walk can return to the origin only at even times.
-	
-	We now compute the return probability \(p_{00}^{(2n)}\). Write
-	\[
-	X_k=(A_k,B_k),
-	\]
-	where \(A_k\) and \(B_k\) are the two coordinates of the walk at time \(k\). Define new coordinates
-	\[
-	U_k=A_k+B_k,
-	\qquad
-	V_k=A_k-B_k.
-	\]
-	Then
-	\[
-	A_k=\frac{U_k+V_k}{2},
-	\qquad
-	B_k=\frac{U_k-V_k}{2}.
-	\]
-	Therefore,
-	\[
-	X_k=(0,0)
-	\qquad\Longleftrightarrow\qquad
-	U_k=0 \text{ and } V_k=0.
-	\]
-	
-	At each step, the walk moves in one of the four directions
-	\[
-	(1,0),\quad (-1,0),\quad (0,1),\quad (0,-1),
-	\]
-	each with probability \(1/4\). The corresponding changes in \((U_k,V_k)\) are
-	\[
-	(1,1),\quad (-1,-1),\quad (1,-1),\quad (-1,1).
-	\]
-	Hence \(U_k\) and \(V_k\) are both one-dimensional simple symmetric random walks. Moreover, their increments are independent. Thus
-	\[
-	\mathbb{P}_0(X_{2n}=0)
+	\lambda h(1-\lambda h+o(h))
 	=
-	\mathbb{P}(U_{2n}=0,V_{2n}=0)
-	=
-	\mathbb{P}(U_{2n}=0)\mathbb{P}(V_{2n}=0).
-	\]
-	
-	For a one-dimensional simple symmetric random walk to be at \(0\) after \(2n\) steps, it must take exactly \(n\) positive steps and \(n\) negative steps. Hence
-	\[
-	\mathbb{P}(U_{2n}=0)
-	=
-	\binom{2n}{n}\left(\frac12\right)^{2n}
-	=
-	\frac{\binom{2n}{n}}{2^{2n}},
-	\]
-	and similarly,
-	\[
-	\mathbb{P}(V_{2n}=0)
-	=
-	\frac{\binom{2n}{n}}{2^{2n}}.
-	\]
-	Therefore,
-	\[
-	p_{00}^{(2n)}
-	=
-	\mathbb{P}_0(X_{2n}=0)
-	=
-	\frac{\binom{2n}{n}}{2^{2n}}
-	\cdot
-	\frac{\binom{2n}{n}}{2^{2n}}
-	=
-	\frac{\binom{2n}{n}^2}{4^{2n}}.
+	\lambda h+o(h).
 	\]
 	Also,
 	\[
-	p_{00}^{(2n+1)}=0,
-	\]
-	because the walk cannot return to the origin after an odd number of steps.
-	
-	Using Stirling's approximation,
-	\[
-	\binom{2n}{n}
-	\sim
-	\frac{4^n}{\sqrt{\pi n}},
-	\]
-	we get
-	\[
-	p_{00}^{(2n)}
+	\mathbb{P}(N(h)\ge 2)
 	=
-	\frac{\binom{2n}{n}^2}{4^{2n}}
-	\sim
-	\frac{1}{\pi n}.
+	1-\mathbb{P}(N(h)=0)-\mathbb{P}(N(h)=1).
 	\]
-	Therefore
+	Since \(\mathbb{P}(N(h)=0)=e^{-\lambda h}=1-\lambda h+o(h)\) and \(\mathbb{P}(N(h)=1)=\lambda h+o(h)\), we obtain
 	\[
-	\sum_{n=0}^{\infty}p_{00}^{(n)}=+\infty.
+	\mathbb{P}(N(h)\ge 2)
+	=
+	1-\bigl(1-\lambda h+o(h)\bigr)-\bigl(\lambda h+o(h)\bigr)
+	=
+	o(h).
 	\]
-	Hence the two-dimensional simple symmetric random walk is recurrent.
-\end{example}
-
-
-\begin{example}[Three-dimensional simple symmetric random walk]
-	Let \(\{X_n\}_{n\ge 0}\) be the simple symmetric random walk on \(\mathbb{Z}^3\). The chain is irreducible, so it is enough to study the origin.
+	Thus the second definition holds.
 	
-	For the three-dimensional simple symmetric random walk, one has the asymptotic estimate
+	Conversely, assume that \(\{N(t):t\ge 0\}\) satisfies the second definition. We show that \(N(t)\sim \operatorname{Poisson}(\lambda t)\) for every \(t\ge 0\). For \(0\le s\le 1\), define the probability generating function
 	\[
-	p_{00}^{(2n)}
+	G(t,s):=\mathbb{E}[s^{N(t)}].
+	\]
+	Using stationary and independent increments,
+	\[
+	N(t+h)=N(t)+\bigl(N(t+h)-N(t)\bigr),
+	\]
+	where \(N(t)\) is independent of \(N(t+h)-N(t)\), and \(N(t+h)-N(t)\) has the same distribution as \(N(h)\). Hence
+	\[
+	G(t+h,s)=G(t,s)G(h,s).
+	\]
+	
+	Now compute \(G(h,s)\) for small \(h\). By the small-time conditions,
+	\[
+	\mathbb{P}(N(h)=0)=1-\lambda h+o(h),
+	\qquad
+	\mathbb{P}(N(h)=1)=\lambda h+o(h),
+	\qquad
+	\mathbb{P}(N(h)\ge 2)=o(h).
+	\]
+	Therefore, for \(0\le s\le 1\),
+	\[
+	G(h,s)
+	=
+	(1-\lambda h+o(h))
+	+
+	s(\lambda h+o(h))
+	+
+	o(h)
+	=
+	1+\lambda h(s-1)+o(h).
+	\]
+	Substituting this into \(G(t+h,s)=G(t,s)G(h,s)\), we get
+	\[
+	G(t+h,s)
+	=
+	G(t,s)\bigl(1+\lambda h(s-1)+o(h)\bigr).
+	\]
+	Hence
+	\[
+	\frac{G(t+h,s)-G(t,s)}{h}
+	=
+	\lambda(s-1)G(t,s)+G(t,s)\frac{o(h)}{h}.
+	\]
+	Letting \(h\downarrow 0\) gives the differential equation
+	\[
+	\frac{\partial}{\partial t}G(t,s)=\lambda(s-1)G(t,s).
+	\]
+	Since \(N(0)=0\), we have \(G(0,s)=\mathbb{E}[s^{N(0)}]=1\). Solving the differential equation gives
+	\[
+	G(t,s)=\exp\{\lambda t(s-1)\}.
+	\]
+	This is exactly the probability generating function of a Poisson random variable with parameter \(\lambda t\). Therefore \(N(t)\sim \operatorname{Poisson}(\lambda t)\).
+	
+	By stationary increments, the same argument gives
+	\[
+	N(s+t)-N(s)
 	\sim
-	Cn^{-3/2}
+	\operatorname{Poisson}(\lambda t)
 	\]
-	for some constant \(C>0\). Hence
-	\[
-	\sum_{n=1}^{\infty}p_{00}^{(2n)}<+\infty.
-	\]
-	Therefore the origin is transient, and since the chain is irreducible, all states are transient.
-\end{example}
-
-\begin{theorem}[Polya's theorem]
-	The simple symmetric random walk on \(\mathbb{Z}^d\) is recurrent for \(d=1,2\), and transient for \(d\ge 3\).
-\end{theorem}
-
-\begin{proof}[Proof idea]
-	For the simple symmetric random walk on \(\mathbb{Z}^d\), the probability of returning to the origin at time \(2n\) satisfies
-	\[
-	p_{00}^{(2n)}
-	\asymp
-	n^{-d/2}.
-	\]
-	Thus recurrence or transience is determined by the convergence of
-	\[
-	\sum_{n=1}^{\infty}n^{-d/2}.
-	\]
-	This series diverges if and only if \(d/2\le 1\), that is, \(d\le 2\). Therefore the walk is recurrent in dimensions \(1\) and \(2\), and transient in dimensions \(d\ge 3\).
+	for all \(s,t\ge 0\). Hence the first definition holds.
 \end{proof}
 
 \begin{remark}
-	Intuitively, in low dimensions, the random walk has less room to escape, so it keeps returning. In dimension \(3\) or higher, there are enough directions for the walk to drift away from its starting point with positive probability.
+	The parameter \(\lambda\) is called the rate or intensity of the Poisson process. It represents the average number of events per unit time. For example, if customers arrive according to a Poisson process with rate \(\lambda=5\) per hour, then the expected number of arrivals in one hour is \(5\), the expected number of arrivals in \(t\) hours is \(5t\), and the number of arrivals in an interval of length \(t\) has distribution \(\operatorname{Poisson}(5t)\).
 \end{remark}
 
-
-	
-	
-	
-	
-	
-	% =========================================================
-	\section{Limiting Probabilities}
-	% =========================================================
-	
-	In this section, we study when the distribution of a Markov chain converges as time goes to infinity.
-	
-	Recall that if the initial distribution is written as a row vector
-	\[
-	\pi^{(0)}=\bigl(\mathbb{P}(X_0=0),\mathbb{P}(X_0=1),\dots\bigr),
-	\]
-	then
-	\[
-	\pi^{(n)}=\pi^{(0)}P^n.
-	\]
-	Thus the long-term behaviour of the Markov chain is closely related to the behaviour of \(P^n\) as \(n\to\infty\).
-	
-	\begin{definition}[Limiting probabilities]
-		For a Markov chain with transition matrix \(P=(p_{ij})\), if the limit
-		\[
-		\lim_{n\to\infty}p_{ij}^{(n)}
-		\]
-		exists, then it is called a \emph{limiting probability}.
-	\end{definition}
-	
-	\begin{definition}[Limiting distribution]
-		If there exists a probability distribution \(\pi=(\pi_j)_{j\in S}\) such that for every pair of states \(i,j\),
-		\[
-		\lim_{n\to\infty}p_{ij}^{(n)}=\pi_j,
-		\]
-		then \(\pi\) is called a \emph{limiting distribution}.
-	\end{definition}
-	
-	\begin{remark}
-		The important point is that the limit \(\pi_j\) does not depend on the starting state \(i\). In other words, after a sufficiently long time, the chain forgets its initial distribution.
-	\end{remark}
-	
-	
-	
-	
-	\begin{definition}[Stationary distribution]
-		A probability distribution \(\pi=(\pi_j)_{j\in S}\) is called a \emph{stationary distribution} of a Markov chain with transition matrix \(P\) if
-		\[
-		\pi=\pi P.
-		\]
-		Equivalently,
-		\[
-		\pi_j=\sum_{i\in S}\pi_i p_{ij},
-		\qquad j\in S.
-		\]
-	\end{definition}
-	
-	\begin{remark}
-		The word ``stationary'' means that if the initial distribution is already \(\pi\), then the distribution does not change with time. Indeed, if \(\pi^{(0)}=\pi\), then
-		\[
-		\pi^{(1)}=\pi P=\pi,
-		\]
-		and by induction,
-		\[
-		\pi^{(n)}=\pi,
-		\qquad n\ge 0.
-		\]
-	\end{remark}
-	
-	\begin{proposition}
-		If a Markov chain has a limiting distribution \(\pi\), then \(\pi\) is a stationary distribution.
-	\end{proposition}
-	
-	\begin{proof}
-		Assume that \(\lim_{n\to\infty}p_{ij}^{(n)}=\pi_j\) for all states \(i,j\), and the limit is independent of \(i\). By the Chapman--Kolmogorov equation,
-		\[
-		p_{ij}^{(n+1)}
-		=
-		\sum_{k\in S}p_{ik}^{(n)}p_{kj}.
-		\]
-		Taking \(n\to\infty\), we obtain
-		\[
-		\pi_j
-		=
-		\sum_{k\in S}\pi_kp_{kj}.
-		\]
-		Hence \(\pi=\pi P\), so \(\pi\) is stationary.
-	\end{proof}
-	
-	\begin{note}
-		A stationary distribution does not always imply convergence. There may exist a stationary distribution even when \(P^n\) does not converge. Periodicity is one obstruction.
-	\end{note}
-	
-	
-	
-	
-	
-	From examples, we see that for some Markov chains, after a sufficiently long time, the distribution converges to a stationary distribution and no longer depends on the distribution of \(X_0\). The natural question is:
-	
-	\begin{center}
-		\emph{For what kind of Markov chain does this happen?}
-	\end{center}
-	
-	There are three main obstructions, or ``enemies,'' to convergence:
-	
-	\begin{enumerate}
-		\item the chain may be reducible;
-		\item the chain may be periodic;
-		\item the chain may be null recurrent.
-	\end{enumerate}
-	
-	\begin{example}[Reducibility]
-		If a Markov chain is reducible and has more than one closed communicating class, then the limiting distribution may depend on the initial state. For example, the chain may eventually enter different closed classes depending on where it starts.
-	\end{example}
-	
-	\begin{example}[Periodicity]
-		Consider
-		\[
-		P=
-		\begin{pmatrix}
-			0 & 1\\
-			1 & 0
-		\end{pmatrix}.
-		\]
-		Then \(P^2=I\), so
-		\[
-		P^{2n}=I,
-		\qquad
-		P^{2n+1}=P.
-		\]
-		Thus \(P^n\) oscillates and does not converge, even though the chain is finite and irreducible.
-	\end{example}
-	
-	
-	
-	
-	\begin{definition}[Period of a state]
-		Let \(i\) be a state and define
-		\[
-		I_i:=\{n\ge 1:p_{ii}^{(n)}>0\}.
-		\]
-		The \emph{period} of state \(i\) is
-		\[
-		d(i):=\gcd I_i.
-		\]
-		If \(d(i)=1\), then \(i\) is called \emph{aperiodic}.
-	\end{definition}
-	
-	\begin{remark}
-		The set \(I_i\) contains the possible return times to state \(i\). The period is the greatest common divisor of all possible return times.
-	\end{remark}
-	
-	\begin{theorem}
-		Periodicity is a class property. If \(i\leftrightarrow j\), then \(d(i)=d(j)\).
-	\end{theorem}
-	
-	\begin{proof}
-		Assume \(i\leftrightarrow j\). Then there exist \(r,s\ge 0\) such that
-		\[
-		p_{ij}^{(r)}>0,
-		\qquad
-		p_{ji}^{(s)}>0.
-		\]
-		Hence
-		\[
-		p_{ii}^{(r+s)}
-		\ge
-		p_{ij}^{(r)}p_{ji}^{(s)}
-		>0,
-		\]
-		so \(d(i)\mid(r+s)\).
-		
-		Now take any \(n\ge 1\) such that \(p_{jj}^{(n)}>0\). By Chapman--Kolmogorov,
-		\[
-		p_{ii}^{(r+n+s)}
-		\ge
-		p_{ij}^{(r)}p_{jj}^{(n)}p_{ji}^{(s)}
-		>0.
-		\]
-		Therefore \(d(i)\mid(r+n+s)\). Since \(d(i)\mid(r+s)\), subtracting gives \(d(i)\mid n\). This holds for every \(n\) such that \(p_{jj}^{(n)}>0\), so \(d(i)\mid d(j)\). By symmetry, \(d(j)\mid d(i)\). Hence \(d(i)=d(j)\).
-	\end{proof}
-	
-	\begin{definition}[Aperiodic Markov chain]
-		An irreducible Markov chain is called \emph{aperiodic} if one, and hence every, state has period \(1\).
-	\end{definition}
-	
-	
-	
-	
-	
-	Recurrence tells us whether the chain returns to a state with probability \(1\), but it does not tell us how long we need to wait on average.
-	
-	\begin{definition}[First return time]
-		For a state \(i\), define the first return time to \(i\) by
-		\[
-		T_i:=\inf\{n\ge 1:X_n=i\}.
-		\]
-	\end{definition}
-	
-	\begin{definition}[Positive recurrent and null recurrent states]
-		Let \(i\) be a recurrent state. We say that \(i\) is \emph{positive recurrent} if
-		\[
-		\mathbb{E}_i[T_i]<\infty.
-		\]
-		If
-		\[
-		\mathbb{E}_i[T_i]=\infty,
-		\]
-		then \(i\) is called \emph{null recurrent}.
-	\end{definition}
-	
-	\begin{remark}
-		Positive recurrence is important because a limiting distribution should describe long-run frequencies. If the chain has limiting distribution \(\pi\), then \(\pi(i)\) represents the long-run proportion of time spent in state \(i\). Heuristically, the average waiting time between visits to \(i\) should be about \(1/\pi(i)\). Therefore, if the expected return time to \(i\) is infinite, then \(\pi(i)\) should be \(0\). In an irreducible null recurrent chain, this would force \(\pi(i)=0\) for every state \(i\), which cannot form a probability distribution.
-	\end{remark}
-	
-	\begin{theorem}
-		In a finite-state Markov chain, every recurrent state is positive recurrent.
-	\end{theorem}
-	
-	\begin{corollary}
-		Every finite irreducible Markov chain is positive recurrent.
-	\end{corollary}
-	
-	\begin{theorem}
-		Positive recurrence is a class property. If \(i\leftrightarrow j\), then \(i\) is positive recurrent if and only if \(j\) is positive recurrent.
-	\end{theorem}
-	
-	\begin{remark}
-		Therefore, for an irreducible Markov chain, if one state is positive recurrent, then all states are positive recurrent.
-	\end{remark}
-	
-	
-	
-	
-	
-	\begin{definition}[Ergodic state]
-		A state is called \emph{ergodic} if it is positive recurrent and aperiodic.
-	\end{definition}
-	
-	\begin{definition}[Ergodic Markov chain]
-		An irreducible Markov chain is called \emph{ergodic} if one, and hence every, state is positive recurrent and aperiodic.
-	\end{definition}
-	
-	\begin{remark}
-		Ergodicity combines the two properties needed for convergence: positive recurrence guarantees a genuine long-run distribution, while aperiodicity prevents oscillation.
-	\end{remark}
-	
-	\begin{theorem}[Limiting theorem for Markov chains]
-		Let \(\{X_n\}_{n\ge 0}\) be an irreducible, positive recurrent, and aperiodic Markov chain with transition matrix \(P\). Then there exists a unique stationary distribution \(\pi=(\pi_j)_{j\in S}\) such that
-		\[
-		\pi=\pi P,
-		\qquad
-		\sum_{j\in S}\pi_j=1,
-		\qquad
-		\pi_j\ge 0.
-		\]
-		Moreover, for all states \(i,j\),
-		\[
-		\lim_{n\to\infty}p_{ij}^{(n)}=\pi_j.
-		\]
-		The limit is independent of the starting state \(i\).
-	\end{theorem}
-	
-	\begin{remark}
-		For a finite irreducible Markov chain, positive recurrence is automatic. Therefore, for a finite irreducible chain, aperiodicity is the remaining condition needed for convergence.
-	\end{remark}
-	
-	\begin{theorem}[Stationary distribution and mean return time]
-		Let \(\{X_n\}_{n\ge 0}\) be an irreducible, positive recurrent Markov chain. Let
-		\[
-		m_j:=\mathbb{E}_j[T_j]
-		\]
-		be the mean return time to state \(j\). Then the unique stationary distribution satisfies
-		\[
-		\pi_j=\frac{1}{m_j}.
-		\]
-	\end{theorem}
-	
-	\begin{remark}
-		The formula \(\pi_j=1/m_j\) has a natural interpretation. If the chain returns to state \(j\) every \(m_j\) steps on average, then the long-run proportion of time spent in state \(j\) should be \(1/m_j\).
-	\end{remark}
-	
-	
-	
-	
-	
-	For a finite Markov chain, a stationary distribution is found by solving
-	\[
-	\pi=\pi P,
-	\qquad
-	\sum_{j\in S}\pi_j=1.
-	\]
-	Equivalently,
-	\[
-	\pi(P-I)=0,
-	\qquad
-	\sum_{j\in S}\pi_j=1.
-	\]
-	
-	\begin{note}
-		The equation \(\pi=\pi P\) means that \(\pi\) is a left eigenvector of \(P\) with eigenvalue \(1\). Equivalently, \(\pi^T\) is a right eigenvector of \(P^T\) with eigenvalue \(1\).
-	\end{note}
-	
-	\begin{example}[Two-state mobile phone model]
-		Consider
-		\[
-		P=
-		\frac{1}{10}
-		\begin{pmatrix}
-			7 & 3\\
-			4 & 6
-		\end{pmatrix}.
-		\]
-		Let \(\pi=(\pi_0,\pi_1)\). Solving \(\pi=\pi P\) and \(\pi_0+\pi_1=1\), we get
-		\[
-		\pi_0=\frac{7}{10}\pi_0+\frac{4}{10}\pi_1,
-		\qquad
-		\pi_1=\frac{3}{10}\pi_0+\frac{6}{10}\pi_1.
-		\]
-		From the first equation, \(3\pi_0=4\pi_1\). Together with \(\pi_0+\pi_1=1\), this gives
-		\[
-		\pi=\left(\frac47,\frac37\right).
-		\]
-		In fact,
-		\[
-		P^n\to
-		\frac{1}{7}
-		\begin{pmatrix}
-			4 & 3\\
-			4 & 3
-		\end{pmatrix}.
-		\]
-	\end{example}
-	
-	\begin{example}[Class mobility model]
-		Consider the transition matrix
-		\[
-		P=
-		\begin{pmatrix}
-			0.45 & 0.48 & 0.07\\
-			0.05 & 0.70 & 0.25\\
-			0.01 & 0.50 & 0.49
-		\end{pmatrix}.
-		\]
-		Let \(\pi=(\pi_0,\pi_1,\pi_2)\). Solving \(\pi=\pi P\) and \(\pi_0+\pi_1+\pi_2=1\) gives
-		\[
-		\pi=
-		\left(
-		\frac{140}{2244},
-		\frac{1399}{2244},
-		\frac{705}{2244}
-		\right)
-		\approx
-		(0.0624,0.6234,0.3142).
-		\]
-		If the chain is irreducible and aperiodic, then this stationary distribution is also the limiting distribution.
-	\end{example}
-	
-	
-	
-	% =========================================================
-	\section{Average of a Function on a Markov Chain}
-	% =========================================================
-	
-	In this section, we study the long-run average value of a function along the path of a Markov chain.
-	\begin{proposition}[Long-run average]
-		Let \(\{X_n\}_{n\ge 0}\) be an irreducible Markov chain with stationary distribution \(\pi=(\pi_i)_{i\in S}\). Let \(v:S\to\mathbb{R}\) be a bounded function on the state space. Then
-		\[
-		\frac{1}{n}\sum_{k=0}^{n-1}v(X_k)
-		\longrightarrow
-		\sum_{i\in S}v(i)\pi_i
-		\]
-		as \(n\to\infty\), with probability \(1\).
-	\end{proposition}
-	
-
-	
-	\begin{remark}[Meaning of convergence with probability \(1\)]
-		The phrase \emph{with probability \(1\)} means \emph{almost surely}. Thus the conclusion can be written as
-		\[
-		\mathbb{P}\left(
-		\lim_{n\to\infty}
-		\frac{1}{n}\sum_{k=0}^{n-1}v(X_k)
-		=
-		\sum_{i\in S}v(i)\pi_i
-		\right)
-		=
-		1.
-		\]
-		This is a statement about the entire infinite sample path
-		\[
-		X_0,X_1,X_2,\dots.
-		\]
-		It says that for almost every possible trajectory of the chain, the long-run time average converges to the stationary average.
-	\end{remark}
-	
-
-	
-	
-	\begin{remark}
-		The function \(v\) can be interpreted as a reward function. Suppose that whenever the chain visits state \(i\), we earn reward \(v(i)\). Then
-		\[
-		\frac{1}{n}\sum_{k=0}^{n-1}v(X_k)
-		\]
-		is the average reward per unit time up to time \(n\). The proposition says that, in the long run, the average reward per unit time is
-		\[
-		\sum_{i\in S}v(i)\pi_i.
-		\]
-	\end{remark}
-	
-	\begin{note}
-		This result is an analogue of the law of large numbers for Markov chains. Instead of averaging independent random variables, we average values taken along the path of a Markov chain.
-	\end{note}
-	
-	
-	
-	% =========================================================
-	\paragraph{Application: Gambler's Ruin Problem}
-	% =========================================================
-	
-	We now apply the previous ideas to the classical gambler's ruin problem.
-	
-	A gambler starts with fortune \(i\), where \(0<i<N\). At each game, the gambler wins one unit with probability \(p\) and loses one unit with probability \(q=1-p\). Let \(X_n\) be the gambler's fortune after \(n\) games, with \(X_0=i\). The gambler stops playing when the fortune reaches either \(0\) or \(N\).
-	
-	The state space is
-	\[
-	S=\{0,1,2,\dots,N\}.
-	\]
-	For \(j=1,2,\dots,N-1\), the transition probabilities are
-	\[
-	p_{j,j+1}=p,
-	\qquad
-	p_{j,j-1}=q.
-	\]
-	The boundary states \(0\) and \(N\) are absorbing:
-	\[
-	p_{00}=1,
-	\qquad
-	p_{NN}=1.
-	\]
-	
-	\begin{remark}
-		The Markov chain has three communicating classes:
-		\[
-		\{0\},
-		\qquad
-		\{N\},
-		\qquad
-		\{1,2,\dots,N-1\}.
-		\]
-		The states \(0\) and \(N\) are recurrent absorbing states, while the states \(1,2,\dots,N-1\) are transient. Since each transient state is visited only finitely many times, the gambler eventually reaches either \(0\) or \(N\).
-	\end{remark}
-	
-	
-	
-	
-	
-	Let
-	\[
-	h_i:=\mathbb{P}_i(\text{the gambler reaches }N\text{ before }0).
-	\]
-	Clearly,
-	\[
-	h_0=0,
-	\qquad
-	h_N=1.
-	\]
-	For \(i=1,2,\dots,N-1\), conditioning on the first step gives
-	\[
-	h_i=ph_{i+1}+qh_{i-1}.
-	\]
-	Equivalently,
-	\[
-	p(h_{i+1}-h_i)=q(h_i-h_{i-1}).
-	\]
-	Let \(\rho=q/p\). Then
-	\[
-	h_{i+1}-h_i=\rho(h_i-h_{i-1}).
-	\]
-	By iteration,
-	\[
-	h_i=h_1(1+\rho+\rho^2+\cdots+\rho^{i-1}).
-	\]
-	
-	If \(p\neq q\), then \(\rho\neq 1\), and using \(h_N=1\), we get
-	\[
-	h_i=
-	\frac{1-\rho^i}{1-\rho^N}
-	=
-	\frac{1-\left(\frac{q}{p}\right)^i}
-	{1-\left(\frac{q}{p}\right)^N}.
-	\]
-	If \(p=q=\frac12\), then the differences are constant, so
-	\[
-	h_i=\frac{i}{N}.
-	\]
-	
-	Therefore,
-	\[
-	h_i
-	=
-	\begin{cases}
-		\dfrac{1-\left(\frac{q}{p}\right)^i}
-		{1-\left(\frac{q}{p}\right)^N},
-		& p\neq q,\\[12pt]
-		\dfrac{i}{N},
-		& p=q=\dfrac12.
-	\end{cases}
-	\]
-	
-	
-	
-	
-	
-	Although the gambler's ruin chain is not irreducible, its limiting probabilities can still be computed.
-	
-	Starting from \(i\in\{1,2,\dots,N-1\}\), the chain is eventually absorbed at \(N\) with probability \(h_i\), and absorbed at \(0\) with probability \(1-h_i\). Therefore,
-	\[
-	\lim_{n\to\infty}\mathbb{P}_i(X_n=N)=h_i,
-	\qquad
-	\lim_{n\to\infty}\mathbb{P}_i(X_n=0)=1-h_i.
-	\]
-	For every transient state \(j=1,2,\dots,N-1\),
-	\[
-	\lim_{n\to\infty}\mathbb{P}_i(X_n=j)=0.
-	\]
-	
-	Thus the limiting distribution starting from \(i\) is
-	\[
-	(1-h_i)\delta_0+h_i\delta_N.
-	\]
-	
-	\begin{remark}
-		This example illustrates why irreducibility matters. The limiting distribution exists, but it depends on the initial state \(i\). Hence there is no single limiting distribution independent of the starting point.
-	\end{remark}
-	
-	
-	
-	
-	
-	Suppose \(N\) is very large. We consider the limit as \(N\to\infty\). If \(p>q\), then \(q/p<1\), so \((q/p)^N\to 0\), and
-	\[
-	h_i\to 1-\left(\frac{q}{p}\right)^i.
-	\]
-	If \(p<q\), then \(q/p>1\), and
-	\[
-	h_i\to 0.
-	\]
-	If \(p=q=1/2\), then \(h_i=i/N\to 0\).
-	
-	Therefore,
-	\[
-	\lim_{N\to\infty}h_i
-	=
-	\begin{cases}
-		1-\left(\dfrac{q}{p}\right)^i,
-		& p>q,\\[10pt]
-		0,
-		& p\le q.
-	\end{cases}
-	\]
-	
-	\begin{remark}
-		If the game is favourable, meaning \(p>q\), then the gambler has a positive probability of becoming arbitrarily rich. If the game is fair or unfavourable, meaning \(p\le q\), then the probability of reaching an infinitely large fortune is \(0\).
-	\end{remark}
-	
-	
-	
-	% =========================================================
-	\section{Mean Time Spent in Transient States}
-	% =========================================================
-	
-	In this section, we study how much time a Markov chain spends in its transient states before eventually leaving them.
-	
-	Suppose the transient states are numbered as
-	\[
-	T=\{1,2,\dots,t\}.
-	\]
-	Let \(P_T\) denote the \(t\times t\) submatrix of the transition matrix \(P\) restricted to the transient states. That is,
-	\[
-	P_T=(p_{ij})_{i,j\in T}.
-	\]
-	
-	\begin{remark}
-		The matrix \(P_T\) is substochastic: its entries are nonnegative and each row sum is at most \(1\). Some row sums may be strictly less than \(1\), because the chain may jump from a transient state to a recurrent class outside \(T\).
-	\end{remark}
-	
-	For \(i,j\in T\), define
-	\[
-	S_{ij}:=\mathbb{E}_i\!\left[\sum_{n=0}^{\infty}\mathbf{1}_{\{X_n=j\}}\right].
-	\]
-	Thus \(S_{ij}\) is the expected total number of visits to state \(j\), starting from state \(i\).
-	
-	Let
-	\[
-	S=(S_{ij})_{i,j\in T}.
-	\]
-	
-	\begin{proposition}
-		The matrix \(S\) satisfies
-		\[
-		S=I+P_T S.
-		\]
-		Hence
-		\[
-		S=(I-P_T)^{-1}.
-		\]
-	\end{proposition}
-	
-	\begin{proof}
-		Fix \(i,j\in T\). Starting from \(i\), the chain visits state \(j\) at time \(0\) if and only if \(i=j\). This contributes
-		\[
-		\delta_{ij}
-		=
-		\begin{cases}
-			1, & i=j,\\
-			0, & i\neq j.
-		\end{cases}
-		\]
-		
-		After the first step, if the chain moves to a transient state \(k\in T\), then the expected future number of visits to \(j\) is \(S_{kj}\). Therefore, by conditioning on the first step,
-		\[
-		S_{ij}
-		=
-		\delta_{ij}
-		+
-		\sum_{k\in T}p_{ik}S_{kj}.
-		\]
-		In matrix form, this becomes
-		\[
-		S=I+P_T S.
-		\]
-		Rearranging gives
-		\[
-		(I-P_T)S=I.
-		\]
-		Therefore,
-		\[
-		S=(I-P_T)^{-1}.
-		\]
-	\end{proof}
-	
-	\begin{note}
-		It is not completely trivial that \(I-P_T\) is invertible. One way to justify it is to use the fact that all states in \(T\) are transient, so
-		\[
-		P_T^n\to 0
-		\]
-		as \(n\to\infty\). Hence the Neumann series converges:
-		\[
-		I+P_T+P_T^2+\cdots=(I-P_T)^{-1}.
-		\]
-		Therefore,
-		\[
-		S=I+P_T+P_T^2+\cdots.
-		\]
-		This also has a natural interpretation: the \((i,j)\)-entry of \(P_T^n\) is the probability that the chain is in transient state \(j\) at time \(n\), starting from transient state \(i\), without having left the transient set.
-	\end{note}
-	
-	
-	
-	
-	
-	Consider the gambler's ruin problem with states
-	\[
-	\{0,1,2,\dots,N\}.
-	\]
-	The absorbing states are \(0\) and \(N\), while the transient states are
-	\[
-	T=\{1,2,\dots,N-1\}.
-	\]
-	
-	For \(j=1,2,\dots,N-1\), the transition probabilities are
-	\[
-	p_{j,j+1}=p,
-	\qquad
-	p_{j,j-1}=q,
-	\qquad
-	q=1-p.
-	\]
-	The boundary states are absorbing:
-	\[
-	p_{00}=1,
-	\qquad
-	p_{NN}=1.
-	\]
-	
-	The transient submatrix is
-	\[
-	P_T=
-	\begin{pmatrix}
-		0      & p      & 0      & \cdots & 0      & 0      & 0      \\
-		q      & 0      & p      & \cdots & 0      & 0      & 0      \\
-		0      & q      & 0      & \cdots & 0      & 0      & 0      \\
-		\vdots & \vdots & \vdots &        & \vdots & \vdots & \vdots \\
-		0      & 0      & 0      & \cdots & 0      & p      & 0      \\
-		0      & 0      & 0      & \cdots & q      & 0      & p      \\
-		0      & 0      & 0      & \cdots & 0      & q      & 0
-	\end{pmatrix}.
-	\]
-	Here \(P_T\) is an \((N-1)\times (N-1)\) matrix.
-	
-	The expected number of visits to transient states is given by
-	\[
-	S=(I-P_T)^{-1}.
-	\]
-	
-	\begin{remark}
-		In this example, \(P_T\) is a tridiagonal matrix. Its eigenvalues are
-		\[
-		2\sqrt{pq}\cos\left(\frac{k\pi}{N}\right),
-		\qquad
-		k=1,2,\dots,N-1.
-		\]
-		In particular, \(1\) is not an eigenvalue of \(P_T\). Hence \(I-P_T\) is invertible.
-	\end{remark}
-	
-	
-	
-	
-	
-	Consider the gambler's ruin problem with \(p=0.4\), \(q=0.6\), and \(N=7\). Suppose the gambler starts with \(3\) dollars. We want to determine the expected amount of time that the gambler has \(5\) dollars before the game ends.
-	
-	The transient states are
-	\[
-	T=\{1,2,3,4,5,6\}.
-	\]
-	The transient submatrix is
-	\[
-	P_T=
-	\begin{pmatrix}
-		0   & 0.4 & 0   & 0   & 0   & 0\\
-		0.6 & 0   & 0.4 & 0   & 0   & 0\\
-		0   & 0.6 & 0   & 0.4 & 0   & 0\\
-		0   & 0   & 0.6 & 0   & 0.4 & 0\\
-		0   & 0   & 0   & 0.6 & 0   & 0.4\\
-		0   & 0   & 0   & 0   & 0.6 & 0
-	\end{pmatrix}.
-	\]
-	Therefore,
-	\[
-	S=(I-P_T)^{-1}.
-	\]
-	
-	The desired quantity is \(S_{3,5}\), because we start at state \(3\) and count the expected number of visits to state \(5\). Computing the inverse gives
-	\[
-	S_{3,5}\approx 0.9228.
-	\]
-	Thus, starting with \(3\) dollars, the expected amount of time the gambler has \(5\) dollars before absorption is approximately
-	\[
-	0.9228.
-	\]
-	
-	\begin{remark}
-		Even though the gambler may never reach \(5\) dollars, \(S_{3,5}\) counts the expected total number of visits to \(5\), averaging over all possible paths.
-	\end{remark}
-	
-	
-	
-
-	
-	The matrix \(S\) can also be used to compute hitting probabilities between transient states.
-	
-	For \(i,j\in T\), define
-	\[
-	f_{ij}:=\mathbb{P}_i(\text{the chain ever visits }j\text{ at a positive time}).
-	\]
-	That is, \(f_{ij}\) is the probability that the chain visits \(j\) after time \(0\), starting from \(i\).
-	
-	\begin{proposition}
-		For transient states \(i,j\in T\),
-		\[
-		f_{ij}=\frac{S_{ij}-\delta_{ij}}{S_{jj}}.
-		\]
-		In particular, if \(i\neq j\), then
-		\[
-		f_{ij}=\frac{S_{ij}}{S_{jj}},
-		\]
-		and if \(i=j\), then
-		\[
-		f_{ii}=1-\frac{1}{S_{ii}}.
-		\]
-	\end{proposition}
-	
-	\begin{proof}
-		Starting from \(i\), the total expected number of visits to \(j\) includes the possible visit at time \(0\). This contributes \(\delta_{ij}\).
-		
-		If the chain visits \(j\) at a positive time, then from that time onward, by the Markov property, the expected number of visits to \(j\) is \(S_{jj}\). Therefore,
-		\[
-		S_{ij}
-		=
-		\delta_{ij}
-		+
-		f_{ij}S_{jj}.
-		\]
-		Rearranging gives
-		\[
-		f_{ij}
-		=
-		\frac{S_{ij}-\delta_{ij}}{S_{jj}}.
-		\]
-	\end{proof}
-	
-	\begin{remark}
-		This formula is useful because it converts a hitting probability problem into a computation involving the fundamental matrix \(S=(I-P_T)^{-1}\).
-	\end{remark}
-	
-	
-	
-	% =========================================================
-	\section{Galton--Watson Branching Processes}
-	% =========================================================
-	
-	In this section, we study the Galton--Watson branching process. This is a Markov chain model for the evolution of a population where each individual independently produces a random number of offspring.
-	
-	Let \(X_n\) denote the population size in generation \(n\). Thus \(X_0\) is the initial population size, and \(X_n\) is the number of individuals in the \(n\)-th generation.
-	
-	For \(n\ge 0\) and \(i\ge 1\), let
-	\[
-	\xi_{n,i}
-	\]
-	be the number of offspring produced by the \(i\)-th individual in generation \(n\).
-	
-	\begin{definition}[Galton--Watson branching process]
-		A Galton--Watson branching process is defined by
-		\[
-		X_{n+1}
-		=
-		\sum_{i=1}^{X_n}\xi_{n,i},
-		\qquad n=0,1,2,\dots,
-		\]
-		where the random variables \(\{\xi_{n,i}\}\) are independent and identically distributed nonnegative integer-valued random variables.
-	\end{definition}
-	
-	Let the offspring distribution be
-	\[
-	p_k:=\mathbb{P}(\xi_{n,i}=k),
-	\qquad k=0,1,2,\dots.
-	\]
-	Thus
-	\[
-	p_k\ge 0,
-	\qquad
-	\sum_{k=0}^{\infty}p_k=1.
-	\]
-	
-	Throughout this section, unless otherwise stated, we assume
-	\[
-	p_0>0,
-	\]
-	so that extinction in one generation is possible, and we assume that the offspring distribution is not deterministic.
-	
-	\begin{remark}
-		If \(X_n=0\), then
-		\[
-		X_{n+1}=0.
-		\]
-		Thus state \(0\) is absorbing. Once the population becomes extinct, it remains extinct forever.
-	\end{remark}
-	
-	
-	The Galton--Watson process is a Markov chain because the distribution of the next generation depends only on the current population size, not on the earlier history.
-	
-	\begin{proposition}
-		The process \(\{X_n\}_{n\ge 0}\) is a Markov chain on the state space
-		\[
-		S=\{0,1,2,\dots\}.
-		\]
-	\end{proposition}
-	
-	\begin{proof}
-		Suppose \(X_n=i\). Then the next generation is given by
-		\[
-		X_{n+1}
-		=
-		\sum_{\ell=1}^{i}\xi_{n,\ell}.
-		\]
-		Since the random variables \(\xi_{n,\ell}\) are independent of the past and have the same distribution for all \(n\), the conditional distribution of \(X_{n+1}\) depends only on \(X_n=i\). Therefore,
-		\[
-		\mathbb{P}(X_{n+1}=j\mid X_n=i,X_{n-1},\dots,X_0)
-		=
-		\mathbb{P}(X_{n+1}=j\mid X_n=i).
-		\]
-		Hence \(\{X_n\}_{n\ge 0}\) is a Markov chain.
-	\end{proof}
-	
-	For \(i,j\in S\), the one-step transition probability is
-	\[
-	p_{ij}
-	=
-	\mathbb{P}(X_{n+1}=j\mid X_n=i).
-	\]
-	
-	If \(i=0\), then
-	\[
-	p_{00}=1,
-	\qquad
-	p_{0j}=0
-	\quad\text{for }j\ge 1.
-	\]
-	
-	If \(i\ge 1\), then
-	\[
-	p_{ij}
-	=
-	\mathbb{P}\left(\xi_{n,1}+\cdots+\xi_{n,i}=j\right).
-	\]
-	
-	\begin{remark}
-		The transition probability \(p_{ij}\) is the \(j\)-th coefficient in the \(i\)-th power of the offspring generating function. More precisely, if
-		\[
-		G(s)=\sum_{k=0}^{\infty}p_ks^k,
-		\]
-		then
-		\[
-		p_{ij}
-		=
-		[s^j]G(s)^i,
-		\]
-		where \([s^j]G(s)^i\) denotes the coefficient of \(s^j\) in \(G(s)^i\).
-	\end{remark}
-	
-	
-	The state \(0\) plays a special role in the Galton--Watson process, because it represents extinction.
-	
-	\begin{proposition}
-		State \(0\) is recurrent.
-	\end{proposition}
-	
-	\begin{proof}
-		Since \(0\) is absorbing, we have
-		\[
-		p_{00}=1.
-		\]
-		Therefore, starting from \(0\), the chain returns to \(0\) with probability \(1\). Hence
-		\[
-		f_{00}=1,
-		\]
-		and so state \(0\) is recurrent.
-	\end{proof}
-	
-	\begin{proposition}
-		Assume \(p_0>0\). Then every state \(i\ge 1\) is transient.
-	\end{proposition}
-	
-	\begin{proof}
-		Fix \(i\ge 1\). Starting from state \(i\), the population becomes extinct in one step if every one of the \(i\) individuals has no offspring. This event has probability
-		\[
-		\mathbb{P}_i(X_1=0)
-		=
-		p_0^i
-		>
-		0.
-		\]
-		Once the process reaches state \(0\), it can never return to state \(i\). Hence, starting from \(i\), there is positive probability that the chain never returns to \(i\). Therefore
-		\[
-		f_i<1,
-		\]
-		and so state \(i\) is transient.
-	\end{proof}
-	
-	\begin{remark}
-		Thus the Galton--Watson process has one recurrent absorbing state, namely \(0\), and all positive states are transient under the assumption \(p_0>0\).
-	\end{remark}
-	
-	\begin{remark}
-		Since any finite set of transient states is visited only finitely many times with probability \(1\), for any fixed \(K\ge 1\), the set
-		\[
-		\{1,2,\dots,K\}
-		\]
-		is visited only finitely many times almost surely.
-	\end{remark}
-	
-	
-	We now compute the expectation and variance of the population size.
-	
-	Let
-	\[
-	m:=\mathbb{E}[\xi_{n,i}]
-	=
-	\sum_{k=0}^{\infty}kp_k
-	\]
-	be the mean number of offspring of one individual, and let
-	\[
-	\sigma^2
-	:=
-	\operatorname{Var}(\xi_{n,i})
-	\]
-	be the variance of the offspring distribution.
-	
-	\begin{proposition}
-		If \(X_0=1\), then
-		\[
-		\mathbb{E}[X_n]=m^n.
-		\]
-		More generally, if \(X_0=x\), then
-		\[
-		\mathbb{E}_x[X_n]=xm^n.
-		\]
-	\end{proposition}
-	
-	\begin{proof}
-		Conditioning on \(X_n\), we have
-		\[
-		\mathbb{E}[X_{n+1}\mid X_n]
-		=
-		\mathbb{E}\left[\sum_{i=1}^{X_n}\xi_{n,i}\,\middle|\,X_n\right].
-		\]
-		Given \(X_n\), the sum contains \(X_n\) independent offspring variables, each with mean \(m\). Hence
-		\[
-		\mathbb{E}[X_{n+1}\mid X_n]
-		=
-		mX_n.
-		\]
-		Taking expectation gives
-		\[
-		\mathbb{E}[X_{n+1}]
-		=
-		m\mathbb{E}[X_n].
-		\]
-		By iteration,
-		\[
-		\mathbb{E}[X_n]
-		=
-		m^n\mathbb{E}[X_0].
-		\]
-		In particular, if \(X_0=1\), then
-		\[
-		\mathbb{E}[X_n]=m^n.
-		\]
-		If \(X_0=x\), then
-		\[
-		\mathbb{E}_x[X_n]=xm^n.
-		\]
-	\end{proof}
-	
-	\begin{proposition}
-		Assume \(X_0=1\). Then
-		\[
-		\operatorname{Var}(X_n)
-		=
-		\begin{cases}
-			\sigma^2m^{n-1}\dfrac{m^n-1}{m-1},
-			& m\neq 1,\\[12pt]
-			n\sigma^2,
-			& m=1.
-		\end{cases}
-		\]
-	\end{proposition}
-	
-	\begin{proof}
-		We use the law of total variance:
-		\[
-		\operatorname{Var}(Y)
-		=
-		\mathbb{E}[\operatorname{Var}(Y\mid X)]
-		+
-		\operatorname{Var}(\mathbb{E}[Y\mid X]).
-		\]
-		Apply this with \(Y=X_{n+1}\) and \(X=X_n\). Given \(X_n\), we have
-		\[
-		X_{n+1}
-		=
-		\sum_{i=1}^{X_n}\xi_{n,i}.
-		\]
-		Therefore,
-		\[
-		\mathbb{E}[X_{n+1}\mid X_n]
-		=
-		mX_n,
-		\]
-		and
-		\[
-		\operatorname{Var}(X_{n+1}\mid X_n)
-		=
-		\sigma^2X_n.
-		\]
-		Hence
-		\[
-		\operatorname{Var}(X_{n+1})
-		=
-		\mathbb{E}[\sigma^2X_n]
-		+
-		\operatorname{Var}(mX_n).
-		\]
-		Thus
-		\[
-		\operatorname{Var}(X_{n+1})
-		=
-		\sigma^2\mathbb{E}[X_n]
-		+
-		m^2\operatorname{Var}(X_n).
-		\]
-		Since \(X_0=1\), we know that
-		\[
-		\mathbb{E}[X_n]=m^n.
-		\]
-		Let
-		\[
-		V_n:=\operatorname{Var}(X_n).
-		\]
-		Then
-		\[
-		V_{n+1}
-		=
-		\sigma^2m^n+m^2V_n,
-		\qquad
-		V_0=0.
-		\]
-		Iterating this recurrence gives
-		\[
-		V_n
-		=
-		\sigma^2
-		\left(
-		m^{n-1}+m^n+\cdots+m^{2n-2}
-		\right).
-		\]
-		If \(m\neq 1\), then
-		\[
-		V_n
-		=
-		\sigma^2m^{n-1}
-		\left(
-		1+m+\cdots+m^{n-1}
-		\right)
-		=
-		\sigma^2m^{n-1}\frac{m^n-1}{m-1}.
-		\]
-		If \(m=1\), then the recurrence becomes
-		\[
-		V_{n+1}=\sigma^2+V_n,
-		\]
-		so
-		\[
-		V_n=n\sigma^2.
-		\]
-	\end{proof}
-	
-	\begin{remark}
-		If \(X_0=x\), then the process can be viewed as the sum of \(x\) independent Galton--Watson processes, each starting from one individual. Therefore,
-		\[
-		\operatorname{Var}_x(X_n)
-		=
-		x\operatorname{Var}_1(X_n).
-		\]
-	\end{remark}
-	
-	
-	We now study the probability that the population eventually becomes extinct.
-	
-	\begin{definition}[Extinction probability]
-		Starting from one individual, the extinction probability is
-		\[
-		q
-		:=
-		\mathbb{P}_1(\text{there exists }n\ge 0\text{ such that }X_n=0).
-		\]
-		Since state \(0\) is absorbing, this can also be written as
-		\[
-		q
-		=
-		\lim_{n\to\infty}\mathbb{P}_1(X_n=0).
-		\]
-	\end{definition}
-	
-	For \(n\ge 0\), define
-	\[
-	q_n:=\mathbb{P}_1(X_n=0).
-	\]
-	Since \(0\) is absorbing, the events \(\{X_n=0\}\) are increasing in \(n\). Hence
-	\[
-	q_n\uparrow q,
-	\]
-	and
-	\[
-	q=\lim_{n\to\infty}q_n.
-	\]
-	
-	\begin{definition}[Generating function]
-		The probability generating function of the offspring distribution is
-		\[
-		G(s)
-		:=
-		\mathbb{E}[s^{\xi}]
-		=
-		\sum_{k=0}^{\infty}p_ks^k,
-		\qquad 0\le s\le 1.
-		\]
-	\end{definition}
-	
 \begin{proposition}
-	The extinction probability \(q\) is the smallest nonnegative solution of \(s=G(s)\) in \([0,1]\).
+	If \(\{N(t):t\ge 0\}\) is a Poisson process with rate \(\lambda\), then
+	\[
+	\mathbb{E}[N(t)]=\lambda t,
+	\qquad
+	\operatorname{Var}(N(t))=\lambda t.
+	\]
 \end{proposition}
 
 \begin{proof}
-	Let \(q_n:=\mathbb P_1(X_n=0)\). Since \(X_0=1\), we have \(q_0=0\). We derive the recurrence by conditioning on the first generation:
+	Since \(N(t)\sim \operatorname{Poisson}(\lambda t)\), the mean and variance of \(N(t)\) are both equal to the Poisson parameter \(\lambda t\). Therefore
 	\[
-	q_{n+1}
-	=\mathbb P_1(X_{n+1}=0)
-	=\sum_{k=0}^{\infty}\mathbb P_1(X_{n+1}=0\mid X_1=k)\mathbb P_1(X_1=k).
+	\mathbb{E}[N(t)]=\lambda t,
+	\qquad
+	\operatorname{Var}(N(t))=\lambda t.
 	\]
-	Since the process starts with one individual, \(\mathbb P_1(X_1=k)=p_k\). Given \(X_1=k\), the \(k\) individuals in generation \(1\) start \(k\) independent Galton--Watson processes. Extinction by generation \(n+1\) occurs iff all these descendant processes are extinct by generation \(n\). Each has probability \(q_n\), so
-	\[
-	\mathbb P_1(X_{n+1}=0\mid X_1=k)=q_n^k.
-	\]
-	Therefore,
-	\[
-	q_{n+1}=\sum_{k=0}^{\infty}p_kq_n^k=G(q_n).
-	\]
-	
-	The sequence \(\{q_n\}\) is increasing because \(\{X_n=0\}\subseteq \{X_{n+1}=0\}\), and it is bounded above by \(1\). Hence \(q_n\to q\) for some \(q\in[0,1]\). Since \(G\) is continuous on \([0,1]\), taking limits in \(q_{n+1}=G(q_n)\) gives \(q=G(q)\).
-	
-	Now suppose \(s\in[0,1]\) satisfies \(s=G(s)\). We prove by induction that \(q_n\le s\) for all \(n\). Since \(q_0=0\), this is true for \(n=0\). If \(q_n\le s\), then, since \(G\) is increasing on \([0,1]\),
-	\[
-	q_{n+1}=G(q_n)\le G(s)=s.
-	\]
-	Thus \(q_n\le s\) for all \(n\). Taking \(n\to\infty\), we get \(q\le s\). Therefore \(q\) is the smallest solution of \(s=G(s)\) in \([0,1]\).
 \end{proof}
 
-
-
 	
-\begin{theorem}[Extinction criterion]
-	Let \(m=G'(1)=\mathbb E[\xi]\) be the mean number of offspring. Assume \(p_0>0\) and the offspring distribution is not deterministic. Then
-	\[
-	q=
-	\begin{cases}
-		1, & m\le 1,\\[4pt]
-		\text{the unique solution of }s=G(s)\text{ in }[0,1), & m>1.
-	\end{cases}
-	\]
-	In particular, the survival probability is positive if and only if \(m>1\).
-\end{theorem}
-
-\begin{proof}[Proof idea]
-	Recall that
-	\[
-	G(s)=\sum_{k=0}^{\infty}p_ks^k.
-	\]
-	The function \(G\) is convex on \([0,1]\), since
-	\[
-	G''(s)=\sum_{k=2}^{\infty}k(k-1)p_ks^{k-2}\ge 0.
-	\]
-	Moreover,
-	\[
-	G(1)=\sum_{k=0}^{\infty}p_k=1,
-	\]
-	because \(\{p_k\}\) is a probability distribution. Also, differentiating the generating function gives
-	\[
-	G'(s)=\sum_{k=1}^{\infty}kp_ks^{k-1},
-	\]
-	and hence
-	\[
-	G'(1)=\sum_{k=1}^{\infty}kp_k=\mathbb E[\xi]=m.
-	\]
-	
-	If \(m\le 1\), then \(G'(1)\le 1\). By convexity, the graph of \(G(s)\) can touch or cross the line \(s\) only at \(s=1\) in \([0,1]\). Hence the smallest solution of \(s=G(s)\) is \(s=1\), so \(q=1\).
-	
-	If \(m>1\), then \(G'(1)>1\). Since \(G(0)=p_0>0\) and \(G(1)=1\), convexity implies that there is a unique solution \(q\in[0,1)\) to \(q=G(q)\). This solution is the extinction probability. Therefore \(q<1\), and the survival probability is \(1-q>0\).
-\end{proof}
-
-
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{"Extinction criterion"}
-
-	\label{fig:extinction-criterion}
-\end{figure}
-
-
-	
-	\begin{remark}
-		The three cases have the following interpretation:
-		\begin{itemize}[leftmargin=2em]
-			\item If \(m<1\), the process is called \emph{subcritical}. Extinction occurs with probability \(1\).
-			\item If \(m=1\), the process is called \emph{critical}. Extinction still occurs with probability \(1\), but the process may survive for a long time.
-			\item If \(m>1\), the process is called \emph{supercritical}. There is a positive probability of survival forever.
-		\end{itemize}
-	\end{remark}
-	
-	\begin{remark}
-		If the process starts with \(X_0=x\) individuals, then extinction occurs if and only if all \(x\) independent descendant families become extinct. Therefore,
-		\[
-		\mathbb{P}_x(\text{extinction})
-		=
-		q^x.
-		\]
-	\end{remark}
 	
 	
 	% =========================================================
-	\section{Probability Generating Functions}
+	\section{Interarrival Times, Waiting Times, and Exponential Race}
 	% =========================================================
 	
-	In this section, we introduce probability generating functions. They are useful for studying sums of independent nonnegative integer-valued random variables, branching processes, and return probabilities of random walks.
+	We continue our study of Poisson processes by looking at the times between arrivals and some useful consequences of the exponential distribution. Let \(\{N(t):t\ge 0\}\) be a Poisson process with rate \(\lambda>0\).
 	
-	\begin{definition}[Probability generating function]
-		Let \(X\) be a nonnegative integer-valued random variable. The \emph{probability generating function}, or \emph{p.g.f.}, of \(X\) is defined by
-		\[
-		G_X(s)
-		:=
-		\mathbb{E}[s^X]
-		=
-		\sum_{k=0}^{\infty}\mathbb{P}(X=k)s^k,
-		\qquad 0\le s\le 1.
-		\]
+	\begin{definition}[Interarrival times]
+		For \(n\ge 1\), let \(T_n\) denote the elapsed time between the \((n-1)\)-st event and the \(n\)-th event. The sequence \(T_1,T_2,\dots\) is called the sequence of interarrival times.
 	\end{definition}
 	
-	\begin{remark}
-		Probability generating functions are defined for nonnegative integer-valued random variables only. They encode the full probability distribution of \(X\), since the coefficient of \(s^k\) is \(\mathbb{P}(X=k)\).
-	\end{remark}
-	
-	\begin{example}[Bernoulli random variable]
-		If \(X\sim\operatorname{Bernoulli}(p)\), then
-		\[
-		\mathbb{P}(X=1)=p,
-		\qquad
-		\mathbb{P}(X=0)=1-p.
-		\]
-		Therefore,
-		\[
-		G_X(s)
-		=
-		(1-p)+ps.
-		\]
-	\end{example}
-	
-	\begin{example}[Poisson random variable]
-		If \(X\sim\operatorname{Poisson}(\lambda)\), then
-		\[
-		\mathbb{P}(X=k)=e^{-\lambda}\frac{\lambda^k}{k!},
-		\qquad k=0,1,2,\dots.
-		\]
-		Hence
-		\[
-		G_X(s)
-		=
-		\sum_{k=0}^{\infty}e^{-\lambda}\frac{\lambda^k}{k!}s^k
-		=
-		e^{-\lambda}\sum_{k=0}^{\infty}\frac{(\lambda s)^k}{k!}
-		=
-		e^{-\lambda}e^{\lambda s}.
-		\]
-		Thus
-		\[
-		G_X(s)=e^{\lambda(s-1)}.
-		\]
-	\end{example}
-	
-	% =========================================================
-
-	% =========================================================
-	
-	We now collect some important properties of probability generating functions.
-	
 	\begin{proposition}
-		Let \(X\) be a nonnegative integer-valued random variable with p.g.f. \(G_X\). Then
+		The interarrival times \(T_1,T_2,\dots\) are independent and identically distributed exponential random variables with rate \(\lambda\). That is,
 		\[
-		G_X(1)=1.
+		T_1,T_2,\dots \text{ are i.i.d. } \operatorname{Exp}(\lambda).
 		\]
 	\end{proposition}
 	
 	\begin{proof}
-		By definition,
+		The event \(\{T_1>t\}\) means that no event occurs during \((0,t]\). Hence
 		\[
-		G_X(1)
-		=
-		\mathbb{E}[1^X]
-		=
-		1.
+		\mathbb{P}(T_1>t)=\mathbb{P}(N(t)=0)=e^{-\lambda t},
 		\]
-		Equivalently,
+		so \(T_1\sim\operatorname{Exp}(\lambda)\).
+		
+		Now suppose the first event occurs at time \(s\). By stationary and independent increments, the process after time \(s\) behaves like a fresh Poisson process and is independent of the past. Thus, for \(t\ge 0\),
 		\[
-		G_X(1)
+		\mathbb{P}(T_2>t\mid T_1=s)
 		=
-		\sum_{k=0}^{\infty}\mathbb{P}(X=k)
+		\mathbb{P}(N(s+t)-N(s)=0)
 		=
-		1.
+		e^{-\lambda t}.
+		\]
+		Hence \(T_2\sim\operatorname{Exp}(\lambda)\), independently of \(T_1\). Repeating the same argument after each arrival gives the result.
+	\end{proof}
+	
+	\begin{remark}
+		This gives another way to construct a Poisson process. Take i.i.d. random variables \(T_1,T_2,\dots\sim\operatorname{Exp}(\lambda)\), define
+		\[
+		S_n=T_1+\cdots+T_n,
+		\]
+		and then define
+		\[
+		N(t)=\max\{n:S_n\le t\}.
+		\]
+		Then \(\{N(t):t\ge 0\}\) is a Poisson process with rate \(\lambda\).
+	\end{remark}
+	
+	\begin{definition}[Waiting time]
+		The arrival time of the \(n\)-th event is denoted by \(S_n\) and is called the waiting time until the \(n\)-th event. Thus
+		\[
+		S_n=T_1+\cdots+T_n.
+		\]
+	\end{definition}
+	
+	\begin{proposition}
+		For \(n\ge 1\), the waiting time \(S_n\) has Gamma distribution with shape parameter \(n\) and rate parameter \(\lambda\). That is,
+		\[
+		S_n\sim \operatorname{Gamma}(n,\lambda),
+		\]
+		with density
+		\[
+		f_{S_n}(t)=\frac{\lambda^n t^{n-1}e^{-\lambda t}}{(n-1)!},
+		\qquad t\ge 0.
+		\]
+	\end{proposition}
+	
+	\begin{proof}
+		Since \(S_n=T_1+\cdots+T_n\), where \(T_1,\dots,T_n\) are i.i.d. \(\operatorname{Exp}(\lambda)\), the sum has Gamma distribution with the stated density.
+	\end{proof}
+	
+	\begin{remark}
+		There is a useful relation between \(S_n\) and \(N(t)\):
+		\[
+		\{S_n\le t\}=\{N(t)\ge n\}.
+		\]
+		Therefore,
+		\[
+		\mathbb{P}(S_n\le t)
+		=
+		\mathbb{P}(N(t)\ge n)
+		=
+		1-\sum_{k=0}^{n-1}e^{-\lambda t}\frac{(\lambda t)^k}{k!}.
+		\]
+	\end{remark}
+	
+	\begin{remark}[Direct derivation of the density of \(S_n\)]
+		For small \(h>0\), the event \(t<S_n\le t+h\) mainly occurs when exactly \(n-1\) events have occurred by time \(t\), and exactly one further event occurs in \((t,t+h]\). More precisely,
+		\[
+		\mathbb{P}(t<S_n\le t+h)
+		=
+		\mathbb{P}(N(t)=n-1,\ N(t+h)-N(t)=1)+o(h).
+		\]
+		Using independent increments,
+		\[
+		\mathbb{P}(t<S_n\le t+h)
+		=
+		e^{-\lambda t}\frac{(\lambda t)^{n-1}}{(n-1)!}(\lambda h+o(h))+o(h).
+		\]
+		Dividing by \(h\) and letting \(h\downarrow 0\) gives
+		\[
+		f_{S_n}(t)=\frac{\lambda^n t^{n-1}e^{-\lambda t}}{(n-1)!}.
+		\]
+	\end{remark}
+	
+	\begin{proposition}[Thinning of a Poisson process]
+		Let \(\{N(t):t\ge 0\}\) be a Poisson process with rate \(\lambda\). Suppose each event is independently classified as type I with probability \(p\), and type II with probability \(1-p\). Let \(N_1(t)\) and \(N_2(t)\) denote the numbers of type I and type II events in \((0,t]\), respectively. Then \(N_1\) and \(N_2\) are independent Poisson processes with rates \(\lambda p\) and \(\lambda(1-p)\).
+	\end{proposition}
+	
+	\begin{proof}
+		Clearly \(N_1(0)=N_2(0)=0\). Since the original process has stationary and independent increments, and the classifications are made independently for each event, both \(N_1\) and \(N_2\) also have stationary and independent increments.
+		
+		For small \(h>0\),
+		\[
+		\mathbb{P}(N_1(h)=1)
+		=
+		p\mathbb{P}(N(h)=1)+o(h)
+		=
+		p(\lambda h+o(h))+o(h)
+		=
+		\lambda p h+o(h).
+		\]
+		Also, \(\mathbb{P}(N_1(h)\ge 2)\le \mathbb{P}(N(h)\ge 2)=o(h)\). Hence \(N_1\) is a Poisson process with rate \(\lambda p\). Similarly, \(N_2\) is a Poisson process with rate \(\lambda(1-p)\).
+		
+		To prove independence, for \(m,n\ge 0\), condition on \(N(t)=m+n\):
+		\[
+		\mathbb{P}(N_1(t)=m,N_2(t)=n)
+		=
+		\mathbb{P}(N(t)=m+n)\binom{m+n}{m}p^m(1-p)^n.
+		\]
+		Thus
+		\[
+		\mathbb{P}(N_1(t)=m,N_2(t)=n)
+		=
+		e^{-\lambda pt}\frac{(\lambda pt)^m}{m!}
+		e^{-\lambda(1-p)t}\frac{(\lambda(1-p)t)^n}{n!},
+		\]
+		which factors into \(\mathbb{P}(N_1(t)=m)\mathbb{P}(N_2(t)=n)\). Applying the same argument to disjoint intervals gives independence of the two processes.
+	\end{proof}
+	
+	\begin{example}
+		Suppose immigrants arrive in an area according to a Poisson process with rate \(10\) per week. If each immigrant is of English descent with probability \(p\), independently of all others, then the number of English immigrants arriving in \(4\) weeks has distribution \(\operatorname{Poisson}(40p)\). Hence the probability that no English immigrants arrive during these \(4\) weeks is \(e^{-40p}\).
+	\end{example}
+	
+	\begin{proposition}[Superposition of independent Poisson processes]
+		Let \(N_1(t),\dots,N_r(t)\) be independent Poisson processes with rates \(\lambda_1,\dots,\lambda_r\). Then
+		\[
+		N(t):=N_1(t)+\cdots+N_r(t)
+		\]
+		is a Poisson process with rate \(\lambda_1+\cdots+\lambda_r\).
+	\end{proposition}
+	
+	\begin{proof}
+		The process \(N(t)\) is a counting process with stationary and independent increments. Moreover,
+		\[
+		N(s+t)-N(s)
+		=
+		\sum_{i=1}^{r}\bigl(N_i(s+t)-N_i(s)\bigr).
+		\]
+		Each increment \(N_i(s+t)-N_i(s)\) has distribution \(\operatorname{Poisson}(\lambda_i t)\), and these increments are independent. Hence their sum is Poisson with parameter \((\lambda_1+\cdots+\lambda_r)t\).
+	\end{proof}
+	
+	\begin{proposition}[Exponential race]
+		Let \(X_1,\dots,X_n\) be independent random variables with \(X_i\sim\operatorname{Exp}(\lambda_i)\), where \(\lambda_i>0\). Define \(X=\min\{X_1,\dots,X_n\}\). Then
+		\[
+		X\sim\operatorname{Exp}(\lambda_1+\cdots+\lambda_n),
+		\]
+		and
+		\[
+		\mathbb{P}(X=X_i)=\frac{\lambda_i}{\lambda_1+\cdots+\lambda_n},
+		\qquad i=1,\dots,n.
+		\]
+		Moreover, the minimum time \(X\) and the identity of the minimizing variable are independent.
+	\end{proposition}
+	
+	\begin{proof}
+		For \(t\ge 0\),
+		\[
+		\mathbb{P}(X>t)
+		=
+		\mathbb{P}(X_1>t,\dots,X_n>t)
+		=
+		\prod_{i=1}^{n}e^{-\lambda_i t}
+		=
+		e^{-(\lambda_1+\cdots+\lambda_n)t}.
+		\]
+		Thus \(X\sim\operatorname{Exp}(\lambda_1+\cdots+\lambda_n)\).
+		
+		Since exponential random variables are continuous, ties have probability \(0\). Conditioning on \(X_i=t\), we get
+		\[
+		\mathbb{P}(X=X_i)
+		=
+		\int_0^\infty
+		\mathbb{P}(X_j>t\text{ for all }j\neq i)\lambda_i e^{-\lambda_i t}\,dt.
+		\]
+		Therefore,
+		\[
+		\mathbb{P}(X=X_i)
+		=
+		\int_0^\infty \lambda_i e^{-(\lambda_1+\cdots+\lambda_n)t}\,dt
+		=
+		\frac{\lambda_i}{\lambda_1+\cdots+\lambda_n}.
+		\]
+		
+		Finally, if \(I\) denotes the index of the first clock, then for \(t\ge 0\),
+		\[
+		\mathbb{P}(X>t,\ I=i)
+		=
+		\int_t^\infty \lambda_i e^{-(\lambda_1+\cdots+\lambda_n)u}\,du
+		=
+		\frac{\lambda_i}{\lambda_1+\cdots+\lambda_n}
+		e^{-(\lambda_1+\cdots+\lambda_n)t}.
+		\]
+		This factors as \(\mathbb{P}(I=i)\mathbb{P}(X>t)\), so \(X\) and \(I\) are independent.
+	\end{proof}
+	
+	\begin{remark}
+		This result is often called an exponential race. If several independent exponential clocks are running, then the first ringing time is exponential with rate equal to the sum of the rates, and clock \(i\) rings first with probability proportional to \(\lambda_i\).
+	\end{remark}
+	
+	\begin{corollary}
+		If \(X\sim\operatorname{Exp}(\lambda)\) and \(Y\sim\operatorname{Exp}(\mu)\) are independent, then
+		\[
+		\mathbb{P}(X<Y)=\frac{\lambda}{\lambda+\mu},
+		\qquad
+		\mathbb{P}(Y<X)=\frac{\mu}{\lambda+\mu}.
+		\]
+	\end{corollary}
+	
+	\begin{example}[Competing Poisson processes]
+		Let \(N_1(t)\) and \(N_2(t)\) be independent Poisson processes with rates \(\lambda_1\) and \(\lambda_2\). Let \(S_n^{(1)}\) be the time of the \(n\)-th event of process \(1\), and let \(S_m^{(2)}\) be the time of the \(m\)-th event of process \(2\). We compute \(\mathbb{P}(S_n^{(1)}<S_m^{(2)})\).
+		
+		By superposition, \(N(t)=N_1(t)+N_2(t)\) is a Poisson process with rate \(\lambda_1+\lambda_2\). Each event of the combined process belongs to process \(1\) with probability
+		\[
+		p=\frac{\lambda_1}{\lambda_1+\lambda_2},
+		\]
+		and to process \(2\) with probability \(1-p=\lambda_2/(\lambda_1+\lambda_2)\), independently of the other events.
+		
+		The event \(S_n^{(1)}<S_m^{(2)}\) means that the \(n\)-th type \(1\) event occurs before the \(m\)-th type \(2\) event. Equivalently, among the first \(n+m-1\) events of the combined process, there must be at least \(n\) type \(1\) events. Therefore,
+		\[
+		\mathbb{P}(S_n^{(1)}<S_m^{(2)})
+		=
+		\sum_{k=n}^{n+m-1}
+		\binom{n+m-1}{k}p^k(1-p)^{n+m-1-k}.
+		\]
+	\end{example}
+	
+	\begin{remark}
+		The previous formula is the same as a coin-tossing problem. Each event of the combined Poisson process is labeled type \(1\) with probability \(p\) and type \(2\) with probability \(1-p\). We ask for the probability that \(n\) type \(1\) events occur before \(m\) type \(2\) events occur.
+	\end{remark}
+	
+	\begin{example}
+		In the special case \(n=m=1\),
+		\[
+		\mathbb{P}(S_1^{(1)}<S_1^{(2)})
+		=
+		p
+		=
+		\frac{\lambda_1}{\lambda_1+\lambda_2}.
+		\]
+		In the case \(n=2\) and \(m=1\), the first two events of the combined process must both come from process \(1\). Thus
+		\[
+		\mathbb{P}(S_2^{(1)}<S_1^{(2)})
+		=
+		p^2
+		=
+		\left(\frac{\lambda_1}{\lambda_1+\lambda_2}\right)^2.
+		\]
+	\end{example}
+	
+	\begin{example}[Coupon collector problem]
+		There are \(m\) different types of coupons. Each time a coupon is collected, it is of type \(j\) with probability \(p_j\), independently of previous coupons, where \(p_1+\cdots+p_m=1\). Let \(N\) be the number of coupons needed to obtain a complete collection. We compute \(\mathbb{E}[N]\).
+		
+		Suppose coupons arrive according to a Poisson process with rate \(1\). By thinning, type \(j\) coupons form an independent Poisson process with rate \(p_j\). Let \(X_j\) be the time of the first type \(j\) coupon. Then
+		\[
+		X_j\sim\operatorname{Exp}(p_j),
+		\qquad
+		X_1,\dots,X_m \text{ are independent}.
+		\]
+		The time at which the collection is complete is \(X=\max\{X_1,\dots,X_m\}\). Hence
+		\[
+		\mathbb{P}(X\le t)
+		=
+		\prod_{j=1}^{m}(1-e^{-p_jt}).
+		\]
+		
+		Using the tail expectation formula for nonnegative random variables,
+		\[
+		\mathbb{E}[X]
+		=
+		\int_0^\infty \mathbb{P}(X>t)\,dt
+		=
+		\int_0^\infty
+		\left[
+		1-\prod_{j=1}^{m}(1-e^{-p_jt})
+		\right]dt.
+		\]
+		Since the overall coupon arrival process has rate \(1\), the expected completion time equals the expected number of coupons needed. Thus
+		\[
+		\mathbb{E}[N]
+		=
+		\int_0^\infty
+		\left[
+		1-\prod_{j=1}^{m}(1-e^{-p_jt})
+		\right]dt.
+		\]
+	\end{example}
+	
+	\begin{remark}
+		If the overall coupon arrival process has rate \(\mu\) instead of rate \(1\), then type \(j\) coupons form an independent Poisson process with rate \(\mu p_j\). The completion time is sped up by a factor of \(\mu\), but the sequence of coupon types is unchanged. Hence the expected number of coupons needed is independent of \(\mu\).
+	\end{remark}
+	
+	\begin{corollary}[Coupon collector with equally likely types]
+		If \(p_j=1/m\) for all \(j=1,\dots,m\), then
+		\[
+		\mathbb{E}[N]
+		=
+		m\left(1+\frac12+\cdots+\frac1m\right)
+		=
+		mH_m,
+		\]
+		where \(H_m\) is the \(m\)-th harmonic number.
+	\end{corollary}
+	
+	\begin{proof}
+		In the equally likely case,
+		\[
+		\mathbb{E}[N]
+		=
+		\int_0^\infty \left[1-(1-e^{-t/m})^m\right]dt.
+		\]
+		Using
+		\[
+		(1-e^{-t/m})^m
+		=
+		\sum_{k=0}^{m}\binom{m}{k}(-1)^k e^{-kt/m},
+		\]
+		we get
+		\[
+		\mathbb{E}[N]
+		=
+		\sum_{k=1}^{m}(-1)^{k+1}\binom{m}{k}\int_0^\infty e^{-kt/m}\,dt.
+		\]
+		Therefore,
+		\[
+		\mathbb{E}[N]
+		=
+		m\sum_{k=1}^{m}(-1)^{k+1}\binom{m}{k}\frac1k
+		=
+		mH_m.
 		\]
 	\end{proof}
 	
-	\begin{proposition}[Factorial moments]
-		Let \(X\) be a nonnegative integer-valued random variable with p.g.f. \(G_X\). Then
+	\begin{example}[Number of coupon types appearing exactly once]
+		In the coupon collector problem with \(m\) equally likely types, let \(Y\) be the number of types that appear exactly once in the completed collection. We compute \(\mathbb{E}[Y]\).
+		
+		Let \(I_i\) be the indicator of the event that type \(i\) appears exactly once in the completed collection. Then \(Y=I_1+\cdots+I_m\), so by symmetry,
 		\[
-		G_X'(1)=\mathbb{E}[X],
+		\mathbb{E}[Y]=m\mathbb{E}[I_1]=m\mathbb{P}(I_1=1).
 		\]
-		and more generally,
+		
+		In the Poissonized model, type \(i\) coupons form a Poisson process with rate \(1/m\). Let \(S_i\) be the time of the second type \(i\) coupon. Then \(S_i\sim\operatorname{Gamma}(2,1/m)\), with density
 		\[
-		G_X^{(r)}(1)
+		f_{S_i}(s)=\frac{s}{m^2}e^{-s/m},
+		\qquad s\ge 0.
+		\]
+		For each \(j\neq i\), let \(X_j\) be the first arrival time of a type \(j\) coupon. Then \(X_j\sim\operatorname{Exp}(1/m)\), independently over \(j\neq i\).
+		
+		The event \(I_i=1\) occurs exactly when every other type appears before the second type \(i\) coupon arrives:
+		\[
+		I_i=1
+		\quad\Longleftrightarrow\quad
+		X_j<S_i \text{ for every } j\neq i.
+		\]
+		Conditioning on \(S_i=s\),
+		\[
+		\mathbb{P}(I_i=1\mid S_i=s)
 		=
-		\mathbb{E}\bigl[X(X-1)\cdots(X-r+1)\bigr].
+		(1-e^{-s/m})^{m-1}.
+		\]
+		Therefore,
+		\[
+		\mathbb{P}(I_i=1)
+		=
+		\int_0^\infty
+		(1-e^{-s/m})^{m-1}\frac{s}{m^2}e^{-s/m}\,ds.
+		\]
+		Using the change of variables \(u=e^{-s/m}\), we obtain
+		\[
+		\mathbb{P}(I_i=1)
+		=
+		-\int_0^1 (1-u)^{m-1}\log u\,du.
+		\]
+		Using the identity
+		\[
+		-\int_0^1 (1-u)^{m-1}\log u\,du
+		=
+		\frac{H_m}{m},
+		\]
+		we get \(\mathbb{P}(I_i=1)=H_m/m\). Hence
+		\[
+		\mathbb{E}[Y]
+		=
+		m\cdot \frac{H_m}{m}
+		=
+		H_m.
+		\]
+	\end{example}
+	
+	
+	
+
+	
+	% =========================================================
+	\section{Conditional Distribution of the Waiting/Arrival Times}
+	% =========================================================
+	
+	Let \(\{N(t):t\ge 0\}\) be a Poisson process with rate \(\lambda>0\). Let \(T_1,T_2,\dots\) be the interarrival times and let
+	\[
+	S_n=T_1+\cdots+T_n
+	\]
+	be the arrival time of the \(n\)-th event.
+	
+	We first consider a simple question: suppose we know that exactly one event occurs in \((0,t]\). What is the conditional distribution of the arrival time \(S_1\)?
+	
+	\begin{proposition}
+		Given that \(N(t)=1\), the first arrival time \(S_1\) is uniformly distributed on \([0,t]\). That is,
+		\[
+		(S_1\mid N(t)=1)\sim U(0,t).
+		\]
+	\end{proposition}
+	
+	\begin{proof}
+		For \(0\le s\le t\),
+		\[
+		\mathbb{P}(S_1\le s\mid N(t)=1)
+		=
+		\frac{\mathbb{P}(S_1\le s,\ N(t)=1)}{\mathbb{P}(N(t)=1)}.
+		\]
+		The event \(\{S_1\le s,\ N(t)=1\}\) means that there is exactly one event in \((0,s]\) and no event in \((s,t]\). Hence, by independent increments,
+		\begin{align*}
+			\mathbb{P}(S_1\le s,\ N(t)=1)
+			&=\mathbb{P}(N(s)=1,\ N(t)-N(s)=0)\\
+			&=\mathbb{P}(N(s)=1)\mathbb{P}(N(t)-N(s)=0)\\
+			&=e^{-\lambda s}\lambda s\cdot e^{-\lambda(t-s)}
+			=\lambda s e^{-\lambda t}.
+		\end{align*}
+		Also,
+		\[
+		\mathbb{P}(N(t)=1)=\lambda t e^{-\lambda t}.
+		\]
+		Therefore,
+		\[
+		\mathbb{P}(S_1\le s\mid N(t)=1)=\frac{\lambda s e^{-\lambda t}}{\lambda t e^{-\lambda t}}=\frac{s}{t}.
+		\]
+		This is the c.d.f. of \(U(0,t)\), so \((S_1\mid N(t)=1)\sim U(0,t)\).
+	\end{proof}
+	
+	\begin{remark}
+		The conclusion is intuitive: if we only know that exactly one event occurred during \((0,t]\), then the event is equally likely to have occurred anywhere in the interval.
+	\end{remark}
+	
+	\begin{definition}[Order statistics]
+		Let \(Y_1,\dots,Y_n\) be random variables. Their order statistics are denoted by
+		\[
+		Y_{(1)}\le Y_{(2)}\le \cdots\le Y_{(n)},
+		\]
+		where \(Y_{(k)}\) is the \(k\)-th smallest value among \(Y_1,\dots,Y_n\).
+	\end{definition}
+	
+	\begin{proposition}[Joint density of order statistics]
+		Let \(Y_1,\dots,Y_n\) be i.i.d. continuous random variables with density \(f\). Then the joint density of the order statistics \(Y_{(1)},\dots,Y_{(n)}\) is
+		\[
+		f_{Y_{(1)},\dots,Y_{(n)}}(y_1,\dots,y_n)
+		=
+		n!\prod_{i=1}^{n}f(y_i),
+		\qquad y_1<y_2<\cdots<y_n.
+		\]
+		The density is \(0\) otherwise.
+	\end{proposition}
+	
+	\begin{proof}
+		For fixed \(y_1<\cdots<y_n\), the unordered vector \((Y_1,\dots,Y_n)\) can be arranged as \((y_1,\dots,y_n)\) in \(n!\) different ways. Since the \(Y_i\)'s are independent, each ordering has density \(\prod_{i=1}^{n}f(y_i)\). Therefore the joint density of the ordered vector is
+		\[
+		n!\prod_{i=1}^{n}f(y_i),
+		\qquad y_1<\cdots<y_n.
+		\]
+	\end{proof}
+	
+	\begin{example}[Uniform order statistics]
+		If \(Y_1,\dots,Y_n\) are i.i.d. \(U(0,t)\), then \(f(y)=1/t\) for \(0<y<t\). Hence the joint density of \(Y_{(1)},\dots,Y_{(n)}\) is
+		\[
+		f_{Y_{(1)},\dots,Y_{(n)}}(y_1,\dots,y_n)
+		=
+		\frac{n!}{t^n},
+		\qquad 0<y_1<\cdots<y_n<t.
+		\]
+	\end{example}
+	
+	\begin{theorem}
+		Given that \(N(t)=n\), the arrival times \(S_1,\dots,S_n\) have the same distribution as the order statistics of \(n\) independent \(U(0,t)\) random variables. That is,
+		\[
+		(S_1,\dots,S_n\mid N(t)=n)
+		\overset{d}{=}
+		(Y_{(1)},\dots,Y_{(n)}),
+		\]
+		where \(Y_1,\dots,Y_n\) are i.i.d. \(U(0,t)\).
+	\end{theorem}
+	
+	\begin{proof}
+		We compute the conditional joint density of \(S_1,\dots,S_n\) given \(N(t)=n\). Since \(T_1,T_2,\dots\) are i.i.d. \(\operatorname{Exp}(\lambda)\) and \(S_k=T_1+\cdots+T_k\), the joint density of \(S_1,\dots,S_n\) is
+		\[
+		f_{S_1,\dots,S_n}(s_1,\dots,s_n)
+		=
+		\lambda^n e^{-\lambda s_n},
+		\qquad 0<s_1<\cdots<s_n.
+		\]
+		For \(0<s_1<\cdots<s_n<t\), the event \(N(t)=n\) is equivalent to saying that no further event occurs in \((s_n,t]\). Hence
+		\begin{align*}
+			f_{S_1,\dots,S_n,\ N(t)=n}(s_1,\dots,s_n)
+			&=
+			\lambda^n e^{-\lambda s_n}\mathbb{P}(N(t)-N(s_n)=0)\\
+			&=
+			\lambda^n e^{-\lambda s_n}e^{-\lambda(t-s_n)}
+			=
+			\lambda^n e^{-\lambda t}.
+		\end{align*}
+		Also,
+		\[
+		\mathbb{P}(N(t)=n)=e^{-\lambda t}\frac{(\lambda t)^n}{n!}.
+		\]
+		Therefore the conditional joint density is
+		\[
+		f_{S_1,\dots,S_n\mid N(t)=n}(s_1,\dots,s_n)
+		=
+		\frac{\lambda^n e^{-\lambda t}}{e^{-\lambda t}(\lambda t)^n/n!}
+		=
+		\frac{n!}{t^n},
+		\]
+		for \(0<s_1<\cdots<s_n<t\), and is \(0\) otherwise. This is exactly the joint density of the order statistics of \(n\) i.i.d. \(U(0,t)\) random variables.
+	\end{proof}
+	
+	\begin{remark}
+		The theorem says that, conditional on knowing exactly how many arrivals occurred by time \(t\), the unordered arrival times behave like independent uniform points on \([0,t]\). After ordering them, we obtain the actual arrival times \(S_1<\cdots<S_n\).
+	\end{remark}
+	
+	\begin{corollary}
+		Given that \(N(t)=n\), for any \(0\le a\le b\le t\), the number of arrivals in \((a,b]\) has binomial distribution:
+		\[
+		N(b)-N(a)\mid N(t)=n
+		\sim
+		\operatorname{Bin}\left(n,\frac{b-a}{t}\right).
+		\]
+	\end{corollary}
+	
+	\begin{proof}
+		Conditional on \(N(t)=n\), the \(n\) arrival times are distributed as \(n\) independent uniform points on \([0,t]\), after ordering. For each point, the probability of falling in \((a,b]\) is \((b-a)/t\). Hence the number of points in \((a,b]\) has binomial distribution with parameters \(n\) and \((b-a)/t\).
+	\end{proof}
+	
+	\begin{proposition}
+		Given that \(S_n=t\), the previous arrival times \(S_1,\dots,S_{n-1}\) have the same distribution as the order statistics of \(n-1\) independent \(U(0,t)\) random variables.
+	\end{proposition}
+	
+	\begin{proof}
+		For \(0<s_1<\cdots<s_{n-1}<t\), the joint density of \(S_1,\dots,S_n\) is
+		\[
+		f_{S_1,\dots,S_n}(s_1,\dots,s_{n-1},t)
+		=
+		\lambda^n e^{-\lambda t}.
+		\]
+		The density of \(S_n\) is the Gamma density
+		\[
+		f_{S_n}(t)=\frac{\lambda^n t^{n-1}e^{-\lambda t}}{(n-1)!},
+		\qquad t>0.
+		\]
+		Therefore the conditional joint density of \(S_1,\dots,S_{n-1}\) given \(S_n=t\) is
+		\[
+		f_{S_1,\dots,S_{n-1}\mid S_n=t}(s_1,\dots,s_{n-1})
+		=
+		\frac{\lambda^n e^{-\lambda t}}
+		{\lambda^n t^{n-1}e^{-\lambda t}/(n-1)!}
+		=
+		\frac{(n-1)!}{t^{n-1}},
+		\]
+		for \(0<s_1<\cdots<s_{n-1}<t\), and is \(0\) otherwise. This is exactly the joint density of the order statistics of \(n-1\) i.i.d. \(U(0,t)\) random variables.
+	\end{proof}
+	
+	\begin{remark}
+		There are two closely related conditioning results:
+		\begin{itemize}[leftmargin=2em]
+			\item Given \(N(t)=n\), all \(n\) arrival times before time \(t\) are distributed like the order statistics of \(n\) i.i.d. \(U(0,t)\) variables.
+			\item Given \(S_n=t\), the previous \(n-1\) arrival times are distributed like the order statistics of \(n-1\) i.i.d. \(U(0,t)\) variables.
+		\end{itemize}
+	\end{remark}
+	
+	
+	% =========================================================
+	\section{Nonhomogeneous Poisson Processes}
+	% =========================================================
+	
+	In reality, many arrival processes are not stationary. For example, customers may arrive more frequently during lunch hours than in the early morning. Thus the arrival rate may depend on time. This leads to the notion of a nonhomogeneous Poisson process.
+	
+	\begin{definition}[Nonhomogeneous Poisson process]
+		A counting process \(\{N(t):t\ge 0\}\) is called a nonhomogeneous Poisson process with intensity function \(\lambda(t)\ge 0\) if:
+		\begin{enumerate}[label=(\roman*),leftmargin=2em]
+			\item \(N(0)=0\).
+			\item The process has independent increments.
+			\item As \(h\downarrow 0\),
+			\[
+			\mathbb{P}(N(t+h)-N(t)=1)=\lambda(t)h+o(h).
+			\]
+			\item As \(h\downarrow 0\),
+			\[
+			\mathbb{P}(N(t+h)-N(t)\ge 2)=o(h).
+			\]
+		\end{enumerate}
+	\end{definition}
+	
+	\begin{remark}
+		The main difference from a homogeneous Poisson process is that the rate is now time-dependent. If \(\lambda(t)\equiv \lambda\) is constant, then we recover the ordinary Poisson process with rate \(\lambda\).
+	\end{remark}
+	
+	\begin{definition}[Mean value function]
+		Let \(\{N(t):t\ge 0\}\) be a nonhomogeneous Poisson process with intensity function \(\lambda(t)\). Define
+		\[
+		m(t):=\int_0^t \lambda(s)\,ds.
+		\]
+		The function \(m(t)\) is called the mean value function.
+	\end{definition}
+	
+	\begin{theorem}
+		Let \(\{N(t):t\ge 0\}\) be a nonhomogeneous Poisson process with intensity function \(\lambda(t)\), and let
+		\[
+		m(t)=\int_0^t \lambda(u)\,du.
+		\]
+		Then for \(0\le s<t\),
+		\[
+		N(t)-N(s)\sim \operatorname{Poisson}(m(t)-m(s)),
+		\]
+		where
+		\[
+		m(t)-m(s)=\int_s^t \lambda(u)\,du.
 		\]
 		In particular,
 		\[
-		G_X''(1)
-		=
-		\mathbb{E}[X(X-1)].
-		\]
-	\end{proposition}
-	
-	\begin{proof}
-		Starting from
-		\[
-		G_X(s)=\sum_{k=0}^{\infty}\mathbb{P}(X=k)s^k,
-		\]
-		we differentiate term by term:
-		\[
-		G_X'(s)
-		=
-		\sum_{k=1}^{\infty}k\mathbb{P}(X=k)s^{k-1}.
-		\]
-		Setting \(s=1\), we get
-		\[
-		G_X'(1)
-		=
-		\sum_{k=1}^{\infty}k\mathbb{P}(X=k)
-		=
-		\mathbb{E}[X].
-		\]
-		Similarly,
-		\[
-		G_X^{(r)}(s)
-		=
-		\sum_{k=r}^{\infty}
-		k(k-1)\cdots(k-r+1)\mathbb{P}(X=k)s^{k-r}.
-		\]
-		Setting \(s=1\) gives the result.
-	\end{proof}
-	
-	\begin{corollary}
-		The variance of \(X\) can be computed from the p.g.f. by
-		\[
-		\operatorname{Var}(X)
-		=
-		G_X''(1)+G_X'(1)-\bigl(G_X'(1)\bigr)^2.
-		\]
-	\end{corollary}
-	
-	\begin{proof}
-		We have
-		\[
-		G_X''(1)=\mathbb{E}[X(X-1)].
-		\]
-		Therefore,
-		\[
-		\mathbb{E}[X^2]
-		=
-		\mathbb{E}[X(X-1)]+\mathbb{E}[X]
-		=
-		G_X''(1)+G_X'(1).
-		\]
-		Hence
-		\[
-		\operatorname{Var}(X)
-		=
-		\mathbb{E}[X^2]-(\mathbb{E}[X])^2
-		=
-		G_X''(1)+G_X'(1)-\bigl(G_X'(1)\bigr)^2.
-		\]
-	\end{proof}
-	
-	
-	Probability generating functions are especially useful because sums of independent random variables correspond to products of generating functions.
-	
-	\begin{proposition}
-		Let \(X\) and \(Y\) be independent nonnegative integer-valued random variables. Then
-		\[
-		G_{X+Y}(s)
-		=
-		G_X(s)G_Y(s).
-		\]
-		More generally, if \(X_1,\dots,X_n\) are independent, then
-		\[
-		G_{X_1+\cdots+X_n}(s)
-		=
-		G_{X_1}(s)\cdots G_{X_n}(s).
-		\]
-	\end{proposition}
-	
-	\begin{proof}
-		Using independence,
-		\[
-		G_{X+Y}(s)
-		=
-		\mathbb{E}[s^{X+Y}]
-		=
-		\mathbb{E}[s^Xs^Y]
-		=
-		\mathbb{E}[s^X]\mathbb{E}[s^Y].
-		\]
-		Therefore,
-		\[
-		G_{X+Y}(s)=G_X(s)G_Y(s).
-		\]
-		The general case follows by induction.
-	\end{proof}
-	
-	\begin{example}[Sum of independent Poisson random variables]
-		Let
-		\[
-		X\sim\operatorname{Poisson}(\lambda),
-		\qquad
-		Y\sim\operatorname{Poisson}(\mu),
-		\]
-		and assume \(X\) and \(Y\) are independent. Then
-		\[
-		G_X(s)=e^{\lambda(s-1)},
-		\qquad
-		G_Y(s)=e^{\mu(s-1)}.
-		\]
-		Hence
-		\[
-		G_{X+Y}(s)
-		=
-		G_X(s)G_Y(s)
-		=
-		e^{\lambda(s-1)}e^{\mu(s-1)}
-		=
-		e^{(\lambda+\mu)(s-1)}.
-		\]
-		Therefore,
-		\[
-		X+Y\sim\operatorname{Poisson}(\lambda+\mu).
-		\]
-	\end{example}
-	
-	
-	We now consider sums where the number of summands is itself random.
-	
-	\begin{proposition}[Generating function of a random sum]
-		Let \(X_1,X_2,\dots\) be independent and identically distributed nonnegative integer-valued random variables with common p.g.f.
-		\[
-		G_X(s)=\mathbb{E}[s^{X_1}].
-		\]
-		Let \(N\) be a nonnegative integer-valued random variable with p.g.f.
-		\[
-		G_N(s)=\mathbb{E}[s^N].
-		\]
-		Assume that \(N\) is independent of \(X_1,X_2,\dots\). Define
-		\[
-		S_N:=X_1+\cdots+X_N,
-		\]
-		with the convention that \(S_0=0\). Then
-		\[
-		G_{S_N}(s)
-		=
-		G_N(G_X(s)).
-		\]
-	\end{proposition}
-	
-	\begin{proof}
-		Conditioning on \(N\), we get
-		\[
-		G_{S_N}(s)
-		=
-		\mathbb{E}[s^{S_N}]
-		=
-		\mathbb{E}\left[\mathbb{E}[s^{S_N}\mid N]\right].
-		\]
-		If \(N=n\), then
-		\[
-		S_N=X_1+\cdots+X_n.
-		\]
-		By independence,
-		\[
-		\mathbb{E}[s^{S_N}\mid N=n]
-		=
-		(G_X(s))^n.
-		\]
-		Therefore,
-		\[
-		G_{S_N}(s)
-		=
-		\mathbb{E}\left[(G_X(s))^N\right]
-		=
-		G_N(G_X(s)).
-		\]
-	\end{proof}
-	
-	\begin{example}[Poisson thinning]
-		Suppose a hen lays a random number \(N\) of eggs, where
-		\[
-		N\sim\operatorname{Poisson}(\lambda).
-		\]
-		Each egg hatches independently with probability \(p\). Let \(K\) be the number of chicks.
-		
-		For each egg, define
-		\[
-		X_i=
-		\begin{cases}
-			1, & \text{if the \(i\)-th egg hatches},\\
-			0, & \text{otherwise}.
-		\end{cases}
-		\]
-		Then
-		\[
-		X_i\sim\operatorname{Bernoulli}(p),
-		\]
-		and
-		\[
-		K=X_1+\cdots+X_N.
-		\]
-		
-		The p.g.f. of \(X_i\) is
-		\[
-		G_X(s)=(1-p)+ps.
-		\]
-		The p.g.f. of \(N\) is
-		\[
-		G_N(s)=e^{\lambda(s-1)}.
-		\]
-		Using the random sum formula,
-		\[
-		G_K(s)
-		=
-		G_N(G_X(s))
-		=
-		e^{\lambda((1-p)+ps-1)}
-		=
-		e^{\lambda p(s-1)}.
-		\]
-		Therefore,
-		\[
-		K\sim\operatorname{Poisson}(\lambda p).
-		\]
-	\end{example}
-	
-	\begin{remark}
-		This example is often called \emph{thinning} a Poisson random variable. If each item in a Poisson population is kept independently with probability \(p\), then the number kept is still Poisson, with parameter multiplied by \(p\).
-	\end{remark}
-	
-	% =========================================================
-	\paragraph{Generating Functions for Branching Processes}
-	% =========================================================
-	
-	We now return to the Galton--Watson branching process and use probability generating functions to study extinction.
-	
-	Let \(\{X_n\}_{n\ge 0}\) be a Galton--Watson branching process starting from one individual:
-	\[
-	X_0=1.
-	\]
-	Let \(\xi\) denote the number of offspring of a single individual, and let
-	\[
-	p_k:=\mathbb{P}(\xi=k),
-	\qquad k=0,1,2,\dots.
-	\]
-	The p.g.f. of the offspring distribution is
-	\[
-	G(s)
-	:=
-	\mathbb{E}[s^\xi]
-	=
-	\sum_{k=0}^{\infty}p_ks^k.
-	\]
-	
-	For each \(n\ge 0\), define the p.g.f. of \(X_n\) by
-	\[
-	G_n(s)
-	:=
-	\mathbb{E}[s^{X_n}].
-	\]
-	Since \(X_0=1\), we have
-	\[
-	G_0(s)=s.
-	\]
-	
-	\begin{proposition}
-		For the Galton--Watson branching process,
-		$$
-		G_{n+1}(s)
-		=
-		G_n(G(s)).
-		$$
-		Equivalently,
-		$$
-		G_n(s)
-		=
-		\underbrace{G\circ G\circ\cdots\circ G}_{n\text{ times}}(s).
-		$$
-	\end{proposition}
-	
-	\begin{proof}
-		Conditioning on $X_n$, we have
-		$$
-		X_{n+1}
-		=
-		\sum_{i=1}^{X_n}\xi_{n,i},
-		$$
-		where the $\xi_{n,i}$'s are independent copies of the offspring random variable $\xi$.
-		
-		We now compute the conditional expectation. If $X_n=m$, then
-		$$
-		X_{n+1}
-		=
-		\sum_{i=1}^{m}\xi_{n,i}.
-		$$
-		Therefore,
-		$$
-		\mathbb{E}[s^{X_{n+1}}\mid X_n=m]
-		=
-		\mathbb{E}\left[
-		s^{\sum_{i=1}^{m}\xi_{n,i}}
-		\right].
-		$$
-		Since
-		$$
-		s^{\sum_{i=1}^{m}\xi_{n,i}}
-		=
-		\prod_{i=1}^{m}s^{\xi_{n,i}},
-		$$
-		we get
-		$$
-		\mathbb{E}[s^{X_{n+1}}\mid X_n=m]
-		=
-		\mathbb{E}\left[
-		\prod_{i=1}^{m}s^{\xi_{n,i}}
-		\right].
-		$$
-		By independence of the offspring variables $\xi_{n,1},\dots,\xi_{n,m}$,
-		$$
-		\mathbb{E}\left[
-		\prod_{i=1}^{m}s^{\xi_{n,i}}
-		\right]
-		=
-		\prod_{i=1}^{m}\mathbb{E}[s^{\xi_{n,i}}].
-		$$
-		Each $\xi_{n,i}$ has the same distribution as $\xi$, so
-		$$
-		\mathbb{E}[s^{\xi_{n,i}}]
-		=
-		\mathbb{E}[s^\xi]
-		=
-		G(s).
-		$$
-		Hence,
-		$$
-		\mathbb{E}[s^{X_{n+1}}\mid X_n=m]
-		=
-		(G(s))^m.
-		$$
-		Equivalently,
-		$$
-		\mathbb{E}[s^{X_{n+1}}\mid X_n]
-		=
-		(G(s))^{X_n}.
-		$$
-		
-		Taking expectations and using the tower property,
-		$$
-		G_{n+1}(s)
-		=
-		\mathbb{E}[s^{X_{n+1}}]
-		=
-		\mathbb{E}\left[
-		\mathbb{E}[s^{X_{n+1}}\mid X_n]
-		\right].
-		$$
-		Using the conditional expectation computed above,
-		$$
-		G_{n+1}(s)
-		=
-		\mathbb{E}\left[(G(s))^{X_n}\right].
-		$$
-		By definition of the generating function $G_n$, for any $t\in[0,1]$,
-		$$
-		G_n(t)
-		=
-		\mathbb{E}[t^{X_n}].
-		$$
-		Taking $t=G(s)$ gives
-		$$
-		\mathbb{E}\left[(G(s))^{X_n}\right]
-		=
-		G_n(G(s)).
-		$$
-		Therefore,
-		$$
-		G_{n+1}(s)
-		=
-		G_n(G(s)).
-		$$
-		
-		Since $G_0(s)=s$, we obtain recursively
-		$$
-		G_1(s)=G(s),
-		$$
-		$$
-		G_2(s)=G(G(s)),
-		$$
-		$$
-		G_3(s)=G(G(G(s))),
-		$$
-		and so on. Hence, in general,
-		$$
-		G_n(s)
-		=
-		\underbrace{G\circ G\circ\cdots\circ G}_{n\text{ times}}(s).
-		$$
-	\end{proof}
-	
-	
-	\begin{remark}
-		The formula says that the distribution of \(X_n\) is obtained by composing the offspring p.g.f. with itself \(n\) times. This is one of the main reasons generating functions are powerful for branching processes.
-	\end{remark}
-	
-	
-Let $q_n:=\mathbb{P}(X_n=0)$. Since $X_n=0$ implies $X_{n+1}=0$, the events $\{X_n=0\}$ are increasing in $n$. Therefore $q_n\uparrow q$, where
-$q:=\mathbb{P}(\text{eventual extinction})=\lim_{n\to\infty}\mathbb{P}(X_n=0)$.
-
-Also, since $G_n$ is the p.g.f. of $X_n$,
-\[
-G_n(s)=\mathbb{E}[s^{X_n}]
-=\sum_{k=0}^{\infty}\mathbb{P}(X_n=k)s^k.
-\]
-Setting $s=0$ leaves only the constant term, namely $\mathbb{P}(X_n=0)$. Hence
-\[
-G_n(0)=\mathbb{P}(X_n=0)=q_n.
-\]
-Thus we may study extinction using the iterates of the p.g.f.
-
-
-
-	
-	\begin{proposition}
-		The extinction probability \(q\) satisfies
-		\[
-		q=G(q).
-		\]
-	\end{proposition}
-	
-	\begin{proof}
-		We have
-		\[
-		q_n=G_n(0).
-		\]
-		Using the recursion \(G_{n+1}(s)=G_n(G(s))\), or equivalently \(G_{n+1}(s)=G(G_n(s))\), we get
-		\[
-		q_{n+1}
-		=
-		G(q_n).
-		\]
-		Taking the limit as \(n\to\infty\), and using the continuity of \(G\) on \([0,1]\), gives
-		\[
-		q
-		=
-		G(q).
-		\]
-	\end{proof}
-	
-	\begin{proposition}
-		The extinction probability \(q\) is the smallest nonnegative solution of
-		\[
-		s=G(s)
-		\]
-		in the interval \([0,1]\).
-	\end{proposition}
-	
-	\begin{proof}
-		Since \(q_0=\mathbb{P}(X_0=0)=0\), we have
-		\[
-		q_0=0.
-		\]
-		Also,
-		\[
-		q_{n+1}=G(q_n).
-		\]
-		The sequence \(\{q_n\}\) is increasing and bounded above by \(1\), so it converges to \(q\).
-		
-		Let \(a\in[0,1]\) be any solution of
-		\[
-		a=G(a).
-		\]
-		We show that \(q_n\le a\) for all \(n\). Clearly,
-		\[
-		q_0=0\le a.
-		\]
-		If \(q_n\le a\), then since \(G\) is increasing on \([0,1]\),
-		\[
-		q_{n+1}
-		=
-		G(q_n)
-		\le
-		G(a)
-		=
-		a.
-		\]
-		Thus, by induction,
-		\[
-		q_n\le a
-		\qquad
-		\text{for all }n.
-		\]
-		Taking \(n\to\infty\), we obtain
-		\[
-		q\le a.
-		\]
-		Therefore, \(q\) is the smallest nonnegative solution of \(s=G(s)\).
-	\end{proof}
-	
-	
-	Let
-	\[
-	m:=\mathbb{E}[\xi]=G'(1)
-	\]
-	be the mean number of offspring of one individual.
-	
-	\begin{theorem}[Extinction criterion]
-		Assume the offspring distribution is not deterministic and \(p_0>0\). Let \(q\) be the extinction probability starting from one individual. Then
-		\[
-		q=
-		\begin{cases}
-			1, & m\le 1,\\[6pt]
-			\text{the unique solution of }s=G(s)\text{ in }[0,1), & m>1.
-		\end{cases}
-		\]
-		In particular, the process survives forever with positive probability if and only if
-		\[
-		m>1.
+		N(t)\sim \operatorname{Poisson}(m(t)).
 		\]
 	\end{theorem}
 	
-	\begin{proof}[Proof idea]
-		The generating function \(G\) satisfies
+	\begin{proof}
+		We sketch the idea. Partition \([s,t]\) into many small intervals. On a small interval \([u,u+h]\), the probability of one arrival is approximately \(\lambda(u)h\), and the probability of two or more arrivals is \(o(h)\). Adding these small contributions over the interval \([s,t]\), the total expected number of arrivals is approximately
 		\[
-		G(1)=1,
-		\qquad
-		G'(1)=m.
+		\sum \lambda(u_i)\Delta u_i,
 		\]
-		Moreover, \(G\) is convex on \([0,1]\), since
+		which converges to
 		\[
-		G''(s)
-		=
-		\sum_{k=2}^{\infty}k(k-1)p_ks^{k-2}
-		\ge 0.
+		\int_s^t \lambda(u)\,du=m(t)-m(s).
 		\]
-		
-		If \(m\le 1\), then the graph of \(G(s)\) does not cross the line \(s\) before \(s=1\). Hence the smallest solution of
+		Using independent increments and the usual Poisson approximation for rare independent events gives
 		\[
-		s=G(s)
-		\]
-		in \([0,1]\) is \(s=1\). Therefore,
-		\[
-		q=1.
-		\]
-		
-		If \(m>1\), then \(G'(1)>1\). Since \(G(0)=p_0>0\) and \(G(1)=1\), convexity implies that the equation
-		\[
-		s=G(s)
-		\]
-		has a unique solution \(q\in[0,1)\). Since \(q\) is the smallest nonnegative solution, this solution is the extinction probability. Thus
-		\[
-		q<1.
-		\]
-		Hence the survival probability is
-		\[
-		1-q>0.
+		N(t)-N(s)\sim \operatorname{Poisson}(m(t)-m(s)).
 		\]
 	\end{proof}
 	
-	\begin{remark}
-		The cases are usually described as follows:
-		\begin{itemize}[leftmargin=2em]
-			\item \(m<1\): the process is \emph{subcritical}, and extinction occurs with probability \(1\).
-			\item \(m=1\): the process is \emph{critical}, and extinction occurs with probability \(1\), unless the offspring distribution is the deterministic distribution \(\mathbb{P}(\xi=1)=1\).
-			\item \(m>1\): the process is \emph{supercritical}, and survival has positive probability.
-		\end{itemize}
-	\end{remark}
-	
-	\begin{remark}
-		If \(m=1\) and the variance of the offspring distribution is positive, then the process is critical but non-deterministic. In that case,
+	\begin{corollary}
+		For a nonhomogeneous Poisson process,
 		\[
-		q=1.
+		\mathbb{E}[N(t)]=m(t),
+		\qquad
+		\operatorname{Var}(N(t))=m(t).
 		\]
-		If instead \(\mathbb{P}(\xi=1)=1\), then \(X_n=1\) for all \(n\), and extinction never occurs.
-	\end{remark}
-	
-	% =========================================================
-	\paragraph{Application: Random Walk Recurrence via Generating Functions}
-	% =========================================================
-	
-	We now use generating functions to study recurrence of the one-dimensional nearest-neighbour random walk.
-	
-	Let \(\{\xi_n\}_{n\ge 1}\) be independent and identically distributed random variables with
-	\[
-	\mathbb{P}(\xi_n=1)=p,
-	\qquad
-	\mathbb{P}(\xi_n=-1)=q,
-	\qquad
-	p+q=1.
-	\]
-	Define the random walk by
-	\[
-	S_0=0,
-	\qquad
-	S_n=\xi_1+\cdots+\xi_n.
-	\]
-	Then \(\{S_n\}_{n\ge 0}\) is a Markov chain on \(\mathbb{Z}\).
-	
-	\begin{definition}[First return time to \(0\)]
-		Define
+		More generally,
 		\[
-		T_{00}:=\inf\{n\ge 1:S_n=0\}.
+		\mathbb{E}[N(t)-N(s)]=m(t)-m(s),
+		\qquad
+		\operatorname{Var}(N(t)-N(s))=m(t)-m(s).
 		\]
-		If the chain never returns to \(0\), then we set
-		\[
-		T_{00}=\infty.
-		\]
-	\end{definition}
+	\end{corollary}
+	
+	\begin{proof}
+		Since \(N(t)\sim \operatorname{Poisson}(m(t))\), its mean and variance are both equal to \(m(t)\). Similarly, \(N(t)-N(s)\sim \operatorname{Poisson}(m(t)-m(s))\).
+	\end{proof}
 	
 	\begin{remark}
-		In general, \(T_{00}\) may be a defective random variable, because
+		A nonhomogeneous Poisson process has independent increments, but generally does not have stationary increments. Indeed, the distribution of \(N(t)-N(s)\) depends on
 		\[
-		\mathbb{P}(T_{00}<\infty)
+		\int_s^t \lambda(u)\,du,
 		\]
-		may be strictly less than \(1\). The state \(0\) is recurrent exactly when
-		\[
-		\mathbb{P}(T_{00}<\infty)=1.
-		\]
+		not only on the length \(t-s\).
 	\end{remark}
 	
-	For \(n\ge 0\), define
-	\[
-	p_{00}^{(n)}:=\mathbb{P}(S_n=0),
-	\]
-	and for \(n\ge 1\), define
-	\[
-	f_{00}^{(n)}:=\mathbb{P}(T_{00}=n).
-	\]
-	Also define the generating functions
-	\[
-	P_0(s)
-	:=
-	\sum_{n=0}^{\infty}p_{00}^{(n)}s^n,
-	\]
-	and
-	\[
-	F_0(s)
-	:=
-	\sum_{n=1}^{\infty}f_{00}^{(n)}s^n.
-	\]
-	
-	\begin{remark}
-		The quantity
+	\begin{proposition}[Time-dependent thinning]
+		Let \(\{N(t):t\ge 0\}\) be a homogeneous Poisson process with rate \(\lambda\). Suppose that an event occurring at time \(s\) is counted with probability \(p(s)\), independently of all other events, where \(0\le p(s)\le 1\). Let \(N_p(t)\) be the number of counted events by time \(t\). Then \(\{N_p(t):t\ge 0\}\) is a nonhomogeneous Poisson process with intensity function
 		\[
-		p_{00}^{(n)}
-		\]
-		is the probability of being at \(0\) at time \(n\), while
-		\[
-		f_{00}^{(n)}
-		\]
-		is the probability of returning to \(0\) for the first time at time \(n\). Usually, \(p_{00}^{(n)}\) is easier to compute than \(f_{00}^{(n)}\).
-	\end{remark}
-	
-\begin{proposition}[Renewal equation]
-	We have
-	\[
-	P_0(s)=1+F_0(s)P_0(s).
-	\]
-	Equivalently,
-	\[
-	F_0(s)=1-\frac{1}{P_0(s)}.
-	\]
-\end{proposition}
-
-\begin{proof}
-	For \(n\ge 1\), if the walk is at \(0\) at time \(n\), then it must first return to \(0\) at some time \(k\), where \(1\le k\le n\), and then go from \(0\) to \(0\) in the remaining \(n-k\) steps. Hence
-	\[
-	p_{00}^{(n)}
-	=
-	\sum_{k=1}^{n}f_{00}^{(k)}p_{00}^{(n-k)}.
-	\]
-	Also, \(p_{00}^{(0)}=1\).
-	
-	Multiplying by \(s^n\) and summing over \(n\ge 1\), we get
-	\[
-	\sum_{n=1}^{\infty}p_{00}^{(n)}s^n
-	=
-	\sum_{n=1}^{\infty}\sum_{k=1}^{n}
-	f_{00}^{(k)}p_{00}^{(n-k)}s^n.
-	\]
-	The left-hand side is \(P_0(s)-1\). On the right-hand side, using \(s^n=s^k s^{n-k}\) and setting \(j=n-k\), we obtain
-	\[
-	\sum_{n=1}^{\infty}\sum_{k=1}^{n}
-	f_{00}^{(k)}p_{00}^{(n-k)}s^n
-	=
-	\sum_{k=1}^{\infty}\sum_{j=0}^{\infty}
-	f_{00}^{(k)}s^k p_{00}^{(j)}s^j
-	=
-	F_0(s)P_0(s).
-	\]
-	Therefore \(P_0(s)-1=F_0(s)P_0(s)\), so
-	\[
-	P_0(s)=1+F_0(s)P_0(s).
-	\]
-	Rearranging gives
-	\[
-	F_0(s)=1-\frac{1}{P_0(s)}.
-	\]
-\end{proof}
-
-
-	
-	\begin{proposition}
-		For the nearest-neighbour random walk,
-		\[
-		P_0(s)
-		=
-		\frac{1}{\sqrt{1-4pqs^2}}.
+		\lambda_p(t)=\lambda p(t).
 		\]
 	\end{proposition}
 	
 	\begin{proof}
-		The walk can return to \(0\) only at even times. For \(n\ge 0\), in order to have \(S_{2n}=0\), the walk must have exactly \(n\) upward steps and \(n\) downward steps. Therefore,
+		Clearly \(N_p(0)=0\). Since the original process has independent increments and the thinning decisions are made independently for different events, the thinned process also has independent increments.
+		
+		For small \(h>0\),
 		\[
-		p_{00}^{(2n)}
+		\mathbb{P}(N_p(t+h)-N_p(t)=1)
 		=
-		\binom{2n}{n}p^nq^n,
-		\qquad
-		p_{00}^{(2n+1)}=0.
+		p(t)\mathbb{P}(N(t+h)-N(t)=1)+o(h).
 		\]
-		Hence
+		Since \(N\) has rate \(\lambda\),
 		\[
-		P_0(s)
-		=
-		\sum_{n=0}^{\infty}\binom{2n}{n}(pq)^ns^{2n}.
-		\]
-		Using the standard power series identity
-		\[
-		\sum_{n=0}^{\infty}\binom{2n}{n}x^n
-		=
-		\frac{1}{\sqrt{1-4x}},
-		\qquad |x|<\frac14,
-		\]
-		with \(x=pqs^2\), we obtain
-		\[
-		P_0(s)
-		=
-		\frac{1}{\sqrt{1-4pqs^2}}.
-		\]
-	\end{proof}
-	
-	\begin{corollary}
-		The generating function of the first return time is
-		\[
-		F_0(s)
-		=
-		1-\sqrt{1-4pqs^2}.
-		\]
-	\end{corollary}
-	
-	\begin{proof}
-		By the renewal equation,
-		\[
-		F_0(s)
-		=
-		1-\frac{1}{P_0(s)}.
-		\]
-		Since
-		\[
-		P_0(s)
-		=
-		\frac{1}{\sqrt{1-4pqs^2}},
-		\]
-		we get
-		\[
-		F_0(s)
-		=
-		1-\sqrt{1-4pqs^2}.
-		\]
-	\end{proof}
-	
-\begin{theorem}
-	The one-dimensional nearest-neighbour random walk is recurrent if and only if
-	\[
-	p=q=\frac12.
-	\]
-	If \(p\neq q\), then the walk is transient.
-\end{theorem}
-
-\begin{proof}
-	The probability of ever returning to \(0\) is
-	\[
-	f_{00}
-	=
-	\mathbb{P}(T_{00}<\infty).
-	\]
-	Since \(F_0(s)=\sum_{n=1}^{\infty}f_{00}^{(n)}s^n\), where
-	\(f_{00}^{(n)}=\mathbb{P}(T_{00}=n)\), evaluating at \(s=1\) gives
-	\[
-	F_0(1)
-	=
-	\sum_{n=1}^{\infty}\mathbb{P}(T_{00}=n)
-	=
-	\mathbb{P}(T_{00}<\infty)
-	=
-	f_{00}.
-	\]
-	Using the formula for \(F_0\), we get
-	\[
-	F_0(1)
-	=
-	1-\sqrt{1-4pq}.
-	\]
-	Since \(p+q=1\),
-	\[
-	1-4pq=(p-q)^2.
-	\]
-	Therefore,
-	\[
-	F_0(1)=1-|p-q|.
-	\]
-	If \(p=q=1/2\), then \(F_0(1)=1\). Thus the walk returns to \(0\) with probability \(1\), so state \(0\) is recurrent.
-	
-	If \(p\neq q\), then \(|p-q|>0\), and hence \(F_0(1)<1\). Thus the probability of ever returning to \(0\) is strictly less than \(1\), so state \(0\) is transient.
-\end{proof}
-
-
-	
-	\begin{corollary}
-		For the symmetric random walk on \(\mathbb{Z}\), the state \(0\) is null recurrent.
-	\end{corollary}
-	
-	\begin{proof}
-		In the symmetric case,
-		\[
-		p=q=\frac12.
-		\]
-		Then
-		\[
-		F_0(s)
-		=
-		1-\sqrt{1-s^2}.
-		\]
-		The expected first return time is
-		\[
-		\mathbb{E}[T_{00}]
-		=
-		F_0'(1),
-		\]
-		provided the derivative is finite. We compute
-		\[
-		F_0'(s)
-		=
-		\frac{s}{\sqrt{1-s^2}}.
-		\]
-		As \(s\uparrow 1\),
-		\[
-		F_0'(s)\to\infty.
+		\mathbb{P}(N(t+h)-N(t)=1)=\lambda h+o(h).
 		\]
 		Therefore,
 		\[
-		\mathbb{E}[T_{00}]=\infty.
+		\mathbb{P}(N_p(t+h)-N_p(t)=1)=\lambda p(t)h+o(h).
 		\]
-		Since the state \(0\) is recurrent but has infinite mean return time, it is null recurrent.
+		Also,
+		\[
+		\mathbb{P}(N_p(t+h)-N_p(t)\ge 2)
+		\le
+		\mathbb{P}(N(t+h)-N(t)\ge 2)
+		=
+		o(h).
+		\]
+		Hence \(N_p\) is a nonhomogeneous Poisson process with intensity \(\lambda p(t)\).
 	\end{proof}
 	
 	\begin{remark}
-		By irreducibility, recurrence or transience of state \(0\) determines the classification of every state in the one-dimensional nearest-neighbour random walk. Thus:
-		\[
-		\begin{cases}
-			p=q=\dfrac12
-			&\Rightarrow \text{all states are null recurrent},\\[8pt]
-			p\neq q
-			&\Rightarrow \text{all states are transient}.
-		\end{cases}
-		\]
+		This gives one way to generate a nonhomogeneous Poisson process from a homogeneous one. Start with a Poisson process of rate \(\lambda\), and keep an event at time \(t\) with probability \(p(t)\). The resulting process has intensity \(\lambda p(t)\).
 	\end{remark}
+	
+	\begin{proposition}[Dominating process construction]
+		Suppose \(\lambda(t)\le \lambda\) for all \(t\ge 0\), where \(\lambda\) is a constant. Let \(\{N^*(t):t\ge 0\}\) be a homogeneous Poisson process with rate \(\lambda\). If each event occurring at time \(t\) is kept with probability
+		\[
+		p(t)=\frac{\lambda(t)}{\lambda},
+		\]
+		independently of all other events, then the kept process is a nonhomogeneous Poisson process with intensity \(\lambda(t)\).
+	\end{proposition}
+	
+	\begin{proof}
+		This follows directly from the time-dependent thinning result, since the thinned intensity is
+		\[
+		\lambda p(t)=\lambda\cdot \frac{\lambda(t)}{\lambda}=\lambda(t).
+		\]
+	\end{proof}
+	
+	\begin{remark}
+		This method is often called thinning or rejection sampling for nonhomogeneous Poisson processes. One first generates a homogeneous Poisson process with a rate large enough to dominate \(\lambda(t)\), and then accepts each event with probability \(\lambda(t)/\lambda\).
+	\end{remark}
+	
+	\begin{proposition}[Superposition]
+		Let \(\{N_1(t):t\ge 0\}\) and \(\{N_2(t):t\ge 0\}\) be independent nonhomogeneous Poisson processes with intensity functions \(\lambda_1(t)\) and \(\lambda_2(t)\). Define
+		\[
+		N(t)=N_1(t)+N_2(t).
+		\]
+		Then \(\{N(t):t\ge 0\}\) is a nonhomogeneous Poisson process with intensity function
+		\[
+		\lambda(t)=\lambda_1(t)+\lambda_2(t).
+		\]
+	\end{proposition}
+	
+	\begin{proof}
+		The process \(N\) is a counting process and \(N(0)=0\). Since \(N_1\) and \(N_2\) have independent increments and are independent of each other, \(N\) also has independent increments.
+		
+		For small \(h>0\),
+		\[
+		\mathbb{P}(N(t+h)-N(t)=1)
+		=
+		\mathbb{P}(\Delta N_1=1,\Delta N_2=0)
+		+
+		\mathbb{P}(\Delta N_1=0,\Delta N_2=1),
+		\]
+		up to an error \(o(h)\), where \(\Delta N_i=N_i(t+h)-N_i(t)\). Therefore,
+		\[
+		\mathbb{P}(N(t+h)-N(t)=1)
+		=
+		\lambda_1(t)h+\lambda_2(t)h+o(h).
+		\]
+		Also, the probability of two or more arrivals in \((t,t+h]\) is \(o(h)\). Hence \(N\) is a nonhomogeneous Poisson process with intensity \(\lambda_1(t)+\lambda_2(t)\).
+	\end{proof}
+	
+	\begin{remark}
+		More generally, the sum of finitely many independent nonhomogeneous Poisson processes is again a nonhomogeneous Poisson process, with intensity equal to the sum of the individual intensities.
+	\end{remark}
+	
+	\begin{proposition}[Source of an event in a superposed process]
+		Let \(N_1\) and \(N_2\) be independent nonhomogeneous Poisson processes with intensities \(\lambda_1(t)\) and \(\lambda_2(t)\). Let \(N=N_1+N_2\). Given that an event of \(N\) occurs at time \(t\), the probability that it came from process \(N_1\) is
+		\[
+		\frac{\lambda_1(t)}{\lambda_1(t)+\lambda_2(t)}.
+		\]
+		Similarly, the probability that it came from process \(N_2\) is
+		\[
+		\frac{\lambda_2(t)}{\lambda_1(t)+\lambda_2(t)}.
+		\]
+	\end{proposition}
+	
+	\begin{proof}
+		On a small interval \((t,t+h]\), the probability of an \(N_1\)-event is approximately \(\lambda_1(t)h\), while the probability of an event from either process is approximately \((\lambda_1(t)+\lambda_2(t))h\). Hence
+		\[
+		\mathbb{P}(\text{event is from }N_1\mid \text{an event occurs at time }t)
+		=
+		\frac{\lambda_1(t)}{\lambda_1(t)+\lambda_2(t)}.
+		\]
+	\end{proof}
+	
+	\begin{proposition}[Time-dependent classification]
+		Let \(\{N(t):t\ge 0\}\) be a homogeneous Poisson process with rate \(\lambda\). Suppose each event occurring at time \(s\) is classified as type \(i\) with probability \(p_i(s)\), where \(i=1,\dots,k\),
+		\[
+		p_1(s)+\cdots+p_k(s)=1.
+		\]
+		Let \(N_i(t)\) be the number of type \(i\) events by time \(t\). Then \(N_1,\dots,N_k\) are independent nonhomogeneous Poisson processes with intensity functions
+		\[
+		\lambda_i(t)=\lambda p_i(t),
+		\qquad i=1,\dots,k.
+		\]
+	\end{proposition}
+	
+	\begin{proof}
+		For a fixed type \(i\), the process \(N_i\) is obtained by keeping an event at time \(t\) with probability \(p_i(t)\). By time-dependent thinning, \(N_i\) is a nonhomogeneous Poisson process with intensity \(\lambda p_i(t)\).
+		
+		To see independence, condition on the total number of events in \((0,t]\). Given \(N(t)=n\), the \(n\) event times are distributed as order statistics of \(n\) independent uniform random variables on \((0,t]\). For an arbitrary event time \(S\), the probability that it is classified as type \(i\) is
+		\[
+		\frac{1}{t}\int_0^t p_i(s)\,ds.
+		\]
+		The classification decisions are independent across events. This gives a multinomial splitting, and after mixing over \(N(t)\), the processes \(N_1,\dots,N_k\) become independent Poisson processes with mean functions
+		\[
+		m_i(t)=\int_0^t \lambda p_i(s)\,ds.
+		\]
+		Thus \(N_i\) has intensity \(\lambda p_i(t)\).
+	\end{proof}
+	
+	\begin{remark}
+		The previous proposition generalizes ordinary thinning. If \(p_i(t)\) is constant in time, then each type process is homogeneous Poisson. If \(p_i(t)\) changes with time, then each type process becomes nonhomogeneous.
+	\end{remark}
+	
+	\begin{example}
+		Suppose customers arrive at a hotdog stand according to a nonhomogeneous Poisson process with intensity
+		\[
+		\lambda(t)=5+5t,
+		\qquad t\ge 0,
+		\]
+		where \(t\) is measured in hours after opening. Then the mean value function is
+		\[
+		m(t)=\int_0^t (5+5s)\,ds=5t+\frac{5}{2}t^2.
+		\]
+		Hence the number of arrivals between times \(a\) and \(b\), where \(0\le a<b\), has distribution
+		\[
+		N(b)-N(a)\sim \operatorname{Poisson}(m(b)-m(a)).
+		\]
+		That is,
+		\[
+		N(b)-N(a)\sim \operatorname{Poisson}\left(\int_a^b (5+5s)\,ds\right).
+		\]
+		Therefore, the probability of no arrivals during \((a,b]\) is
+		\[
+		\mathbb{P}(N(b)-N(a)=0)
+		=
+		\exp\left\{-\int_a^b (5+5s)\,ds\right\}.
+		\]
+	\end{example}
+	
+	\begin{example}
+		For the same hotdog stand, the expected number of arrivals between \(8{:}30\) and \(8{:}50\) is
+		\[
+		\int_{a}^{b}\lambda(s)\,ds,
+		\]
+		where \(a\) and \(b\) are the corresponding times measured from the chosen origin. The probability of no arrivals during that interval is
+		\[
+		\exp\left\{-\int_a^b \lambda(s)\,ds\right\}.
+		\]
+	\end{example}
 	
 	
 \end{document}
