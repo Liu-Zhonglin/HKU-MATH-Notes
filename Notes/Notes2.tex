@@ -1,0 +1,1657 @@
+
+\documentclass[11pt]{article}
+
+% ---------- Page setup ----------
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{microtype}
+\usepackage{parskip} % no paragraph indent, adds vertical space
+
+% ---------- Math packages ----------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}       % bold math symbols
+
+% ---------- Theorem environments ----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{note}[theorem]{Note}
+
+% ---------- Lists / links ----------
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+% ---------- Handy macros (edit to taste) ----------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dd}{\,\mathrm{d}}
+
+% ---------- Title info ----------
+\title{Random Variable}
+\author{Joe and Tony}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\tableofcontents
+
+\newpage
+	
+	\section{Random variable}
+	
+	\textcolor{red}{In this note, we denote a probability space as $\Omega$, a $\sigma$-algebra as $\mathcal{F}$, and a probability measure as $\mathbb{P}$. This follows the convention of Prof. Bao.}
+	
+	Random variable is a numerical quantity associated to physical outcome.
+	
+	\begin{definition}
+		A random variable is a `nice function' from \(\Omega\) to \(\R\),
+		\(X:\Omega\to \R,\ \omega\mapsto X(\omega)\).
+	\end{definition}
+	
+	\begin{remark}
+		\textcolor{red}{Prof. Bao mentioned in class that it is of theoretical interest to define `nice' function. However, this is not used in the course.}
+	\end{remark}
+	
+	\begin{remark}
+		Due to the uncertainty of \(\omega\), the value \(X(\omega)\) is also uncertain. \textcolor{red}{A better way to say this is that $X$ sends the given probability space $(\Omega,\mathcal{F},\mathbb{P})$ on $\Omega$, to some new probability space $(\mathbb{R},X_*(\mathcal{F}),X_*(\mathbb{P}))$ on $\mathbb{R}$. $X_*(\mathcal{F})=\{\Xi\subseteq\mathbb{R}:X^{-1}(\Xi)\in\mathcal{F}\}$. $X_*(\mathbb{P})(\Xi)=\mathbb{P}(X^{-1}(\Xi))$. Prof. Bao mentioned in class that this is called the induced probability space on $\mathbb{R}$.}
+	\end{remark}
+	
+	
+	A natural question is: probability of \(X(\omega)=x\) for any \(x\in\R\)?
+	
+	\begin{example}
+		Two fair coins:
+		\(\Omega=\{HH,HT,TH,TT\}\).
+		The random variable \(X\) of the number of heads is described by the following table.
+		$$
+		\begin{tabular}
+			{c|cc}
+			& $H$ & $T$ \\
+			\hline
+			$H$ & $2$ & $1$ \\
+			$T$ & $1$ & $0$ \\
+		\end{tabular}
+		$$
+	\end{example}
+	
+	\begin{example}
+		Toss 2 fair dice:
+		\(\Omega=\{(1,1),(1,2),\dots,(6,6)\}\), \(\mathbb{P}(\{\omega\})=\frac{1}{36}\).
+		Take \(X\) as sum of 2 dice, \(X\in\{2,3,\dots,12\}\).
+		\[
+		\mathbb{P}(X=2)=\mathbb{P}(\{\omega: X(\omega)=2\})
+		=\mathbb{P}(\{(1,1)\})=\frac{1}{36}.
+		\]
+	\end{example}
+	
+	\begin{example}
+		Cutting a rope of length \(1\) at a random point:
+		\(\Omega=[0,1]\).
+		\(L:\Omega\to \R,\ \omega\mapsto L(\omega)\) = length of the shorter part,
+		\[
+		L(\omega)=\min\{\omega,1-\omega\}.
+		\]
+	\end{example}
+	
+	\begin{example}
+		Cutting a rope at a random point \(\omega\).
+		Let \(X(\omega)=\omega\).
+		\[
+		\mathbb{P}(X=x)=\mathbb{P}(\{\omega: X(\omega)=x\})=\mathbb{P}(\{x\})=0.
+		\]
+	\end{example}
+	
+	\begin{remark}
+		In continuous case, \(\mathbb{P}(X=x)\) is not informative to tell the probabilistic behavior of \(X\).
+	\end{remark}
+	
+	Correct question to ask: probability of \(X\) being in any interval?
+	\(\mathbb{P}(X\in(a,b))\) or \(\mathbb{P}(X\in[a,b])\) or \(\mathbb{P}(X\in(-\infty,b])\), etc.
+	
+	\section{Cumulative distribution function (cdf)}
+	
+	
+	
+	\begin{definition}
+		[cumulative distribution function] Cdf \(F(x)\) of a r.v. \(X\) is defined as
+		\[
+		F(x)=\mathbb{P}(X\le x)=\mathbb{P}(X\in(-\infty,x])
+		=\mathbb{P}(\{\omega\in \Omega:\ X(\omega)\in(-\infty,x]\}).
+		\]
+	\end{definition}
+	
+	\begin{remark}
+		For any \(a<b\),
+		\[
+		\mathbb{P}(a<X\le b)=\mathbb{P}(\{\omega:\ a<X(\omega)\le b\})
+		=\mathbb{P}(X\le b)-\mathbb{P}(X\le a)=F(b)-F(a).
+		\]
+		Also,
+		\[
+		\mathbb{P}(X\in(a,b])=F(b)-F(a).
+		\]
+	\end{remark}
+	
+	\begin{remark}
+		In the discrete case, if \(X\) takes values on \(\{x_1,x_2,\dots\}\), then
+		\[
+		F(x)=\mathbb{P}(X\le x)
+		=\sum_{x_i\le x}\mathbb{P}(X=x_i).
+		\]
+	\end{remark}
+	
+	\begin{proposition}
+		\begin{enumerate}
+			\item [(i)] For any \(a\le b\), \(F(a)\le F(b)\) (non-decreasing).
+			\item [(ii)] \(\displaystyle \lim_{x\to +\infty}F(x)=1\).
+			\item [(iii)] \(\displaystyle \lim_{x\to -\infty}F(x)=0\).
+			\item [(iv)] For all \(a<b\),
+			\[
+			\mathbb{P}(a<X\le b)=F(b)-F(a).
+			\]
+		\end{enumerate}
+	\end{proposition}
+	
+	Q: How to get \(\mathbb{P}(X=a)\) from \(F(x)\)?
+	
+	\begin{example}
+		\(\Omega=\{HH,HT,TH,TT\}\),
+		\(X(HH)=2\), \(X(HT)=X(TH)=1\), \(X(TT)=0\).
+		\[
+		\mathbb{P}(X=2)=\mathbb{P}(\{\omega:\ X(\omega)=2\})=\mathbb{P}(\{HH\})=\frac14.
+		\]
+	\end{example}
+	
+	\begin{remark}
+		\(F(x)\) is right continuous, i.e.
+		\[
+		F(x)=\lim_{\delta\downarrow 0}F(x+\delta).
+		\]
+		It may not be left continuous; but the left limit exists for all \(x\).
+		Actually,
+		\[
+		\lim_{\delta\downarrow 0}F(x-\delta)=\mathbb{P}(X<x)=:F(x-).
+		\]
+		Hence,
+		\[
+		\mathbb{P}(X=x)=\mathbb{P}(X\le x)-\mathbb{P}(X<x)=F(x)-F(x-).
+		\]
+	\end{remark}
+	
+	\begin{remark}
+		\[
+		\mathbb{P}(a\le X\le b)
+		=\mathbb{P}(a<X\le b)+\mathbb{P}(X=a)
+		=F(b)-F(a)+\big(F(a)-F(a-)\big)
+		=F(b)-F(a-).
+		\]
+	\end{remark}
+	
+	\section{More specific discussions on discrete r.v.}
+	
+	\begin{definition}
+		Probability mass function (p.m.f.) \(f(a)\) of \(X\) is defined by
+		\[
+		f(a)=\mathbb{P}(X=a),
+		\]
+		where \(X\) takes values on \(\{a_1,a_2,\dots\}\).
+	\end{definition}
+	
+	\begin{remark}
+		\[
+		F(b)=\sum_{a_i\le b} f(a_i).
+		\]
+		Also,
+		\[
+		f(b)=\mathbb{P}(X=b)=F(b)-F(b-)=F(b)-\lim_{\delta\downarrow 0}F(b-\delta).
+		\]
+	\end{remark}
+	
+	Important examples of discrete r.v.
+	
+	Bernoulli trials: independently repeated experiment with one specific event $\omega$ \textcolor{red}{(should assume that the singleton $\{\omega\}$ lies in the sigma algebra?)} identified as success
+	(e.g.1: coin flipping, may not be fair. e.g.2: car accident. performed repeatedly).
+	Let \(\mathbb{P}(\text{success})=p\), \(\mathbb{P}(\text{failure})=q=1-p\).
+	
+	\begin{definition}
+		Bernoulli r.v. \((X\sim \mathrm{Be}(p))\): \(X:=\) number of successes when the experiment is performed once.
+		Then \(X\in\{0,1\}\),
+		\[
+		\mathbb{P}(X=1)=p,\qquad \mathbb{P}(X=0)=q=1-p.
+		\]
+	\end{definition}
+	
+	\begin{remark}
+		\(\mathrm{Be}(p)\) can arise from any experiment.
+		Let \(A\subseteq \Omega\). Define the indicator function:
+		\[
+		\mathbf{1}_A:\Omega\to \mathbb{R},\qquad
+		\mathbf{1}_A(\omega)=
+		\begin{cases}
+			1, & \omega\in A,\\
+			0, & \omega\notin A.
+		\end{cases}
+		\]
+		Then
+		\[
+		\mathbb{P}(\mathbf{1}_A=0)=1-\mathbb{P}(A),
+		\mathbb{P}(\mathbf{1}_A=1)=\mathbb{P}(A).
+		\]
+	\end{remark}
+	
+	\begin{definition}
+		Binomial r.v. \((X\sim \mathrm{Bin}(n,p))\):
+		\(X:=\) number of successes if the experiment is repeated \(n\) times.
+		Then \(X\in\{0,1,2,\dots,n\}\), and for \(k=0,1,\dots,n\),
+		\[
+		\mathbb{P}(X=k)=\binom{n}{k}p^k(1-p)^{\,n-k}.
+		\]
+	\end{definition}
+	
+	\begin{definition}
+		Geometric r.v. \((X\sim \mathrm{Geom}(p))\):
+		\(X:=\) waiting time for the first success, i.e. the number of trials required until the first success.
+		Then \(X\in\{1,2,\dots\}\), and for \(k=1,2,\dots\),
+		\[
+		\mathbb{P}(X=k)=(1-p)^{k-1}p.
+		\]
+	\end{definition}
+	
+	\begin{definition}
+		Negative Binomial r.v. \((X\sim \mathrm{NB}(r,p))\):
+		\(X:=\) waiting time for \(r\) successes.
+		Then \(X\in\{r,r+1,\dots\}\), and for \(k=r,r+1,\dots\),
+		\[
+		\mathbb{P}(X=k)=\binom{k-1}{r-1}p^r(1-p)^{\,k-r}.
+		\]
+	\end{definition}
+	
+	\begin{definition}
+		Poisson r.v. \((X\sim \mathrm{Poisson}(\lambda))\), \(\lambda>0\):
+		for \(k=0,1,2,\dots\),
+		\[
+		\mathbb{P}(X=k)=\frac{\lambda^k}{k!}e^{-\lambda}.
+		\]
+	\end{definition}
+	
+	Motivation: can be regarded as an approximation of \(\mathrm{Bin}(n,p)\) in the case
+	\(n\) is large, \(p\) is small, and \(np\) is moderate.
+	
+	\begin{definition}
+		\textcolor{red}{In high school, we studied the hypergeometric distribution. Basically, given $N$ objects, and $K$ of them are regarded as success. The probability of $k$ successes when $n$ experiments are performed is given by:}
+		\begin{align*}
+			\mathbb{P}(X=k)
+			& =
+			\frac{{K\choose k}{N-K\choose n-k}}{{N\choose n}}
+		\end{align*}
+	\end{definition}
+	
+	\section{Continuous random variable}
+	
+	\begin{definition}
+		[\textbf{Absolutely Continuous Function}]
+		\textcolor{red}{A function $F(x)$ on $\mathbb{R}$ is absolutely continuous, if it admits an integrable density function $f(x)$.}
+	\end{definition}
+	\begin{remark}
+		\textcolor{red}{If $F(x)$ is indeed absolutely continuous, then the corresponding density function $f(x)$ is not unique. Any two density functions $f_0(x),f_1(x)$ of $F(x)$ are almost everywhere the same. This analysis concept can be used to define continuous probability distribution.}
+	\end{remark}
+	
+	For discrete r.v.,
+	\[
+	\mathbb{P}(a<X\le b)=F(b)-F(a).
+	\]
+	
+	\begin{definition}
+		We say a r.v. \(X\) is continuous if its c.d.f. \(F(x)=\mathbb{P}(X\le x)\) can be written as
+		\[
+		F(x)=\int_{-\infty}^{x} f(u)\,du
+		\]
+		for some integrable function \(f:\mathbb{R}\to[0,\infty)\).
+		\(f\) is called probability density function (p.d.f.).
+	\end{definition}
+	
+	Comparison with discrete:
+	\[
+	F(x)=\sum_{x_i\le x}\mathbb{P}(X=x_i)
+	\qquad\text{vs.}\qquad
+	F(x)=\int_{-\infty}^{x} f(u)\,du.
+	\]
+	\[
+	\mathbb{P}(X=x)=F(x)-F(x-),
+	\qquad
+	\text{and for continuous }X,\quad \mathbb{P}(X=x)=0.
+	\]
+	\[
+	f(x)=F'(x)\quad\text{\textcolor{red}{almost everywhere}}
+	\]
+	
+	\begin{remark}
+		\(f(x)\) is not a probability itself, but we can regard \(f(x)\,dx\) as a probability:
+		\[
+		\mathbb{P}(x\le X\le x+dx)=\int_{x}^{x+dx} f(u)\,du \approx f(x)\,dx.
+		\]
+	\end{remark}
+	
+	Properties: If \(X\) has p.d.f. \(f\),
+	\[
+	\int_{-\infty}^{\infty} f(x)\,dx=1,
+	\qquad
+	\mathbb{P}(X=x)=0,
+	\qquad
+	\mathbb{P}(a\le X\le b)=\int_{a}^{b} f(x)\,dx.
+	\]
+	More generally,
+	\[
+	\mathbb{P}(X\in B)=\int_{B} f(x)\,dx
+	\quad\text{for sufficiently nice }B.
+	\]
+	
+	Important examples of continuous r.v.s.
+	
+	\begin{definition}
+		Uniform r.v. \((X\sim U(a,b))\).
+		\(X\) is uniform on \([a,b]\) if
+		\[
+		F(x)=
+		\begin{cases}
+			0, & x<a,\\[4pt]
+			\dfrac{x-a}{b-a}, & a\le x<b,\\[8pt]
+			1, & x\ge b,
+		\end{cases}
+		\qquad
+		f(x)=
+		\begin{cases}
+			\dfrac{1}{b-a}, & a\le x\le b,\\[8pt]
+			0, & \text{otherwise}.
+		\end{cases}
+		\]
+	\end{definition}
+	
+	An application: Inverse sampling transform.
+	Given a distribution \(F\), how to generate a r.v. \(X\) with c.d.f. \(F\)?
+	Suppose we can generate \(U\sim U(0,1)\).
+	If \(F\) is continuous and invertible (\textcolor{red}{a homeomorphism}), set
+	\[
+	X=F^{-1}(U).
+	\]
+	Claim: \(X\) has c.d.f. \(F\). Indeed,
+	\[
+	\mathbb{P}(X\le x)
+	=\mathbb{P}(F^{-1}(U)\le x)
+	=\mathbb{P}(U\le F(x))
+	=F(x).
+	\]
+	
+	\begin{definition}
+		Exponential distribution \((X\sim \mathrm{Exp}(\lambda))\), \(\lambda>0\).
+		\(X\) is exponential with parameter \(\lambda\) if
+		\[
+		F(x)=
+		\begin{cases}
+			0, & x<0,\\
+			1-e^{-\lambda x}, & x\ge 0,
+		\end{cases}
+		\qquad
+		f(x)=
+		\begin{cases}
+			\lambda e^{-\lambda x}, & x\ge 0,\\
+			0, & x<0.
+		\end{cases}
+		\]
+	\end{definition}
+	
+	Motivation:
+	Poisson process vs Binomial process.
+	\[
+	\mathrm{Exp}(\lambda):\ \text{waiting time for the first success in a Poisson process}, \]
+	\[
+	\mathrm{Geom}(p):\ \text{waiting time for the first success in a Binomial process}.
+	\]
+	
+	\begin{definition}
+		Gamma r.v. \((X\sim \mathrm{Gamma}(\alpha,\lambda))\), \(\alpha,\lambda>0\):
+		\[
+		f(x)=
+		\begin{cases}
+			\dfrac{\lambda^{\alpha}}{\Gamma(\alpha)}x^{\alpha-1}e^{-\lambda x}, & x>0,\\[10pt]
+			0, & x\le 0,
+		\end{cases}
+		\qquad
+		\Gamma(\alpha)=\int_{0}^{\infty} e^{-t}t^{\alpha-1}\,dt.
+		\]
+	\end{definition}
+	
+	Motivation: if \(\alpha\) is an integer, \(X\) is waiting time for the \(\alpha\)-th success during a Poisson process.
+	
+	\begin{definition}
+		Gaussian (Normal) r.v. \((X\sim N(\mu,\sigma^2))\), \(\sigma>0\):
+		\[
+		f(x)=\frac{{1}}{\sqrt{2\pi}\sigma}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right),
+		\qquad x\in\mathbb{R}.
+		\]
+		Standard normal: \(\mu=0\), \(\sigma^2=1\).
+		\[
+		\varphi(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2},
+		\qquad
+		\Phi(x)=\int_{-\infty}^{x}\varphi(u)\,du.
+		\]
+		Importance: central limit theorem.
+	\end{definition}
+	
+	\begin{proposition}
+		(Linear transform of Gaussian is still Gaussian.)
+		If \(X\sim N(\mu,\sigma^2)\) and \(Y=aX+b\) with \(a\ne 0\), then
+		\[
+		Y\sim N(a\mu+b,\ a^2\sigma^2).
+		\]
+	\end{proposition}
+	
+	\begin{remark}
+		If \(X\sim N(0,1)\) and \(Y=\sigma X+\mu\), then
+		\[
+		Y\sim N(\mu,\sigma^2).
+		\]
+	\end{remark}
+	
+	
+	\section{Expectation of R.V. /distribution}
+	
+	
+	
+	Motivation: theoretical approximation of numerical/empirical average.
+	
+	Let \(X_1, X_2, \dots, X_N\) be numerical outcomes of \(N\) repetitions of the same experiment.
+	
+	Empirical average:
+	\[
+	m=\frac{1}{N}\sum_{i=1}^{N}X_i.
+	\]
+	
+	When \(N\) is large, intuition suggests that the number of occurrences of a specific value
+	\(x_k \in \mathrm{Range}(X)\) among \(X_1,\dots,X_N\) should be about
+	\(N\mathbb{P}(X=x_k)\). Hence
+	\[
+	m=\frac{1}{N}\sum_{i=1}^{N}X_i
+	\approx \frac{1}{N}\sum_{k}\bigl(N\mathbb{P}(X=x_k)\bigr)x_k
+	=\sum_k x_k\,\mathbb{P}(X=x_k).
+	\]
+	
+	\begin{definition}
+		(discrete case) Let \(X\) be discrete with p.m.f.\ \(p_X(x)=\mathbb{P}(X=x)\).
+		Its expectation is
+		\[
+		\mathbb{E}X := \sum_x x\,p_X(x),
+		\]
+		(the mean / weighted average).
+	\end{definition}
+	
+	\begin{definition}
+		(continuous case) Let \(X\) be continuous with p.d.f.\ \(f_X(x)\).
+		Its expectation is
+		\[
+		\mathbb{E}X := \int_{-\infty}^{\infty} x f_X(x)\,dx.
+		\]
+	\end{definition}
+	
+	\begin{remark}
+		\textcolor{red}{Review of some introductory analysis: Let $a_n$ be a sequence of nonnegative real numbers, the value of $\sum_na_n$ doesn't depend on the order of summation. Let $a_n$ be a sequence of not necessarily nonnegative real numbers. If $\sum_n|a_n|$ converges, then both the nonpositive part and the nonnegative part of $\sum_na_n$ converge by comparison test. In this case, it follows from the $\lim$ is linear that $\sum_na_n$ converge. We say that $\sum_na_n$ converges absolutely. If $\sum_n|a_n|$ diverges, but $\sum_na_n$ converges, then $\sum_na_n$ converges conditionally. Riemann arrangement theorem tells that for all real number $A$, for some bijection $\varphi$ on $\mathbb{N}$, $\sum_na_{\varphi(n)}$ converges to $A$.}
+	\end{remark}
+	
+	\begin{remark}
+		\textcolor{red}{The probability density function $f_X(x)$ is nonnegative, so the cumulative distribution function $F_X(x)=\int_{-\infty}^xf_X(y)\mathrm{d}y$, or $F_X(x)=\sum_{y=-\infty}^{y=x}f_X(y)$ doesn't depend on the reordering of the subscript. However, when computing the expectation $\mathbb{E}X$ of a random variable, the factor $x$ is introduced, and we notice that $x$ is not necessarily nonnegative, so the order of summation matters here. Professor Bao mentioned that we only define expectation when the integral/sum converges absolutely.}
+	\end{remark}
+	
+	\begin{example}
+		\(X\sim \mathrm{Be}(p)\). Then
+		\[
+		\mathbb{E}X=\sum_{x\in\{0,1\}} x\,\mathbb{P}(X=x)
+		=0\cdot\mathbb{P}(X=0)+1\cdot\mathbb{P}(X=1)
+		=0\cdot(1-p)+1\cdot p
+		=p.
+		\]
+	\end{example}
+	
+	\begin{example}
+		\(X\sim \mathrm{Bin}(n,p)\). Then
+		\[
+		\mathbb{E}X=\sum_{k=0}^{n} k\,\mathbb{P}(X=k)
+		=\sum_{k=0}^{n} k \binom{n}{k}p^k(1-p)^{n-k}.
+		\]
+		Use
+		\[
+		k\binom{n}{k}=n\binom{n-1}{k-1}\qquad (k=1,2,\dots,n),
+		\]
+		so
+		\[
+		\mathbb{E}X
+		=\sum_{k=1}^{n} n\binom{n-1}{k-1}p^k(1-p)^{n-k}
+		=np\sum_{k=1}^{n} \binom{n-1}{k-1}p^{k-1}(1-p)^{(n-1)-(k-1)}.
+		\]
+		Let \(j=k-1\). Then \(j=0,1,\dots,n-1\), and
+		\[
+		\mathbb{E}X
+		=np\sum_{j=0}^{n-1} \binom{n-1}{j}p^{j}(1-p)^{(n-1)-j}
+		=np\,(p+(1-p))^{n-1}
+		=np.
+		\]
+	\end{example}
+	
+	\begin{example}
+		\(X\sim N(\mu,\sigma^2)\). Then
+		\[
+		f_X(x)=\frac{1}{\sqrt{2\pi}\sigma}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right),
+		\qquad x\in\mathbb{R}.
+		\]
+		Compute
+		\[
+		\mathbb{E}X=\int_{-\infty}^{\infty} x f_X(x)\,dx.
+		\]
+		Let \(y=\frac{x-\mu}{\sigma}\), i.e. \(x=\sigma y+\mu\), \(dx=\sigma\,dy\). Then
+		\[
+		\mathbb{E}X
+		=\int_{-\infty}^{\infty} (\sigma y+\mu)\frac{1}{\sqrt{2\pi}\sigma}e^{-y^2/2}\,\sigma\,dy
+		=\int_{-\infty}^{\infty} (\sigma y+\mu)\frac{1}{\sqrt{2\pi}}e^{-y^2/2}\,dy.
+		\]
+		Split the integral:
+		\[
+		\mathbb{E}X
+		=\sigma\int_{-\infty}^{\infty} y\frac{1}{\sqrt{2\pi}}e^{-y^2/2}\,dy
+		+\mu\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-y^2/2}\,dy.
+		\]
+		The first integral is \(0\) since the integrand is odd:
+		\[
+		\int_{-\infty}^{\infty} y\frac{1}{\sqrt{2\pi}}e^{-y^2/2}\,dy=0.
+		\]
+		The second integral is \(1\) since it is the total probability of \(N(0,1)\):
+		\[
+		\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-y^2/2}\,dy=1.
+		\]
+		Therefore
+		\[
+		\mathbb{E}X=\mu.
+		\]
+	\end{example}
+	
+	Expectation of a function of a r.v.
+	
+	Discrete case: \(X\) a discrete r.v. with p.m.f. \(p_X(x)\).
+	Let \(g:\mathbb{R}\to\mathbb{R}\). Define \(Y=g(X)\).
+	By definition of \(\mathbb{E}(\cdot)\), for \(Y=g(X)\), we can identify the range of \(Y\)
+	and its p.m.f. \(p_Y(\cdot)\), then
+	\[
+	\mathbb{E}g(X)=\mathbb{E}Y=\sum_b b\,p_Y(b).
+	\]
+	
+	\begin{proposition}
+		If \(X\) is discrete, \textcolor{red}{and $g:\mathbb{R}\rightarrow\mathbb{R}$ is a ``nice" function (again should clarify what it means, I think Prof. Bao mentioned that one condition for this proposition is that $g$ is continuous and integrable. I may go wrong, please check the textbook)}, then
+		\[
+		\mathbb{E}g(X)=\sum_x g(x)\,p_X(x).
+		\]
+	\end{proposition}
+	
+	Continuous: \(X\) is continuous with p.d.f. \(f_X(x)\), \(g:\mathbb{R}\to\mathbb{R}\).
+	\[
+	\mathbb{E}g(X)=\int_{-\infty}^{\infty} g(x) f_X(x)\,dx.
+	\]
+	
+	e.g. \(k\)-th moment: take \(g(x)=x^k\). Then
+	\[
+	\mathbb{E}(X^k)=
+	\begin{cases}
+		\displaystyle\sum_x x^k\,p_X(x), & \text{discrete},\\[10pt]
+		\displaystyle\int_{-\infty}^{\infty} x^k f_X(x)\,dx, & \text{continuous}.
+	\end{cases}
+	\]
+	
+	\(k\)-th central moment: take \(g(x)=(x-\mathbb{E}X)^k\). Then
+	\[
+	\mathbb{E}\big[(X-\mathbb{E}X)^k\big]=
+	\begin{cases}
+		\displaystyle\sum_x (x-\mathbb{E}X)^k\,p_X(x), & \text{discrete},\\[10pt]
+		\displaystyle\int_{-\infty}^{\infty} (x-\mathbb{E}X)^k f_X(x)\,dx, & \text{continuous}.
+	\end{cases}
+	\]
+	
+	\(k=2\). Variance:
+	\[
+	\mathrm{Var}(X):=\mathbb{E}\big[(X-\mathbb{E}X)^2\big],
+	\]
+	measure of dispersion/randomness of \(X\).
+	Standard deviation:
+	\[
+	\mathrm{SD}(X)=\sqrt{\mathrm{Var}(X)}.
+	\]
+	\begin{remark}
+	    \textcolor{red}{It is common to denote the expectation of $X$:}
+        \begin{align*}
+            \textcolor{red}{\mathbb{E}X}
+        \end{align*}
+        \textcolor{red}{As:}
+        \begin{align*}
+            \textcolor{red}{\mathbb{E}[X]}
+        \end{align*}
+        \textcolor{red}
+        {
+            The square bracket notation here means that $X$ is a function,
+            and $\mathbb{E}$ is a linear functional.
+        }
+	\end{remark}
+	\begin{proposition}
+		\[
+		\mathrm{Var}(X)=\mathbb{E}\big[(X-\mathbb{E}X)^2\big]=\mathbb{E}(X^2)-(\mathbb{E}X)^2.
+		\]
+	\end{proposition}
+	
+	\begin{proposition}
+		For \(a,b\in\mathbb{R}\),
+		\[
+		\mathrm{Var}(aX+b)=a^2\mathrm{Var}(X).
+		\]
+	\end{proposition}
+	
+	
+	\section{Random vector/ jointly distributed random variables}
+	
+	Random vector (jointly distributed r.v.'s) is a vector-valued random variable.
+	It is used to describe multiple numerical quantities associated to the same outcome \(\omega\).
+	
+	\begin{example}
+		(Basketball players.)
+		Suppose there are \(5\) candidates, and we pick one uniformly at random.
+		Let the sample space be \(\Omega=\{1,2,3,4,5\}\) with \(\mathbb{P}(\{\omega\})=\frac{1}{5}\).
+		Define height \(H(\omega)\) and weight \(W(\omega)\) by
+		\[
+		\begin{array}{c|cc}
+			\omega & H(\omega) & W(\omega)\\\hline
+			1 & 180 & 69\\
+			2 & 182 & 75\\
+			3 & 175 & 65\\
+			4 & 174 & 70\\
+			5 & 170 & 68
+		\end{array}
+		\]
+		Then \((H,W)\) is a random vector.
+		
+		Probability that a randomly picked one is qualified, i.e. \(H\ge 175\) and \(W\ge 70\):
+		\[
+		\mathbb{P}(H\ge 175,\ W\ge 70)
+		=\mathbb{P}\big(\{\omega:\ H(\omega)\ge 175\}\cap\{\omega:\ W(\omega)\ge 70\}\big).
+		\]
+		Compute
+		\[
+		\{\omega:\ H(\omega)\ge 175\}=\{1,2,3\},
+		\qquad
+		\{\omega:\ W(\omega)\ge 70\}=\{2,4\},
+		\]
+		so the intersection is \(\{2\}\). Hence
+		\[
+		\mathbb{P}(H\ge 175,\ W\ge 70)=\mathbb{P}(\{2\})=\frac{1}{5}.
+		\]
+		Also,
+		\[
+		\mathbb{P}(H\ge 175)=\frac{3}{5},\qquad
+		\mathbb{P}(W\ge 70)=\frac{2}{5}.
+		\]
+		In this example,
+		\[
+		\mathbb{P}(H\ge 175,\ W\ge 70)=\frac{1}{5}\ne \frac{3}{5}\cdot\frac{2}{5},
+		\]
+		so \(H\) and \(W\) are not independent.
+	\end{example}
+	
+	More generally, for any set \(B\subseteq \mathbb{R}^2\), we may ask \(\mathbb{P}((X,Y)\in B)\).
+	This probability is determined by the joint distribution of \((X,Y)\).
+	
+	\begin{definition}
+		Joint cdf of \((X,Y)\) is
+		\[
+		F_{X,Y}(x,y)=\mathbb{P}(X\le x,\ Y\le y)
+		=\mathbb{P}\big((X,Y)\in (-\infty,x]\times(-\infty,y]\big).
+		\]
+	\end{definition}
+	
+	More generally, for \(X_1,\dots,X_n\),
+	\[
+	F_{X_1,\dots,X_n}(x_1,\dots,x_n)
+	=\mathbb{P}(X_1\le x_1,\dots, X_n\le x_n).
+	\]
+	
+	\begin{remark}
+		From \(F_X(x)\) and \(F_Y(y)\), we will not be able to get \(F_{X,Y}(x,y)\) in general.
+	\end{remark}
+	
+	Marginal cdf:
+	\[
+	F_X(x)=\lim_{y\to +\infty}F_{X,Y}(x,y),
+	\qquad
+	F_Y(y)=\lim_{x\to +\infty}F_{X,Y}(x,y).
+	\]
+	
+	We say \((X,Y)\) is jointly discrete if it takes values on a finite or countably infinite set.
+	
+	\begin{definition}
+		Joint p.m.f.\ of \((X,Y)\) is
+		\[
+		p_{X,Y}(x,y)=\mathbb{P}(X=x,\ Y=y).
+		\]
+	\end{definition}
+	
+	Marginal p.m.f.'s:
+	\[
+	p_X(x)=\sum_{y} p_{X,Y}(x,y),
+	\qquad
+	p_Y(y)=\sum_{x} p_{X,Y}(x,y).
+	\]
+	
+	Joint cdf in terms of joint p.m.f.:
+	\[
+	F_{X,Y}(x,y)=\sum_{u\le x}\sum_{v\le y} p_{X,Y}(u,v).
+	\]
+	
+	(Recover joint p.m.f.\ from joint cdf; lattice-valued case.)
+	If \(X,Y\) take integer values, then
+	\[
+	p_{X,Y}(x,y)
+	=F_{X,Y}(x,y)-F_{X,Y}(x-1,y)-F_{X,Y}(x,y-1)+F_{X,Y}(x-1,y-1).
+	\]
+	
+	Probability of a rectangle.
+	For \(x_1<x_2\) and \(y_1<y_2\),
+	\[
+	\mathbb{P}(x_1<X\le x_2,\ y_1<Y\le y_2)
+	=F_{X,Y}(x_2,y_2)-F_{X,Y}(x_1,y_2)-F_{X,Y}(x_2,y_1)+F_{X,Y}(x_1,y_1).
+	\]
+	
+	We say \(X\) and \(Y\) are jointly continuous if there exists \(f_{X,Y}:\mathbb{R}^2\to[0,\infty)\)
+	such that
+	\[
+	F_{X,Y}(x,y)=\mathbb{P}(X\le x,\ Y\le y)
+	=\int_{-\infty}^{x}\int_{-\infty}^{y} f_{X,Y}(u,v)\,dv\,du.
+	\]
+	In this case, \(f_{X,Y}\) is called the joint p.d.f.
+	
+	\begin{remark}
+		If both \(X\) and \(Y\) are continuous, they may not be jointly continuous.
+		e.g.\ \(X\sim U(0,1)\), let \(Y=X\). Then \((X,Y)\) lies on the line \(y=x\), so no joint p.d.f.\ exists.
+	\end{remark}
+	
+	If \(F_{X,Y}\) is smooth enough, then
+	\[
+	f_{X,Y}(x,y)=\frac{\partial^2}{\partial x\,\partial y}F_{X,Y}(x,y).
+	\]
+	
+	Marginal p.d.f.:
+	\[
+	f_X(x)=\int_{-\infty}^{\infty} f_{X,Y}(x,y)\,dy,
+	\qquad
+	f_Y(y)=\int_{-\infty}^{\infty} f_{X,Y}(x,y)\,dx.
+	\]
+	
+	\begin{proposition}
+		Given \(X,Y\) and \(g:\mathbb{R}^2\to\mathbb{R}\),
+		\[
+		\mathbb{E}[g(X,Y)]
+		=
+		\begin{cases}
+			\displaystyle\sum_x\sum_y g(x,y)\,p_{X,Y}(x,y), & \text{(jointly discrete)},\\[12pt]
+			\displaystyle\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}
+			g(x,y)\,f_{X,Y}(x,y)\,dx\,dy, & \text{(jointly continuous)}.
+		\end{cases}
+		\]
+	\end{proposition}
+	
+	\begin{example}
+		Let \(g(x,y)=x+y\). In the jointly continuous case,
+		\[
+		\mathbb{E}[X+Y]
+		=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} (x+y)f_{X,Y}(x,y)\,dx\,dy
+		\]
+		\[
+		=\int\!\!\int x f_{X,Y}(x,y)\,dx\,dy+\int\!\!\int y f_{X,Y}(x,y)\,dx\,dy
+		=\mathbb{E}X+\mathbb{E}Y.
+		\]
+	\end{example}
+	
+	\begin{proposition}
+		(Linearity of expectation.)
+		For any \(a_1,\dots,a_n\in\mathbb{R}\),
+		\[
+		\mathbb{E}\!\left[\sum_{i=1}^{n} a_i X_i\right]
+		=\sum_{i=1}^{n} a_i \mathbb{E}[X_i].
+		\]
+	\end{proposition}
+	
+	\begin{example}
+		If \(X\sim \mathrm{Bin}(n,p)\), then \(X=\sum_{i=1}^{n}Y_i\) where \(Y_i\sim \mathrm{Be}(p)\) i.i.d.
+		Therefore
+		\[
+		\mathbb{E}X=\mathbb{E}\!\left[\sum_{i=1}^{n}Y_i\right]
+		=\sum_{i=1}^{n}\mathbb{E}[Y_i]
+		=\sum_{i=1}^{n}p
+		=np.
+		\]
+	\end{example}
+	
+	
+	
+	\begin{example}
+		
+		Coupon collection problem: \(N\) different types of card and each time one obtains a card,
+		which is equally likely to be any of \(N\) types.
+		
+		Q1: Expected number of different types contained in \(n\) cards.
+		
+		Let \(X\) be the number of different types contained in \(n\) cards.
+		Write
+		\[
+		X=X_1+X_2+\cdots+X_N,
+		\]
+		where
+		\[
+		X_i=
+		\begin{cases}
+			1, & \text{if at least one type \(i\) is among \(n\) cards},\\
+			0, & \text{otherwise}.
+		\end{cases}
+		\]
+		Then
+		\[
+		\mathbb{E}X=\sum_{i=1}^{N}\mathbb{E}X_i=\sum_{i=1}^{N}\mathbb{P}(X_i=1).
+		\]
+		Also
+		\[
+		\mathbb{P}(X_i=1)=1-\mathbb{P}(X_i=0)
+		=1-\left(\frac{N-1}{N}\right)^{n}.
+		\]
+		Hence
+		\[
+		\mathbb{E}X
+		=\sum_{i=1}^{N}\left(1-\left(\frac{N-1}{N}\right)^n\right)
+		=N\left(1-\left(\frac{N-1}{N}\right)^n\right).
+		\]
+		
+		Q2: Expected number of cards one need to collect until one has a complete set.
+		
+		Let \(Y\) be the number of cards needed for a full collection.
+		Decompose
+		\[
+		Y=Y_0+Y_1+\cdots+Y_{N-1},
+		\]
+		where \(Y_i\) is the number of cards needed to be collected after \(i\) distinct types have already been obtained,
+		in order to get another new type.
+		
+		When \(i\) distinct types are obtained, the probability the next card is a new type is
+		\[
+		p_i=\frac{N-i}{N}.
+		\]
+		Hence
+		\[
+		Y_i\sim \mathrm{Geom}(p_i),
+		\qquad
+		\mathbb{E}Y_i=\frac{1}{p_i}=\frac{N}{N-i}.
+		\]
+		Therefore
+		\[
+		\mathbb{E}Y=\sum_{i=0}^{N-1}\mathbb{E}Y_i
+		=\sum_{i=0}^{N-1}\frac{N}{N-i}
+		=N\sum_{k=1}^{N}\frac{1}{k}.
+		\]
+		
+	\end{example}
+	
+	
+	
+	\section{Independence of random variables}
+	We say \(X\) and \(Y\) are independent denoted \(X\perp\!\!\!\perp Y\) (\textcolor{red}{This notation is different from uncorrelated, be careful!}) if for any Borel sets \(A,B\subseteq\mathbb{R}\),
+	\[
+	\mathbb{P}(X\in A,\ Y\in B)=\mathbb{P}(X\in A)\,\mathbb{P}(Y\in B).
+	\]
+	Otherwise, we say \(X\) and \(Y\) are dependent.
+	
+	
+	\begin{definition}
+		(Independence via cdf.)
+		We say \(X\) and \(Y\) are independent if for any \(x,y\in\mathbb{R}\),
+		\[
+		\mathbb{P}(X\le x,\ Y\le y)=\mathbb{P}(X\le x)\,\mathbb{P}(Y\le y),
+		\qquad\text{i.e.}\qquad
+		F_{X,Y}(x,y)=F_X(x)F_Y(y).
+		\]
+	\end{definition}
+	
+	\begin{remark}
+		(Typical scenarios.) Coin tossing, die rolling, and more generally independent repeated trials
+		often produce independent random variables.
+	\end{remark}
+	
+	\begin{remark}
+		(Generalization.)
+		Random variables \(X_1,\dots,X_n\) are independent if for any \(x_1,\dots,x_n\in\mathbb{R}\),
+		\[
+		F_{X_1,\dots,X_n}(x_1,\dots,x_n)=\prod_{i=1}^{n} F_{X_i}(x_i).
+		\]
+		Equivalently, for any Borel sets \(A_1,\dots,A_n\subseteq\mathbb{R}\),
+		\[
+		\mathbb{P}(X_1\in A_1,\dots, X_n\in A_n)=\prod_{i=1}^{n}\mathbb{P}(X_i\in A_i).
+		\]
+	\end{remark}
+	
+	\textbf{Alternative characterizations.}
+	
+	(i) If \((X,Y)\) is jointly discrete, then \(X\perp\!\!\!\perp Y\) iff for all \(x,y\),
+	\[
+	p_{X,Y}(x,y)=p_X(x)\,p_Y(y).
+	\]
+	
+	(ii) If \((X,Y)\) is jointly continuous, then \(X\perp\!\!\!\perp Y\) iff for all \(x,y\),
+	\[
+	f_{X,Y}(x,y)=f_X(x)\,f_Y(y).
+	\]
+	
+	\begin{proposition}
+		If \(X\perp\!\!\!\perp Y\), then for any functions \(g,h:\mathbb{R}\to\mathbb{R}\) such that expectations exist,
+		\[
+		\mathbb{E}\big[g(X)h(Y)\big]=\mathbb{E}[g(X)]\,\mathbb{E}[h(Y)].
+		\]
+	\end{proposition}
+	
+	\begin{remark}
+		(Warning: expectation may not exist.)
+		For heavy-tailed distributions (e.g.\ Cauchy), certain moments may be infinite.
+		For example, if \(X\) is standard Cauchy with density
+		\[
+		f_X(x)=\frac{1}{\pi(1+x^2)},\qquad x\in\mathbb{R},
+		\]
+		then
+		\[
+		\mathbb{E}[X^2]=\int_{-\infty}^{\infty} x^2 \frac{1}{\pi(1+x^2)}\,dx=\infty,
+		\]
+		so \(\mathrm{Var}(X)\) is not defined.
+	\end{remark}
+	
+	\textbf{Variance of sum and covariance.}
+	Let \(X_1,\dots,X_n\) be random variables with finite second moments.
+	Then
+	\[
+	\mathrm{Var}\!\left(\sum_{i=1}^{n} X_i\right)
+	=\mathbb{E}\!\left[\left(\sum_{i=1}^{n} (X_i-\mathbb{E}X_i)\right)^2\right]
+	=\sum_{i=1}^{n}\mathrm{Var}(X_i)+2\sum_{1\le i<j\le n}\mathrm{Cov}(X_i,X_j).
+	\]
+	
+	\begin{definition}
+		(Covariance.)
+		For random variables \(X,Y\) with finite second moments,
+		\[
+		\mathrm{Cov}(X,Y)=\mathbb{E}\big[(X-\mathbb{E}X)(Y-\mathbb{E}Y)\big]
+		=\mathbb{E}[XY]-\mathbb{E}X\,\mathbb{E}Y.
+		\]
+	\end{definition}
+	
+	Note that
+	\[
+	\mathrm{Var}(X)=\mathrm{Cov}(X,X).
+	\]
+	
+	\begin{remark}
+		If \(X\perp\!\!\!\perp Y\), then
+		\[
+		\mathrm{Cov}(X,Y)=0.
+		\]
+		Therefore, if \(X_1,\dots,X_n\) are independent and have finite second moments, then
+		\[
+		\mathrm{Var}\!\left(\sum_{i=1}^{n} X_i\right)=\sum_{i=1}^{n}\mathrm{Var}(X_i).
+		\]
+	\end{remark}
+	
+	\textbf{Correlated vs.\ uncorrelated.}
+	We say \(X\) and \(Y\) are uncorrelated if
+	\[
+	\mathrm{Cov}(X,Y)=0
+	\qquad\text{(equivalently, } \mathbb{E}[XY]=\mathbb{E}X\,\mathbb{E}Y\text{)}.
+	\]
+	
+	\begin{remark}
+		Uncorrelated $X\perp Y$ does \emph{not} imply independent $X\perp\!\!\!\perp Y$ in general.
+	\end{remark}
+	
+	\begin{example}
+		(Uncorrelated but dependent.)
+		Let \(X\) be a discrete r.v.\ such that
+		\[
+		\mathbb{P}(X=-1)=\mathbb{P}(X=0)=\mathbb{P}(X=1)=\frac{1}{3}.
+		\]
+		Define
+		\[
+		Y=
+		\begin{cases}
+			0, & X\ne 0,\\
+			1, & X=0.
+		\end{cases}
+		\]
+		Then \(Y\) is a function of \(X\), so \(X\) and \(Y\) are dependent.
+		But
+		\[
+		\mathbb{E}X=0,
+		\qquad
+		\mathbb{E}Y=\frac{1}{3},
+		\qquad
+		\mathbb{E}[XY]=0,
+		\]
+		so
+		\[
+		\mathrm{Cov}(X,Y)=\mathbb{E}[XY]-\mathbb{E}X\,\mathbb{E}Y=0,
+		\]
+		i.e.\ they are uncorrelated.
+		Also,
+		\[
+		\mathbb{P}(X=0,\ Y=1)=\frac{1}{3}\ne \frac{1}{3}\cdot\frac{1}{3}=\mathbb{P}(X=0)\mathbb{P}(Y=1),
+		\]
+		so they are not independent.
+	\end{example}
+	
+	
+	
+	\section{Distribution of sum of r.v.}
+	
+	Let \(X,Y\) be two random variables and define \(Z=X+Y\).
+	We want to determine the distribution (p.m.f./p.d.f./c.d.f.) of \(Z\) from that of \(X\) and \(Y\).
+	
+	\subsection{Discrete case}
+	
+	Assume \((X,Y)\) is jointly discrete with joint p.m.f.
+	\[
+	p_{X,Y}(x,y)=\mathbb{P}(X=x,\ Y=y).
+	\]
+	Then for any \(z\in\mathbb{R}\) (in practice, \(z\) ranges over the lattice support),
+	\begin{align*}
+		p_Z(z)
+		&=\mathbb{P}(Z=z)
+		=\mathbb{P}(X+Y=z) \\
+		&=\sum_{x}\mathbb{P}(X=x,\ Y=z-x)
+		=\sum_x p_{X,Y}(x,z-x).
+	\end{align*}
+	
+	\begin{remark}
+		If \(X\perp\!\!\!\perp Y\), then \(p_{X,Y}(x,y)=p_X(x)p_Y(y)\), so
+		\[
+		p_Z(z)=\sum_x p_X(x)\,p_Y(z-x).
+		\]
+		This is the \textbf{convolution} of p.m.f.'s:
+		\[
+		p_Z=p_X * p_Y.
+		\]
+	\end{remark}
+	
+	\begin{example}
+		Let \(X\sim \mathrm{Be}(p)\), \(Y\sim \mathrm{Be}(q)\), independent.
+		Then \(Z=X+Y\in\{0,1,2\}\), and
+		\[
+		\mathbb{P}(Z=0)=(1-p)(1-q),\quad
+		\mathbb{P}(Z=2)=pq,
+		\]
+		\[
+		\mathbb{P}(Z=1)=p(1-q)+(1-p)q=p+q-2pq.
+		\]
+	\end{example}
+	
+	\subsection{Continuous case}
+	
+	Assume \((X,Y)\) is jointly continuous with joint p.d.f. \(f_{X,Y}(x,y)\).
+	Let \(Z=X+Y\). First write the c.d.f.:
+	\begin{align*}
+		F_Z(z)
+		&=\mathbb{P}(Z\le z)
+		=\mathbb{P}(X+Y\le z)\\
+		&=\iint_{\{(x,y):\,x+y\le z\}} f_{X,Y}(x,y)\,dx\,dy.
+	\end{align*}
+	If we integrate in the order \(dx\) then \(dy\), we get
+	\[
+	F_Z(z)=\int_{-\infty}^{\infty}\left(\int_{-\infty}^{z-y} f_{X,Y}(x,y)\,dx\right)dy.
+	\]
+	
+	If \(F_Z\) is differentiable in \(z\) (under mild regularity assumptions), the p.d.f. of \(Z\) is
+	\begin{align*}
+		f_Z(z)
+		&=\frac{d}{dz}F_Z(z)
+		=\int_{-\infty}^{\infty} f_{X,Y}(z-y,y)\,dy.
+	\end{align*}
+	
+	\begin{remark}
+		If \(X\perp\!\!\!\perp Y\), then \(f_{X,Y}(x,y)=f_X(x)f_Y(y)\), hence
+		\[
+		f_Z(z)=\int_{-\infty}^{\infty} f_X(z-y)\,f_Y(y)\,dy.
+		\]
+		This is the \textbf{convolution} of p.d.f.'s:
+		\[
+		f_Z=f_X * f_Y.
+		\]
+	\end{remark}
+	
+	\begin{example}
+		If \(X,Y\) are i.i.d.\ \(U(0,1)\), then
+		\[
+		f_X(x)=f_Y(x)=
+		\begin{cases}
+			1, & 0\le x\le 1,\\
+			0, & \text{otherwise}.
+		\end{cases}
+		\]
+		For \(z\in\mathbb{R}\),
+		\begin{align*}
+			f_Z(z)
+			&=\int_{-\infty}^{\infty} \mathbf{1}_{[0,1]}(z-y)\mathbf{1}_{[0,1]}(y)\,dy\\
+			&=\int_{-\infty}^{\infty} \mathbf{1}_{[0,1]}(y)\mathbf{1}_{[0,1]}(z-y)\,dy
+			=\int_{\max\{0,z-1\}}^{\min\{1,z\}} 1\,dy.
+		\end{align*}
+		Therefore
+		\[
+		f_Z(z)=
+		\begin{cases}
+			0, & z<0,\\
+			z, & 0\le z\le 1,\\
+			2-z, & 1< z\le 2,\\
+			0, & z>2.
+		\end{cases}
+		\]
+		So \(Z=X+Y\) has the triangular distribution on \([0,2]\).
+	\end{example}
+	
+
+	
+	\begin{proposition}
+		If \(X\sim N(\mu_1,\sigma_1^2)\) and \(Y\sim N(\mu_2,\sigma_2^2)\) are independent, then
+		\[
+		X+Y \sim N(\mu_1+\mu_2,\ \sigma_1^2+\sigma_2^2).
+		\]
+		More generally, if \(X_1,\dots,X_n\) are independent with \(X_i\sim N(\mu_i,\sigma_i^2)\), then
+		\[
+		\sum_{i=1}^n X_i \sim N\!\left(\sum_{i=1}^n \mu_i,\ \sum_{i=1}^n \sigma_i^2\right).
+		\]
+	\end{proposition}
+	
+	\begin{remark}
+		A special case: if \(X_1,\dots,X_n\) are i.i.d.\ \(N(\mu,\sigma^2)\), then
+		\[
+		\overline{X}_n=\frac{1}{n}\sum_{i=1}^n X_i \sim N\!\left(\mu,\ \frac{\sigma^2}{n}\right).
+		\]
+	\end{remark}
+	
+	\begin{note}
+	Convolution is often computationally complicated. Later we will introduce tools (e.g.\ moment generating functions / characteristic functions) to track distributions of sums more easily, especially under independence.
+	\end{note}
+	
+	
+	\section{Moment generating function (Laplace transform)}
+	
+	\textbf{Motivation.}
+Convolution is often complicated. For sums of independent r.v.'s, m.g.f. turns convolution into multiplication.
+	
+	\begin{definition}
+		(Moment generating function.)
+		Let \(X\) be a random variable. Its moment generating function (m.g.f.) is
+		\[
+		\phi_X(t):=\mathbb{E}\big[e^{tX}\big],
+		\]
+		for all \(t\in\mathbb{R}\) such that the expectation exists (possibly only for \(t\) in an open interval containing \(0\)).
+	\end{definition}
+	
+	\begin{remark}
+		(Discrete vs.\ continuous forms.)
+		\begin{itemize}[leftmargin=2em]
+			\item If \(X\) is discrete with p.m.f.\ \(p_X(x)\), then
+			\[
+			\phi_X(t)=\sum_x e^{tx}p_X(x).
+			\]
+			\item If \(X\) is continuous with p.d.f.\ \(f_X(x)\), then
+			\[
+			\phi_X(t)=\int_{-\infty}^{\infty} e^{tx} f_X(x)\,dx.
+			\]
+		\end{itemize}
+	\end{remark}
+	
+	\begin{example}
+		If \(X\sim \mathrm{Exp}(\lambda)\) with density \(f_X(x)=\lambda e^{-\lambda x}\mathbf{1}_{\{x\ge 0\}}\), then
+		\[
+		\phi_X(t)=\int_{0}^{\infty} e^{tx}\lambda e^{-\lambda x}\,dx
+		=\lambda\int_{0}^{\infty} e^{-(\lambda-t)x}\,dx
+		=
+		\begin{cases}
+			\dfrac{\lambda}{\lambda-t}, & t<\lambda,\\[8pt]
+			\text{does not exist}, & t\ge \lambda.
+		\end{cases}
+		\]
+	\end{example}
+	
+	\begin{example}
+		\textcolor{red}{Cauchy warning.}
+		If \(X\) is standard Cauchy with density \(f_X(x)=\dfrac{1}{\pi(1+x^2)}\), then
+		\[
+		\phi_X(t)=\mathbb{E}[e^{tX}]
+		\]
+		does \emph{not} exist for any \(t\ne 0\) (the tails are too heavy).
+		So m.g.f.\ is not always a valid tool.
+	\end{example}
+	
+
+	
+	\begin{proposition}
+		(Independence \(\Rightarrow\) product rule.)
+		If \(X\perp\!\!\!\perp Y\) and \(\phi_X(t),\phi_Y(t)\) are finite for some \(t\), then
+		\[
+		\phi_{X+Y}(t)=\phi_X(t)\phi_Y(t).
+		\]
+	\end{proposition}
+	
+	\begin{proof}
+		\[
+		\phi_{X+Y}(t)=\mathbb{E}\big[e^{t(X+Y)}\big]
+		=\mathbb{E}\big[e^{tX}e^{tY}\big]
+		=\mathbb{E}[e^{tX}]\,\mathbb{E}[e^{tY}]
+		=\phi_X(t)\phi_Y(t),
+		\]
+		using the factorization property \(\mathbb{E}[g(X)h(Y)]=\mathbb{E}g(X)\,\mathbb{E}h(Y)\) for independent r.v.'s.
+	\end{proof}
+	
+	\begin{proposition}
+		(Distribution determined by m.g.f.)
+		If \(\phi_X(t)\) and \(\phi_Y(t)\) are finite on some open interval containing \(0\) and
+		\[
+		\phi_X(t)=\phi_Y(t)\quad \text{for all \(t\) in that interval},
+		\]
+		then \(X\) and \(Y\) have the same distribution.
+	\end{proposition}
+	
+	\begin{remark}
+	This is a uniqueness theorem (can be proved using analytic continuation / inverse Laplace transform ideas).
+		It requires existence on an interval around \(0\); without that, m.g.f.\ may fail to exist and cannot characterize the distribution.
+	\end{remark}
+	
+	\begin{proposition}
+		(Moments via m.g.f.)
+		Suppose \(\phi_X(t)\) is finite in a neighborhood of \(0\). Then for each \(n\in\mathbb{N}\),
+		\[
+		\phi_X^{(n)}(0)=\mathbb{E}[X^n].
+		\]
+		In particular,
+		\[
+		\phi_X(0)=1,\qquad \phi_X'(0)=\mathbb{E}X,\qquad \phi_X''(0)=\mathbb{E}[X^2],
+		\qquad \mathrm{Var}(X)=\phi_X''(0)-\big(\phi_X'(0)\big)^2.
+		\]
+	\end{proposition}
+	
+	\begin{remark}
+		(Taylor expansion.)
+		If \(\phi_X\) exists near \(0\), then formally
+		\[
+		\phi_X(t)=\mathbb{E}\big[e^{tX}\big]
+		=\mathbb{E}\left[\sum_{n=0}^{\infty}\frac{t^nX^n}{n!}\right]
+		=\sum_{n=0}^{\infty}\frac{t^n}{n!}\mathbb{E}[X^n],
+		\]
+		so m.g.f.\ is a generating function for moments.
+Interchanging expectation and infinite sum needs justification; existence of m.g.f.\ near \(0\) is a standard sufficient condition.
+	\end{remark}
+	
+
+	
+	\begin{example}
+		(Poisson.)
+		If \(X\sim \mathrm{Poisson}(\lambda)\), then
+		\begin{align*}
+			\phi_X(t)
+			&=\sum_{k=0}^{\infty} e^{tk}\frac{\lambda^k}{k!}e^{-\lambda}
+			=e^{-\lambda}\sum_{k=0}^{\infty}\frac{(\lambda e^{t})^k}{k!}
+			=e^{-\lambda}\exp(\lambda e^{t})
+			=\exp\!\big(\lambda(e^{t}-1)\big).
+		\end{align*}
+		From this,
+		\[
+		\phi_X'(t)=\lambda e^t\exp\!\big(\lambda(e^t-1)\big),
+		\qquad
+		\phi_X'(0)=\lambda=\mathbb{E}X,
+		\]
+		and similarly \(\mathrm{Var}(X)=\lambda\).
+	\end{example}
+	
+\begin{example}
+	(Bernoulli and Binomial.)
+	If \(X\sim \mathrm{Be}(p)\), then
+	\[
+	\phi_X(t)=\mathbb{E}[e^{tX}]=(1-p)e^{0}+pe^{t}=1-p+pe^{t}.
+	\]
+	If \(X\sim \mathrm{Bin}(n,p)\), then we may write
+	\[
+	X=\sum_{i=1}^n Y_i,
+	\]
+	where \(Y_1,\dots,Y_n\) are i.i.d.\ \(\mathrm{Be}(p)\). Hence
+	\[
+	\phi_X(t)
+	=\mathbb{E}[e^{tX}]
+	=\mathbb{E}\!\left[e^{t\sum_{i=1}^n Y_i}\right]
+	=\mathbb{E}\!\left[\prod_{i=1}^n e^{tY_i}\right].
+	\]
+	By independence,
+	\[
+	\phi_X(t)
+	=\prod_{i=1}^n \mathbb{E}[e^{tY_i}]
+	=\prod_{i=1}^n \phi_{Y_i}(t).
+	\]
+	Since each \(Y_i\sim \mathrm{Be}(p)\),
+	\[
+	\phi_{Y_i}(t)=1-p+pe^t,
+	\]
+	and therefore
+	\[
+	\phi_X(t)=\bigl(1-p+pe^t\bigr)^n.
+	\]
+\end{example}
+	
+
+\begin{example}
+	(Gaussian.)
+	If \(X\sim N(\mu,\sigma^2)\), then
+	\[
+	\phi_X(t)=\mathbb{E}[e^{tX}]
+	=\int_{-\infty}^{\infty} e^{tx}\frac{1}{\sqrt{2\pi}\sigma}
+	\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\,dx.
+	\]
+	Combining the exponentials and completing the square,
+	\[
+	tx-\frac{(x-\mu)^2}{2\sigma^2}
+	=
+	-\frac{\bigl(x-(\mu+\sigma^2 t)\bigr)^2}{2\sigma^2}
+	+\mu t+\frac{\sigma^2 t^2}{2}.
+	\]
+	Therefore
+	\[
+	\phi_X(t)
+	=
+	\exp\!\left(\mu t+\frac{\sigma^2 t^2}{2}\right)
+	\int_{-\infty}^{\infty}
+	\frac{1}{\sqrt{2\pi}\sigma}
+	\exp\!\left(
+	-\frac{\bigl(x-(\mu+\sigma^2 t)\bigr)^2}{2\sigma^2}
+	\right)\,dx.
+	\]
+	The integral equals \(1\), since it is the integral of a Gaussian density. Hence
+	\[
+	\phi_X(t)=\exp\!\left(\mu t+\frac{\sigma^2 t^2}{2}\right),
+	\qquad t\in\mathbb{R}.
+	\]
+	
+	Now let \(X_1,\dots,X_n\) be independent Gaussian random variables with
+	\[
+	X_i\sim N(\mu_i,\sigma_i^2),
+	\qquad i=1,\dots,n.
+	\]
+	If
+	\[
+	S=\sum_{i=1}^n X_i,
+	\]
+	then by independence,
+	\[
+	\phi_S(t)
+	=
+	\prod_{i=1}^n \phi_{X_i}(t)
+	=
+	\prod_{i=1}^n
+	\exp\!\left(\mu_i t+\frac{\sigma_i^2 t^2}{2}\right).
+	\]
+	So
+	\[
+	\phi_S(t)
+	=
+	\exp\!\left(
+	t\sum_{i=1}^n \mu_i
+	+\frac{t^2}{2}\sum_{i=1}^n \sigma_i^2
+	\right).
+	\]
+	This is the MGF of
+	\[
+	N\!\left(\sum_{i=1}^n \mu_i,\ \sum_{i=1}^n \sigma_i^2\right).
+	\]
+	Therefore
+	\[
+	S\sim N\!\left(\sum_{i=1}^n \mu_i,\ \sum_{i=1}^n \sigma_i^2\right).
+	\]
+\end{example}
+
+
+	
+	\begin{proposition}[Application: sums of independent Poisson r.v.'s]
+		If \(X\sim \mathrm{Poisson}(\lambda)\), \(Y\sim \mathrm{Poisson}(\mu)\), and \(X\perp\!\!\!\perp Y\), then
+		\[
+		X+Y\sim \mathrm{Poisson}(\lambda+\mu).
+		\]
+	\end{proposition}
+	
+	\begin{proof}
+		Using the product rule,
+		\[
+		\phi_{X+Y}(t)=\phi_X(t)\phi_Y(t)
+		=\exp(\lambda(e^t-1))\exp(\mu(e^t-1))
+		=\exp((\lambda+\mu)(e^t-1)).
+		\]
+		This is exactly the m.g.f.\ of \(\mathrm{Poisson}(\lambda+\mu)\). By uniqueness of m.g.f.\ (on an interval around \(0\)),
+		\(X+Y\sim \mathrm{Poisson}(\lambda+\mu)\).
+	\end{proof}
+	
+	\begin{note}
+	Next: since m.g.f.\ turns sums into products, it is also a key tool for limit theorems (LLN/CLT), where the number of summands tends to infinity.
+	\end{note}
+	
+	
+\section{Limit Theorems}
+
+We have discussed sums of finitely many r.v.'s.
+Now we send the number of summands to infinity and study the limiting behavior.
+
+
+
+\begin{proposition}
+	(Markov inequality.)
+	For any non-negative r.v. \(X\) and any \(a>0\),
+	\[
+	\mathbb{P}(X\ge a)\le \frac{\mathbb{E}X}{a}.
+	\]
+\end{proposition}
+
+\begin{proof}
+	Since \(X\ge a\mathbf{1}_{\{X\ge a\}}\), taking expectation gives
+	\[
+	\mathbb{E}X \ge a\,\mathbb{E}\mathbf{1}_{\{X\ge a\}}
+	= a\,\mathbb{P}(X\ge a).
+	\]
+	Therefore \(\mathbb{P}(X\ge a)\le \mathbb{E}X/a\).
+\end{proof}
+
+\begin{remark}
+	(Consequence 1: apply Markov to \(|X|\).)
+	For any r.v. \(X\) with \(\mathbb{E}|X|<\infty\) and any \(a>0\),
+	\[
+	\mathbb{P}(|X|\ge a)\le \frac{\mathbb{E}|X|}{a}.
+	\]
+\end{remark}
+
+\begin{remark}
+	(Consequence 2: apply Markov to \(g(X)\).)
+	Let \(X\ge 0\) and let \(g:[0,\infty)\to[0,\infty)\) be increasing.
+	Then for any \(a>0\),
+	\[
+	\mathbb{P}(X\ge a)=\mathbb{P}(g(X)\ge g(a))\le \frac{\mathbb{E}[g(X)]}{g(a)}.
+	\]
+	Typical choices: \(g(x)=x^2\), \(g(x)=e^{tx}\) for \(t>0\).
+\end{remark}
+
+
+
+\begin{proposition}
+	(Chebyshev inequality.)
+	Let \(X\) be any r.v. with finite mean \(\mu=\mathbb{E}X\) and finite variance \(\mathrm{Var}(X)\).
+	Then for any \(a>0\),
+	\[
+	\mathbb{P}(|X-\mu|\ge a)\le \frac{\mathrm{Var}(X)}{a^2}.
+	\]
+\end{proposition}
+
+\begin{proof}
+	Apply Markov inequality to the non-negative r.v. \((X-\mu)^2\):
+	\[
+	\mathbb{P}(|X-\mu|\ge a)
+	=\mathbb{P}\big((X-\mu)^2\ge a^2\big)
+	\le \frac{\mathbb{E}[(X-\mu)^2]}{a^2}
+	=\frac{\mathrm{Var}(X)}{a^2}.
+	\]
+\end{proof}
+
+
+
+\begin{definition}
+	(Convergence in probability.)
+	A sequence of r.v.'s \((Z_n)_{n\ge 1}\) is said to converge to \(Z\) in probability if
+	for every \(\varepsilon>0\),
+	\[
+	\lim_{n\to\infty}\mathbb{P}(|Z_n-Z|>\varepsilon)=0.
+	\]
+	We write \(Z_n \xrightarrow{\mathbb{P}} Z\).
+\end{definition}
+
+
+
+Let \(X_1,X_2,\dots\) be i.i.d.\ r.v.'s with common mean \(\mu\) and variance \(\sigma^2<\infty\).
+Define the sample mean
+\[
+\overline{X}_n=\frac{1}{n}\sum_{i=1}^n X_i.
+\]
+
+\begin{theorem}
+	(Weak Law of Large Numbers.)
+	If \(X_1,X_2,\dots\) are i.i.d.\ with \(\mathbb{E}X_i=\mu\) and \(\mathrm{Var}(X_1)=\sigma^2<\infty\),
+	then
+	\[
+	\overline{X}_n \xrightarrow{\mathbb{P}} \mu.
+	\]
+	Equivalently, for any fixed \(\varepsilon>0\),
+	\[
+	\lim_{n\to\infty}\mathbb{P}\!\left(\left|\frac{1}{n}\sum_{i=1}^n X_i-\mu\right|>\varepsilon\right)=0.
+	\]
+\end{theorem}
+
+\begin{proof}
+	First compute mean and variance.
+	By linearity of expectation,
+	\[
+	\mathbb{E}\overline{X}_n
+	=\frac{1}{n}\sum_{i=1}^n \mathbb{E}X_i
+	=\mu.
+	\]
+	By independence and \(\mathrm{Var}(aX)=a^2\mathrm{Var}(X)\),
+	\[
+	\mathrm{Var}(\overline{X}_n)
+	=\mathrm{Var}\!\left(\frac{1}{n}\sum_{i=1}^n X_i\right)
+	=\frac{1}{n^2}\sum_{i=1}^n \mathrm{Var}(X_i)
+	=\frac{1}{n^2}\cdot n\sigma^2
+	=\frac{\sigma^2}{n}.
+	\]
+	Now apply Chebyshev inequality to \(\overline{X}_n\):
+	\[
+	\mathbb{P}(|\overline{X}_n-\mu|>\varepsilon)
+	\le \frac{\mathrm{Var}(\overline{X}_n)}{\varepsilon^2}
+	=\frac{\sigma^2}{n\varepsilon^2}\xrightarrow[n\to\infty]{}0.
+	\]
+\end{proof}
+
+\begin{remark}
+	Compare with the degenerate (completely dependent) case in which
+	\[
+	X_1=X_2=\cdots=X,
+	\]
+	where \(X\) is a random variable. Then
+	\[
+	\overline{X}_n=\frac{X_1+\cdots+X_n}{n}
+	=\frac{X+\cdots+X}{n}
+	=X
+	\]
+	for every \(n\). Thus the sample average is still just the same random variable \(X\), so in general it does not get closer to the constant \(\mathbb{E}[X]\) as \(n\to\infty\). In other words, no averaging occurs because the \(X_i\) contain no new independent information. This shows that the independence assumption is essential in the above proof.
+\end{remark}
+
+
+	Q: What is the limiting distribution of
+	\[
+	\frac{1}{\sqrt{n}}\sum_{i=1}^n (X_i-\mu)\,?
+	\]
+	This leads to the Central Limit Theorem.
+
+
+\begin{theorem}
+	(Central Limit Theorem.)
+	Let \(X_1,X_2,\dots\) be i.i.d.\ with \(\mathbb{E}X_1=\mu\) and \(\mathrm{Var}(X_1)=\sigma^2\in(0,\infty)\).
+	Define the normalized sum
+	\[
+	S_n:=\frac{1}{\sqrt{n}}\sum_{i=1}^n (X_i-\mu).
+	\]
+	Then, as \(n\to\infty\),
+	\[
+	S_n \xrightarrow{d} N(0,\sigma^2).
+	\]
+	Equivalently,
+	\[
+	\frac{\sqrt{n}\,(\overline{X}_n-\mu)}{\sigma}\xrightarrow{d} N(0,1).
+	\]
+\end{theorem}
+
+
+
+\begin{proof}[Sketch of proof]
+	Without loss of generality, assume \(\mu=0\) (apply CLT to \(X_i-\mu\)).
+	Fix \(t\in\mathbb{R}\) and consider the m.g.f.\ of
+	\[
+	\frac{1}{\sqrt{n}}\sum_{i=1}^n X_i.
+	\]
+	By independence,
+	\[
+	\mathbb{E}\exp\!\left(t\cdot \frac{1}{\sqrt{n}}\sum_{i=1}^n X_i\right)
+	=
+	\prod_{i=1}^n \mathbb{E}\exp\!\left(\frac{t}{\sqrt{n}}X_i\right)
+	=
+	\left(\mathbb{E}e^{(t/\sqrt{n})X_1}\right)^n.
+	\]
+	Let \(\phi(u)=\mathbb{E}[e^{uX_1}]\) be the m.g.f.\ of \(X_1\) near \(u=0\).
+	Using a Taylor expansion at \(u=0\) and \(\mathbb{E}X_1=0\), \(\mathbb{E}X_1^2=\sigma^2\),
+	\[
+	\phi(u)=1+\frac{\sigma^2}{2}u^2+o(u^2)
+	\quad \text{as } u\to 0.
+	\]
+	Substitute \(u=t/\sqrt{n}\):
+	\[
+	\phi\!\left(\frac{t}{\sqrt{n}}\right)
+	=
+	1+\frac{\sigma^2}{2}\frac{t^2}{n}+o\!\left(\frac{1}{n}\right).
+	\]
+	Therefore,
+	\[
+	\left(\phi\!\left(\frac{t}{\sqrt{n}}\right)\right)^n
+	=
+	\left(1+\frac{\sigma^2 t^2}{2n}+o\!\left(\frac{1}{n}\right)\right)^n
+	\longrightarrow
+	\exp\!\left(\frac{\sigma^2 t^2}{2}\right).
+	\]
+	The limit \(\exp(\sigma^2 t^2/2)\) is the m.g.f.\ of \(N(0,\sigma^2)\).
+	Hence the normalized sums converge in distribution to \(N(0,\sigma^2)\).
+\end{proof}
+
+	
+	
+\end{document}

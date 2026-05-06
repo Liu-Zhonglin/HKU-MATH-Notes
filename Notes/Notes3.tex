@@ -1,0 +1,942 @@
+
+\documentclass[11pt]{article}
+
+% ---------- Page setup ----------
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{microtype}
+\usepackage{parskip} % no paragraph indent, adds vertical space
+
+% ---------- Math packages ----------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}       % bold math symbols
+
+% ---------- Theorem environments ----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{note}[theorem]{Note}
+
+% ---------- Lists / links ----------
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+% ---------- Handy macros (edit to taste) ----------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dd}{\,\mathrm{d}}
+
+% ---------- Title info ----------
+\title{Conditional Probability and Conditional Expectation }
+\author{Joe and Tony}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\tableofcontents
+	
+	
+	
+	% =========================================================
+	\section{Conditional Probability}
+	% =========================================================
+	
+	\textbf{Recall: conditional probability for events.}
+	For events \(A,B\in\mathcal{F}\) with \(\mathbb{P}(A)>0\),
+	\[
+	\mathbb{P}(B\mid A)=\frac{\mathbb{P}(A\cap B)}{\mathbb{P}(A)}.
+	\]
+	
+	\begin{example}
+		(Basketball player, revisited.)
+		Let \(W\) be weight and \(H\) be height in the previous example.
+		Then for instance
+		\[
+		\mathbb{P}(W\ge 70\mid H\ge 175)
+		=\frac{\mathbb{P}(W\ge 70,\ H\ge 175)}{\mathbb{P}(H\ge 175)}.
+		\]
+	\end{example}
+	
+	\begin{remark}
+		In general, one can study the set function
+		\[
+		W\in\mathcal{F}\quad \longmapsto\quad \mathbb{P}(W\mid H\in E),
+		\]
+		where \(H\) is a r.v.\ and \(E\subseteq\R\) is a measurable set.
+		In this course, we will mostly consider conditions of the form \(H=x\) (discrete case: \(\mathbb{P}(H=x)>0\)).
+	\end{remark}
+	
+	
+	% ------------------------------
+	
+	Let \((X,Y)\) be jointly discrete r.v.'s.
+	
+	\begin{definition}
+		(Conditional distribution of \(Y\) given \(X=x\).)
+		Fix \(x\in\R\) with \(\mathbb{P}(X=x)>0\).
+		Define the set function
+		\[
+		A\subseteq \R \quad \longmapsto \quad \mathbb{P}(Y\in A\mid X=x)
+		:=\frac{\mathbb{P}(\{Y\in A\}\cap\{X=x\})}{\mathbb{P}(X=x)}.
+		\]
+	\end{definition}
+	
+	More specifically, it suffices to define:
+	
+	\begin{definition}
+		(Conditional c.d.f.)
+		The conditional cumulative distribution function (c.d.f.) of \(Y\) given \(X=x\) is
+		\[
+		F_{Y\mid X}(y\mid x):=\mathbb{P}(Y\le y\mid X=x),
+		\qquad \text{defined for \(x\) with \(\mathbb{P}(X=x)>0\).}
+		\]
+		It is a function of \(y\) with parameter \(x\).
+	\end{definition}
+	
+	\begin{definition}
+		(Conditional p.m.f.)
+		The conditional probability mass function (p.m.f.) of \(Y\) given \(X=x\) is
+		\[
+		p_{Y\mid X}(y\mid x):=\mathbb{P}(Y=y\mid X=x)
+		=\frac{\mathbb{P}(Y=y,\ X=x)}{\mathbb{P}(X=x)},
+		\qquad \text{for \(x\) with \(\mathbb{P}(X=x)>0\).}
+		\]
+	\end{definition}
+	
+	\begin{remark}
+		Fix \(x\in\R\) with \(\mathbb{P}(X=x)>0\).
+		Then \(p_{Y\mid X}(\cdot\mid x)\) is a p.m.f., i.e.
+		\[
+		\sum_{y} p_{Y\mid X}(y\mid x)=1,
+		\qquad
+		p_{Y\mid X}(y\mid x)\ge 0.
+		\]
+		Also \(F_{Y\mid X}(\cdot\mid x)\) is a c.d.f.\ and we have the relation
+		\[
+		F_{Y\mid X}(y\mid x)=\sum_{t\le y} p_{Y\mid X}(t\mid x),
+		\qquad
+		p_{Y\mid X}(y\mid x)=F_{Y\mid X}(y\mid x)-\lim_{\delta\downarrow 0}F_{Y\mid X}(y-\delta\mid x).
+		\]
+	\end{remark}
+	
+	\begin{remark}
+		If \(X\perp\!\!\!\perp Y\), then conditioning does nothing:
+		\[
+		p_{Y\mid X}(y\mid x)=p_Y(y),
+		\qquad
+		F_{Y\mid X}(y\mid x)=F_Y(y),
+		\]
+		for all \(x\) with \(\mathbb{P}(X=x)>0\).
+	\end{remark}
+	
+	% ------------------------------
+	
+	% ------------------------------
+	
+	\begin{example}
+		Let \(X\sim \mathrm{Poisson}(\lambda_1)\) and \(Y\sim \mathrm{Poisson}(\lambda_2)\) be independent.
+		Compute the conditional distribution of \(X\) given \(X+Y=n\).
+		
+		For \(k=0,1,\dots,n\),
+		\begin{align*}
+			\mathbb{P}(X=k\mid X+Y=n)
+			&=\frac{\mathbb{P}(X=k,\ X+Y=n)}{\mathbb{P}(X+Y=n)}\\
+			&=\frac{\mathbb{P}(X=k,\ Y=n-k)}{\mathbb{P}(X+Y=n)}\\
+			&=\frac{\mathbb{P}(X=k)\mathbb{P}(Y=n-k)}{\mathbb{P}(X+Y=n)}\\
+			&=\frac{\frac{e^{-\lambda_1}\lambda_1^{k}}{k!}\cdot \frac{e^{-\lambda_2}\lambda_2^{\,n-k}}{(n-k)!}}
+			{\frac{e^{-(\lambda_1+\lambda_2)}(\lambda_1+\lambda_2)^{n}}{n!}}\\
+			&=\binom{n}{k}\left(\frac{\lambda_1}{\lambda_1+\lambda_2}\right)^{k}
+			\left(\frac{\lambda_2}{\lambda_1+\lambda_2}\right)^{n-k}.
+		\end{align*}
+		Hence
+		\[
+		(X\mid X+Y=n)\sim \mathrm{Bin}\!\left(n,\frac{\lambda_1}{\lambda_1+\lambda_2}\right).
+		\]
+	\end{example}
+	
+	
+	% ------------------------------
+	
+	
+	\section{Conditional Distribution}
+	% =========================================================
+	
+	% ------------------------------
+	\subsection{Discrete Case}
+	% ------------------------------
+	
+	\begin{definition}
+		(Conditional expectation given an event.)
+		Let \(Y\) be a discrete r.v.\ and let \(A\in\mathcal{F}\) with \(\mathbb{P}(A)>0\).
+		Define
+		\[
+		\mathbb{E}[Y\mid A]:=\sum_{y} y\,\mathbb{P}(Y=y\mid A).
+		\]
+	\end{definition}
+	
+	\begin{definition}
+		(Conditional expectation given \(X=x\): discrete case.)
+		Let \((X,Y)\) be jointly discrete.
+		For \(x\in\R\) with \(\mathbb{P}(X=x)>0\),
+		\[
+		\mathbb{E}[Y\mid X=x]
+		:=\sum_{y} y\,\mathbb{P}(Y=y\mid X=x)
+		=\sum_{y} y\,p_{Y\mid X}(y\mid x).
+		\]
+		This is a function of \(x\). Let us denote
+		\[
+		\varphi(x):=\mathbb{E}[Y\mid X=x].
+		\]
+	\end{definition}
+	
+	\begin{example}
+		(Continuation of Poisson example.)
+		If \(X\sim \mathrm{Poisson}(\lambda_1)\), \(Y\sim \mathrm{Poisson}(\lambda_2)\), independent, then
+		\[
+		\mathbb{E}[X\mid X+Y=n]
+		=n\cdot \frac{\lambda_1}{\lambda_1+\lambda_2}.
+		\]
+	\end{example}
+	
+	
+	% ------------------------------
+	
+	\begin{definition}
+		(Conditional expectation given a r.v.: discrete case.)
+		Recall \(\varphi(x)=\mathbb{E}[Y\mid X=x]\).
+		We define the conditional expectation of \(Y\) given \(X\) as
+		\[
+		\mathbb{E}[Y\mid X]:=\varphi(X).
+		\]
+		It is a function of the r.v.\ \(X\), hence \(\mathbb{E}[Y\mid X]\) is also a r.v.
+	\end{definition}
+	
+	\begin{example}
+		\[
+		\mathbb{E}[X\mid X]=X.
+		\]
+	\end{example}
+	
+	\begin{remark}
+		If \(X\perp\!\!\!\perp Y\) and \(\mathbb{E}|Y|<\infty\), then
+		\[
+		\mathbb{E}[Y\mid X]=\mathbb{E}[Y].
+		\]
+	\end{remark}
+	
+	% ------------------------------
+	
+	\textbf{Best guess.}
+	\begin{enumerate}[label=\arabic*)]
+		\item Expectation (no additional information): \(\mathbb{E}[Y]\).
+		\item Conditional expectation given an event (additional information \(X=x\)):
+		\(\mathbb{E}[Y\mid X=x]\).
+		\item Conditional expectation given a r.v.\ (information of \(X\)):
+		\(\mathbb{E}[Y\mid X]\).
+	\end{enumerate}
+	
+	\begin{remark}
+		(Heuristic least squares fact.)
+		For constants \(c\in\R\),
+		\[
+		\mathbb{E}[Y]=\arg\min_{c\in\R}\mathbb{E}\big[(Y-c)^2\big].
+		\]
+		More generally, among functions \(g\) of \(X\),
+		\[
+		\mathbb{E}[Y\mid X]=\arg\min_{g}\mathbb{E}\big[(Y-g(X))^2\big].
+		\]
+	\end{remark}
+	
+	
+	% ------------------------------
+	
+	\begin{theorem}
+		(Law of total expectation: discrete case.)
+		Let \((X,Y)\) be jointly discrete with \(\mathbb{E}|Y|<\infty\). Then
+		\[
+		\mathbb{E}[Y]=\mathbb{E}\!\big[\mathbb{E}[Y\mid X]\big].
+		\]
+		Equivalently,
+		\[
+		\mathbb{E}[Y]=\sum_{x}\mathbb{E}[Y\mid X=x]\ \mathbb{P}(X=x).
+		\]
+	\end{theorem}
+	
+	\begin{proof}
+		\begin{align*}
+			\sum_{x}\mathbb{E}[Y\mid X=x]\mathbb{P}(X=x)
+			&=\sum_{x}\left(\sum_{y} y\,\mathbb{P}(Y=y\mid X=x)\right)\mathbb{P}(X=x)\\
+			&=\sum_{x}\sum_{y} y\,\mathbb{P}(X=x,Y=y)\\
+			&=\sum_{y} y\sum_{x}\mathbb{P}(X=x,Y=y)\\
+			&=\sum_{y} y\,\mathbb{P}(Y=y)
+			=\mathbb{E}[Y].
+		\end{align*}
+	\end{proof}
+	
+	% ------------------------------
+	
+	\begin{example}
+		(Miner problem.)
+		A miner is trapped in a mine with 3 tunnels and each time picks a tunnel uniformly at random.
+		\begin{itemize}[leftmargin=2em]
+			\item Tunnel 1: leads to safety after \(3\) hours.
+			\item Tunnel 2: sends one back after \(5\) hours.
+			\item Tunnel 3: sends one back after \(7\) hours.
+		\end{itemize}
+		Let \(X\) be the time to reach safety.
+		
+		Let \(Y\) be the tunnel number picked for the first time.
+		By total expectation,
+		\[
+		\mathbb{E}[X]=\mathbb{E}\!\big[\mathbb{E}[X\mid Y]\big]
+		=\sum_{j=1}^{3}\mathbb{E}[X\mid Y=j]\mathbb{P}(Y=j)
+		=\frac{1}{3}\sum_{j=1}^{3}\mathbb{E}[X\mid Y=j].
+		\]
+		Now
+		\[
+		\mathbb{E}[X\mid Y=1]=3,
+		\qquad
+		\mathbb{E}[X\mid Y=2]=5+\mathbb{E}[X],
+		\qquad
+		\mathbb{E}[X\mid Y=3]=7+\mathbb{E}[X].
+		\]
+		So
+		\[
+		\mathbb{E}[X]=\frac{1}{3}\bigl(3+(5+\mathbb{E}[X])+(7+\mathbb{E}[X])\bigr)
+		=\frac{1}{3}\bigl(15+2\mathbb{E}[X]\bigr),
+		\]
+		and therefore \(\mathbb{E}[X]=15\).
+	\end{example}
+	
+	\begin{example}[Best Prize Example (Secretary Problem)]
+		\label{ex:best-prize}
+		Suppose \(n\) distinct prizes arrive sequentially in a uniformly random order (all \(n!\) orderings equally likely). After seeing each prize, we must immediately accept or reject it. If we reject it, it is lost. When deciding at time \(i\), we only know the \emph{relative rank} of the current prize among the first \(i\) prizes seen. Our goal is to maximize the probability of selecting the overall best prize.
+		
+		
+		\textbf{A threshold strategy.}
+		Fix an integer \(k\) with \(0 \le k < n\). Consider the strategy:
+		\begin{quote}
+			Reject the first \(k\) prizes, then accept the first subsequent prize that is better than all of the first \(k\) prizes.
+		\end{quote}
+		Let \(P_k(\text{best})\) denote the probability that this strategy selects the best prize.
+		
+		
+		Let \(X\) be the (random) position of the overall best prize. By symmetry,
+		\[
+		\mathbb{P}(X=i)=\frac{1}{n}, \qquad i=1,2,\dots,n.
+		\]
+		By the law of total probability (conditioning on \(X\)),
+		\[
+		P_k(\text{best})
+		= \sum_{i=1}^n \mathbb{P}(\text{best is selected}\mid X=i)\,\mathbb{P}(X=i)
+		= \frac{1}{n}\sum_{i=1}^n \mathbb{P}(\text{best is selected}\mid X=i).
+		\]
+		If \(i\le k\), then the best prize occurs among the first \(k\) rejected prizes, so it cannot be selected:
+		\[
+		\mathbb{P}(\text{best is selected}\mid X=i)=0,\qquad i\le k.
+		\]
+		If \(i>k\), then the best prize (at position \(i\)) will be selected precisely when none of the prizes in positions
+		\(k+1,k+2,\dots,i-1\) is accepted. Under the strategy, that happens exactly when the best among the first \(i-1\) prizes
+		occurs within the first \(k\) positions. Among the first \(i-1\) prizes, each position is equally likely to contain the best, hence
+		\[
+		\mathbb{P}(\text{best is selected}\mid X=i)
+		= \mathbb{P}(\text{best of first } i-1 \text{ is among the first } k)
+		= \frac{k}{i-1},\qquad i>k.
+		\]
+		Therefore,
+		\[
+		P_k(\text{best})
+		= \frac{1}{n}\sum_{i=k+1}^n \frac{k}{i-1}
+		= \frac{k}{n}\sum_{j=k}^{n-1}\frac{1}{j}.
+		\]
+		
+		
+		Using the harmonic number approximation
+		\(\sum_{j=k}^{n-1}\frac{1}{j} \approx \int_k^n \frac{1}{x}\,dx = \log\!\bigl(\frac{n}{k}\bigr)\),
+		we get
+		\[
+		P_k(\text{best}) \approx \frac{k}{n}\log\!\Bigl(\frac{n}{k}\Bigr).
+		\]
+		Maximizing \(g(x)=\frac{x}{n}\log\!\bigl(\frac{n}{x}\bigr)\) over \(x\in(0,n)\) gives
+		\[
+		g'(x)=\frac{1}{n}\Bigl(\log\!\bigl(\tfrac{n}{x}\bigr)-1\Bigr)=0
+		\quad\Longrightarrow\quad x=\frac{n}{e}.
+		\]
+		Hence the optimal threshold is approximately \(k \approx \frac{n}{e}\), and the resulting success probability is
+		\[
+		P_{n/e}(\text{best}) \approx \frac{1}{e}\approx 0.3679.
+		\]
+		
+		
+	\end{example}
+	
+	\begin{remark}
+		Even for large \(n\), the probability of picking the best prize need not be tiny: using the rule ``skip the first half, then pick the
+		first record'' already yields a probability greater than \(1/4\) of selecting the best.
+		
+		\medskip
+		\noindent
+		\textbf{(``Love problem'' interpretation.)}
+		The same model is often remembered in a dating/marriage setting: you meet \(n\) potential partners sequentially; at each time you only
+		know how the current person ranks relative to those you have already met; if you pass, you cannot go back; and your objective is to
+		maximize the probability of choosing the overall best partner.
+		Under these assumptions, a threshold rule (first observe without committing, then choose the first ``new record'') can still achieve a
+		non-negligible success probability even when \(n\) is large.
+	\end{remark}
+	
+	
+	\begin{example}
+		(Sum of a random number of random variables.)
+		Let \(N\) be a random integer-valued r.v.
+		Let \(X_1,X_2,\dots\) be i.i.d.\ r.v.'s with \(\mathbb{E}|X_1|<\infty\).
+		Assume \(N\perp\!\!\!\perp (X_1,X_2,\dots)\).
+		Define
+		\[
+		S:=\sum_{i=1}^{N} X_i,
+		\]
+		with the convention \(S=0\) when \(N=0\).
+		Then
+		\[
+		\mathbb{E}[S]=\mathbb{E}[N]\ \mathbb{E}[X_1].
+		\]
+	\end{example}
+	
+	\begin{proof}
+		Condition on \(N\). For \(N=n\),
+		\[
+		\mathbb{E}\!\left[\left.\sum_{i=1}^{N}X_i\right|N=n\right]
+		=\mathbb{E}\!\left[\sum_{i=1}^{n}X_i\right]
+		=\sum_{i=1}^{n}\mathbb{E}[X_i]
+		=n\,\mathbb{E}[X_1].
+		\]
+		Thus \(\mathbb{E}[S\mid N]=N\,\mathbb{E}[X_1]\), and by total expectation,
+		\[
+		\mathbb{E}[S]=\mathbb{E}\!\big[\mathbb{E}[S\mid N]\big]
+		=\mathbb{E}\big[N\,\mathbb{E}[X_1]\big]
+		=\mathbb{E}[N]\ \mathbb{E}[X_1].
+		\]
+	\end{proof}
+	
+	
+	
+	
+	
+	% ------------------------------
+	\subsection{Continuous Case}
+	% ------------------------------
+	
+	\begin{definition}[Conditional distribution (continuous)]
+		Let \((X,Y)\) be jointly continuous with joint pdf \(f_{X,Y}(x,y)\) and marginal
+		\[
+		f_X(x)=\int_{-\infty}^{\infty} f_{X,Y}(x,y)\,dy.
+		\]
+		For any \(x\) with \(f_X(x)>0\), the conditional pdf of \(Y\) given \(X=x\) is
+		\begin{align*}
+			f_{Y\mid X}(y\mid x)
+			&=\frac{f_{X,Y}(x,y)}{f_X(x)}.
+		\end{align*}
+		The conditional cdf is
+		\[
+		F_{Y\mid X}(y\mid x):=\int_{-\infty}^{y} f_{Y\mid X}(v\mid x)\,dv.
+		\]
+	\end{definition}
+	
+	\begin{theorem}[Law of total expectation (continuous)]
+		Assume \(\mathbb{E}|Y|<\infty\). Then
+		\[
+		\mathbb{E}[Y]=\mathbb{E}\big[\mathbb{E}[Y\mid X]\big]
+		=\int_{-\infty}^{\infty}\mathbb{E}[Y\mid X=x]\ f_X(x)\,dx,
+		\]
+		where
+		\[
+		\mathbb{E}[Y\mid X=x]=\int_{-\infty}^{\infty} y\,f_{Y\mid X}(y\mid x)\,dy,
+		\qquad
+		\mathbb{E}[Y\mid X]=\Big(x\mapsto \mathbb{E}[Y\mid X=x]\Big)\Big|_{x=X}.
+		\]
+	\end{theorem}
+	
+	\begin{proof}
+		Using \(f_{Y\mid X}(y\mid x)=f_{X,Y}(x,y)/f_X(x)\) (for \(f_X(x)>0\)),
+		\[
+		\mathbb{E}[Y\mid X=x]=\int_{-\infty}^{\infty} y\,\frac{f_{X,Y}(x,y)}{f_X(x)}\,dy.
+		\]
+		Multiply by \(f_X(x)\) and integrate over \(x\):
+		\begin{align*}
+			\int_{-\infty}^{\infty}\mathbb{E}[Y\mid X=x]\ f_X(x)\,dx
+			&=\int_{-\infty}^{\infty}\left(\int_{-\infty}^{\infty} y\,\frac{f_{X,Y}(x,y)}{f_X(x)}\,dy\right)f_X(x)\,dx\\
+			&=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} y\,f_{X,Y}(x,y)\,dy\,dx\\
+			&=\int_{-\infty}^{\infty} y\left(\int_{-\infty}^{\infty} f_{X,Y}(x,y)\,dx\right)\,dy\\
+			&=\int_{-\infty}^{\infty} y\,f_Y(y)\,dy
+			=\mathbb{E}[Y],
+		\end{align*}
+		where Tonelli/Fubini justifies swapping integrals since \(\mathbb{E}|Y|<\infty\).
+		Finally, \(\mathbb{E}[\mathbb{E}[Y\mid X]]=\int \mathbb{E}[Y\mid X=x]f_X(x)\,dx\) because \(\mathbb{E}[Y\mid X]\) is a measurable function of \(X\).
+	\end{proof}
+	
+	
+\begin{example}[Joint Gaussian]
+	Suppose \((X_1,X_2)\) has the bivariate normal density
+	\begin{align*}
+		f_{X_1,X_2}(x_1,x_2)
+		&=
+		\frac{1}{2\pi\sigma_1\sigma_2\sqrt{1-\rho^2}}
+		\exp\!\Bigg(
+		-\frac{1}{2(1-\rho^2)}\,Q(x_1,x_2)
+		\Bigg),\\[4pt]
+		Q(x_1,x_2)
+		&:=
+		\left(\frac{x_1-\mu_1}{\sigma_1}\right)^2
+		-2\rho\left(\frac{x_1-\mu_1}{\sigma_1}\right)
+		\left(\frac{x_2-\mu_2}{\sigma_2}\right)
+		+\left(\frac{x_2-\mu_2}{\sigma_2}\right)^2 .
+	\end{align*}
+	with \(\sigma_1>0\), \(\sigma_2>0\), and \(\rho\in(-1,1)\).
+	
+	Let
+	\[
+	z_1:=\frac{x_1-\mu_1}{\sigma_1},
+	\qquad
+	z_2:=\frac{x_2-\mu_2}{\sigma_2}.
+	\]
+	Then
+	\[
+	Q(x_1,x_2)
+	=
+	z_1^2-2\rho z_1z_2+z_2^2.
+	\]
+	Completing the square in \(z_1\), we obtain
+	\begin{align*}
+		z_1^2-2\rho z_1z_2+z_2^2
+		&=
+		(z_1-\rho z_2)^2+(1-\rho^2)z_2^2.
+	\end{align*}
+	Therefore the joint density can be rewritten as
+	\begin{align*}
+		f_{X_1,X_2}(x_1,x_2)
+		&=
+		\frac{1}{2\pi\sigma_1\sigma_2\sqrt{1-\rho^2}}
+		\exp\!\left(
+		-\frac{(z_1-\rho z_2)^2}{2(1-\rho^2)}
+		-\frac{z_2^2}{2}
+		\right).
+	\end{align*}
+	
+	We first compute the marginal density of \(X_2\). By definition,
+	\begin{align*}
+		f_{X_2}(x_2)
+		&=
+		\int_{-\infty}^{\infty}
+		f_{X_1,X_2}(x_1,x_2)\,dx_1 \\
+		&=
+		\frac{1}{2\pi\sigma_1\sigma_2\sqrt{1-\rho^2}}
+		\exp\!\left(-\frac{z_2^2}{2}\right)
+		\int_{-\infty}^{\infty}
+		\exp\!\left(
+		-\frac{(z_1-\rho z_2)^2}{2(1-\rho^2)}
+		\right)\,dx_1.
+	\end{align*}
+	Since
+	\[
+	z_1=\frac{x_1-\mu_1}{\sigma_1},
+	\qquad
+	dx_1=\sigma_1\,dz_1,
+	\]
+	we have
+	\begin{align*}
+		\int_{-\infty}^{\infty}
+		\exp\!\left(
+		-\frac{(z_1-\rho z_2)^2}{2(1-\rho^2)}
+		\right)\,dx_1
+		&=
+		\sigma_1
+		\int_{-\infty}^{\infty}
+		\exp\!\left(
+		-\frac{(z_1-\rho z_2)^2}{2(1-\rho^2)}
+		\right)\,dz_1 \\
+		&=
+		\sigma_1\sqrt{2\pi(1-\rho^2)}.
+	\end{align*}
+	Hence
+	\begin{align*}
+		f_{X_2}(x_2)
+		&=
+		\frac{1}{2\pi\sigma_1\sigma_2\sqrt{1-\rho^2}}
+		\exp\!\left(-\frac{z_2^2}{2}\right)
+		\sigma_1\sqrt{2\pi(1-\rho^2)} \\
+		&=
+		\frac{1}{\sqrt{2\pi}\sigma_2}
+		\exp\!\left(-\frac{z_2^2}{2}\right) \\
+		&=
+		\frac{1}{\sqrt{2\pi}\sigma_2}
+		\exp\!\left(
+		-\frac{(x_2-\mu_2)^2}{2\sigma_2^2}
+		\right).
+	\end{align*}
+	Thus
+	\[
+	X_2\sim N(\mu_2,\sigma_2^2).
+	\]
+	By symmetry,
+	\[
+	X_1\sim N(\mu_1,\sigma_1^2).
+	\]
+	
+	Now we compute the conditional density. For every \(x_2\) such that
+	\(f_{X_2}(x_2)>0\),
+	\[
+	f_{X_1\mid X_2}(x_1\mid x_2)
+	=
+	\frac{f_{X_1,X_2}(x_1,x_2)}{f_{X_2}(x_2)}.
+	\]
+	Using the expressions above,
+	\begin{align*}
+		f_{X_1\mid X_2}(x_1\mid x_2)
+		&=
+		\frac{
+			\frac{1}{2\pi\sigma_1\sigma_2\sqrt{1-\rho^2}}
+			\exp\!\left(
+			-\frac{(z_1-\rho z_2)^2}{2(1-\rho^2)}
+			-\frac{z_2^2}{2}
+			\right)
+		}{
+			\frac{1}{\sqrt{2\pi}\sigma_2}
+			\exp\!\left(-\frac{z_2^2}{2}\right)
+		} \\
+		&=
+		\frac{1}{\sqrt{2\pi}\sigma_1\sqrt{1-\rho^2}}
+		\exp\!\left(
+		-\frac{(z_1-\rho z_2)^2}{2(1-\rho^2)}
+		\right).
+	\end{align*}
+	Next,
+	\begin{align*}
+		z_1-\rho z_2
+		&=
+		\frac{x_1-\mu_1}{\sigma_1}
+		-
+		\rho\frac{x_2-\mu_2}{\sigma_2} \\
+		&=
+		\frac{
+			x_1-\mu_1-\rho\frac{\sigma_1}{\sigma_2}(x_2-\mu_2)
+		}{\sigma_1}.
+	\end{align*}
+	Therefore
+	\begin{align*}
+		f_{X_1\mid X_2}(x_1\mid x_2)
+		&=
+		\frac{1}{\sqrt{2\pi}\sigma_1\sqrt{1-\rho^2}}
+		\exp\!\left(
+		-\frac{
+			\left(
+			x_1-\mu_1-\rho\frac{\sigma_1}{\sigma_2}(x_2-\mu_2)
+			\right)^2
+		}{
+			2\sigma_1^2(1-\rho^2)
+		}
+		\right) \\
+		&=
+		\frac{1}{\sqrt{2\pi\,\sigma_1^2(1-\rho^2)}}
+		\exp\!\Bigg(
+		-\frac{
+			\left(
+			x_1-\mu_1-\rho\frac{\sigma_1}{\sigma_2}(x_2-\mu_2)
+			\right)^2
+		}{
+			2\sigma_1^2(1-\rho^2)
+		}
+		\Bigg).
+	\end{align*}
+	
+	Hence the conditional distribution is normal:
+	\[
+	(X_1\mid X_2=x_2)
+	\sim
+	N\!\left(
+	\mu_1+\rho\frac{\sigma_1}{\sigma_2}(x_2-\mu_2),
+	\ \sigma_1^2(1-\rho^2)
+	\right).
+	\]
+\end{example}
+
+	
+	
+	
+	\section{Functions of Random Variable (Continuous)}
+	% =========================================================
+	
+	We already know how to compute the expectation of a function of a continuous r.v.:  
+	if \(X\) has p.d.f.\ \(f_X\) and \(g:\mathbb{R}\to\mathbb{R}\) is integrable, then
+	\[
+	\mathbb{E}[g(X)]=\int_{-\infty}^{\infty} g(x)\,f_X(x)\,dx.
+	\]
+	
+	\textbf{Question.} Given the distribution of \(X\), what is the distribution of \(Y=g(X)\)?  
+	More generally, given the joint distribution of \((X,Y)\), what is the joint distribution of
+	\((U,V)=(g(X,Y),h(X,Y))\)?
+	
+	
+	
+	\begin{definition}[Preimage]
+		Let \(g:\mathbb{R}\to\mathbb{R}\) and \(A\subseteq\mathbb{R}\). The preimage of \(A\) under \(g\) is
+		\[
+		g^{-1}(A):=\{x\in\mathbb{R}:\ g(x)\in A\}.
+		\]
+	\end{definition}
+	
+	\begin{definition}[Distribution of \(Y=g(X)\) via preimage]
+		Let \(X\) be a r.v.\ on \((\Omega,\mathcal{F},\mathbb{P})\) and let \(g:\mathbb{R}\to\mathbb{R}\) be Borel measurable.
+		Define \(Y=g(X)\).
+		Then for any Borel set \(A\subseteq\mathbb{R}\),
+		\[
+		\mathbb{P}(Y\in A)=\mathbb{P}(g(X)\in A)=\mathbb{P}(X\in g^{-1}(A)).
+		\]
+		In particular, the c.d.f.\ of \(Y\) is
+		\[
+		F_Y(y)=\mathbb{P}(Y\le y)=\mathbb{P}(g(X)\le y)=\mathbb{P}\bigl(X\in g^{-1}((-\infty,y])\bigr).
+		\]
+	\end{definition}
+	
+	\begin{remark}
+		This is the most general and conceptually correct way to define the distribution of \(g(X)\)
+		(the law of \(Y\) is the pushforward of the law of \(X\) by \(g\)).
+		When \(g\) is monotone or smooth, we can often compute p.d.f.'s explicitly.
+	\end{remark}
+	
+	
+	\begin{proposition}[Monotone transformation formula]
+		Let \(X\) be a continuous r.v.\ with p.d.f.\ \(f_X\).
+		Let \(g:\mathbb{R}\to\mathbb{R}\) be strictly monotone and differentiable, and define \(Y=g(X)\).
+		Then \(Y\) is continuous with p.d.f.
+		\[
+		f_Y(y)=f_X\!\bigl(g^{-1}(y)\bigr)\left|\frac{d}{dy}g^{-1}(y)\right|,
+		\]
+		for all \(y\) in the range of \(g\), and \(f_Y(y)=0\) otherwise.
+	\end{proposition}
+	
+	\begin{proof}
+		Assume first that \(g\) is strictly increasing. Then
+		\[
+		F_Y(y)=\mathbb{P}(g(X)\le y)=\mathbb{P}(X\le g^{-1}(y))=F_X(g^{-1}(y)).
+		\]
+		Differentiating (chain rule),
+		\[
+		f_Y(y)=f_X(g^{-1}(y))\cdot \frac{d}{dy}g^{-1}(y).
+		\]
+		If \(g\) is strictly decreasing, then
+		\[
+		F_Y(y)=\mathbb{P}(g(X)\le y)=\mathbb{P}(X\ge g^{-1}(y))=1-F_X(g^{-1}(y)),
+		\]
+		so differentiating gives
+		\[
+		f_Y(y)=-f_X(g^{-1}(y))\cdot \frac{d}{dy}g^{-1}(y)
+		=f_X(g^{-1}(y))\left|\frac{d}{dy}g^{-1}(y)\right|.
+		\]
+	\end{proof}
+	
+	\begin{remark}
+		If \(g\) is not one-to-one (e.g.\ \(g(x)=x^2\)), then \(g^{-1}(y)\) has multiple branches and the above formula
+		must be modified (typically by summing over all preimages).
+	\end{remark}
+	
+	
+	
+	\begin{example}[The relation between \(N(0,1)\) and \(\chi^2(1)\)]
+		Let \(X\sim N(0,1)\) and define \(Y=X^2\).
+		For \(y<0\), \(F_Y(y)=0\). For \(y\ge 0\),
+		\begin{align*}
+			F_Y(y)
+			&=\mathbb{P}(X^2\le y)
+			=\mathbb{P}(-\sqrt{y}\le X\le \sqrt{y})\\
+			&=\Phi(\sqrt{y})-\Phi(-\sqrt{y})
+			=2\Phi(\sqrt{y})-1,
+		\end{align*}
+		where \(\Phi\) is the standard normal c.d.f.
+		Differentiating for \(y>0\),
+		\begin{align*}
+			f_Y(y)
+			&=\frac{d}{dy}\bigl(2\Phi(\sqrt{y})-1\bigr)
+			=2\varphi(\sqrt{y})\cdot \frac{1}{2\sqrt{y}}
+			=\frac{\varphi(\sqrt{y})}{\sqrt{y}}\\
+			&=\frac{1}{\sqrt{2\pi y}}e^{-y/2},\qquad y>0,
+		\end{align*}
+		where \(\varphi(u)=\frac{1}{\sqrt{2\pi}}e^{-u^2/2}\).
+		Thus \(Y\sim \chi^2(1)\). More generally, \(\chi^2(n)\) is the law of \(\sum_{i=1}^n Z_i^2\) for i.i.d.\ \(Z_i\sim N(0,1)\).
+	\end{example}
+	
+	
+	
+	Let \((X,Y)\) be jointly continuous with joint p.d.f.\ \(f_{X,Y}(x,y)\).
+	Define new variables
+	\[
+	U=g(X,Y),\qquad V=h(X,Y).
+	\]
+	
+	\begin{theorem}[Change of variables; 2D Jacobian formula]
+		Assume:
+		\begin{enumerate}[label=(\arabic*),leftmargin=2em]
+			\item There exist functions \(a,b\) such that the transformation is invertible:
+			\[
+			X=a(U,V),\qquad Y=b(U,V).
+			\]
+			\item The functions \(g,h\) have continuous partial derivatives and the Jacobian determinant
+			\[
+			J(x,y):=\det
+			\begin{pmatrix}
+				\frac{\partial u}{\partial x} & \frac{\partial u}{\partial y}\\[6pt]
+				\frac{\partial v}{\partial x} & \frac{\partial v}{\partial y}
+			\end{pmatrix}
+			=\frac{\partial(u,v)}{\partial(x,y)}
+			\]
+			is nonzero on the region of interest.
+		\end{enumerate}
+		Then \((U,V)\) is jointly continuous with joint p.d.f.
+		\[
+		f_{U,V}(u,v)=f_{X,Y}\bigl(a(u,v),b(u,v)\bigr)\,
+		\left|\det
+		\begin{pmatrix}
+			\frac{\partial a}{\partial u} & \frac{\partial a}{\partial v}\\[6pt]
+			\frac{\partial b}{\partial u} & \frac{\partial b}{\partial v}
+		\end{pmatrix}\right|.
+		\]
+		Equivalently,
+		\[
+		f_{U,V}(u,v)=f_{X,Y}(x,y)\cdot \frac{1}{|J(x,y)|}\Big|_{(x,y)=(a(u,v),b(u,v))}.
+		\]
+	\end{theorem}
+	
+	\begin{remark}
+		After obtaining \(f_{U,V}\), the marginals can be computed by integrating out:
+		\[
+		f_U(u)=\int_{-\infty}^{\infty} f_{U,V}(u,v)\,dv,
+		\qquad
+		f_V(v)=\int_{-\infty}^{\infty} f_{U,V}(u,v)\,du.
+		\]
+	\end{remark}
+	
+	
+	
+	\begin{example}[Sum and difference]
+		Let \(X_1,X_2\) be jointly continuous with joint p.d.f.\ \(f_{X_1,X_2}\).
+		Define
+		\[
+		Y_1=X_1+X_2,\qquad Y_2=X_1-X_2.
+		\]
+		Then the inverse transform is
+		\[
+		X_1=\frac{Y_1+Y_2}{2},\qquad X_2=\frac{Y_1-Y_2}{2}.
+		\]
+		The Jacobian of \((x_1,x_2)\) with respect to \((y_1,y_2)\) is
+		\[
+		\det
+		\begin{pmatrix}
+			\frac{\partial x_1}{\partial y_1} & \frac{\partial x_1}{\partial y_2}\\[6pt]
+			\frac{\partial x_2}{\partial y_1} & \frac{\partial x_2}{\partial y_2}
+		\end{pmatrix}
+		=
+		\det
+		\begin{pmatrix}
+			\frac12 & \frac12\\[4pt]
+			\frac12 & -\frac12
+		\end{pmatrix}
+		=-\frac12,
+		\qquad \text{so } \left|\det(\cdot)\right|=\frac12.
+		\]
+		Hence
+		\[
+		f_{Y_1,Y_2}(y_1,y_2)
+		=
+		f_{X_1,X_2}\!\left(\frac{y_1+y_2}{2},\frac{y_1-y_2}{2}\right)\cdot \frac12.
+		\]
+	\end{example}
+	
+	\begin{example}[Independent Gaussians]
+		If \(X_1,X_2\) are independent \(N(0,1)\), then
+		\[
+		f_{X_1,X_2}(x_1,x_2)=\frac{1}{2\pi}\exp\!\left(-\frac{x_1^2+x_2^2}{2}\right).
+		\]
+		Using
+		\[
+		\left(\frac{y_1+y_2}{2}\right)^2+\left(\frac{y_1-y_2}{2}\right)^2=\frac{y_1^2+y_2^2}{2},
+		\]
+		we get
+		\[
+		f_{Y_1,Y_2}(y_1,y_2)
+		=\frac12\cdot \frac{1}{2\pi}\exp\!\left(-\frac{1}{2}\cdot \frac{y_1^2+y_2^2}{2}\right)
+		=\frac{1}{4\pi}\exp\!\left(-\frac{y_1^2+y_2^2}{4}\right).
+		\]
+		This factors as
+		\[
+		f_{Y_1,Y_2}(y_1,y_2)=
+		\left(\frac{1}{\sqrt{4\pi}}e^{-y_1^2/4}\right)
+		\left(\frac{1}{\sqrt{4\pi}}e^{-y_2^2/4}\right),
+		\]
+		so \(Y_1\perp\!\!\!\perp Y_2\) and
+		\[
+		Y_1\sim N(0,2),\qquad Y_2\sim N(0,2).
+		\]
+	\end{example}
+	
+	\begin{remark}[Orthogonal transformations preserve i.i.d.\ standard Gaussians]
+		More generally, if \(\bm{X}=(X_1,\dots,X_n)\) has i.i.d.\ \(N(0,1)\) entries and \(A\) is orthogonal
+		(\(A^\top A=I\)), then \(\bm{Y}=A\bm{X}\) also has i.i.d.\ \(N(0,1)\) entries.
+	\end{remark}
+	
+	\begin{example}[Uniform on a square and a linear change of variables]
+		Let \(X_1,X_2\) be i.i.d.\ \(U(0,1)\), so
+		\[
+		f_{X_1,X_2}(x_1,x_2)=
+		\begin{cases}
+			1, & (x_1,x_2)\in[0,1]^2,\\
+			0, & \text{otherwise}.
+		\end{cases}
+		\]
+		Define \(Y_1=X_1+X_2\), \(Y_2=X_1-X_2\). Then
+		\[
+		f_{Y_1,Y_2}(y_1,y_2)=\frac12\cdot \mathbf{1}_{\left\{\left(\frac{y_1+y_2}{2},\frac{y_1-y_2}{2}\right)\in[0,1]^2\right\}}.
+		\]
+		In other words, the support of \((Y_1,Y_2)\) is the image of the square \([0,1]^2\)
+		under the linear map \((x_1,x_2)\mapsto (x_1+x_2,\ x_1-x_2)\), and the density equals \(1/2\) on that region.
+	\end{example}
+	
+	
+	\begin{remark}
+		\textcolor{red}{QUESTION.}
+		We only compute pull-back of volume forms in this section. In Cartan calculus, one can also differentiate a volume form
+		along a vector field (Lie derivative). Moreover, on a Riemannian manifold, one can take covariant derivatives, the Hodge
+		Laplacian, and the connection Laplacian. Do they have any particular meaning in probability?
+		
+		Yes: in probability, time-evolution of densities under deterministic flows and stochastic diffusions can be written using
+		geometric differential operators (divergence, Lie derivative, Laplace--Beltrami), leading to continuity and Fokker--Planck
+		equations. (This is beyond the scope of these notes.)
+	\end{remark}
+	
+	
+	\begin{remark}[Measure-theoretic viewpoint: pushforward distribution]
+		Let \((S,\mathcal{S},\mathbb{P})\) be a probability space and \(X:S\to\mathbb{R}\) a r.v.
+		Define the set function on Borel sets \(B\subseteq\mathbb{R}\):
+		\[
+		\mathbb{P}_X(B):=\mathbb{P}(X\in B)=\mathbb{P}(X^{-1}(B)).
+		\]
+		This \(\mathbb{P}_X\) is the distribution (pushforward measure) of \(X\).
+		For \(Y=g(X)\), the distribution satisfies
+		\[
+		\mathbb{P}_Y(B)=\mathbb{P}(g(X)\in B)=\mathbb{P}(X\in g^{-1}(B)).
+		\]
+	\end{remark}
+	
+	
+	
+\end{document}
