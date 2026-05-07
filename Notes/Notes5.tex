@@ -622,59 +622,163 @@ A general counting process satisfies the following properties:
 		Each increment \(N_i(s+t)-N_i(s)\) has distribution \(\operatorname{Poisson}(\lambda_i t)\), and these increments are independent. Hence their sum is Poisson with parameter \((\lambda_1+\cdots+\lambda_r)t\).
 	\end{proof}
 	
-	\begin{proposition}[Exponential race]
-		Let \(X_1,\dots,X_n\) be independent random variables with \(X_i\sim\operatorname{Exp}(\lambda_i)\), where \(\lambda_i>0\). Define \(X=\min\{X_1,\dots,X_n\}\). Then
-		\[
-		X\sim\operatorname{Exp}(\lambda_1+\cdots+\lambda_n),
-		\]
-		and
-		\[
-		\mathbb{P}(X=X_i)=\frac{\lambda_i}{\lambda_1+\cdots+\lambda_n},
-		\qquad i=1,\dots,n.
-		\]
-		Moreover, the minimum time \(X\) and the identity of the minimizing variable are independent.
-	\end{proposition}
+\begin{proposition}[Exponential race]
+	Let \(X_1,\dots,X_n\) be independent random variables with \(X_i\sim\operatorname{Exp}(\lambda_i)\), where \(\lambda_i>0\). Define
+	\[
+	X=\min\{X_1,\dots,X_n\}.
+	\]
+	Then
+	\[
+	X\sim\operatorname{Exp}(\lambda_1+\cdots+\lambda_n),
+	\]
+	and
+	\[
+	\mathbb{P}(X=X_i)=\frac{\lambda_i}{\lambda_1+\cdots+\lambda_n},
+	\qquad i=1,\dots,n.
+	\]
+	Moreover, the minimum time \(X\) and the identity of the minimizing variable are independent.
+\end{proposition}
+
+\begin{proof}
+	For \(t\ge 0\),
+	\[
+	\mathbb{P}(X>t)
+	=
+	\mathbb{P}(X_1>t,\dots,X_n>t).
+	\]
+	Since \(X_1,\dots,X_n\) are independent,
+	\[
+	\mathbb{P}(X>t)
+	=
+	\prod_{i=1}^{n}\mathbb{P}(X_i>t)
+	=
+	\prod_{i=1}^{n}e^{-\lambda_i t}
+	=
+	e^{-(\lambda_1+\cdots+\lambda_n)t}.
+	\]
+	Thus
+	\[
+	X\sim\operatorname{Exp}(\lambda_1+\cdots+\lambda_n).
+	\]
 	
-	\begin{proof}
-		For \(t\ge 0\),
-		\[
-		\mathbb{P}(X>t)
-		=
-		\mathbb{P}(X_1>t,\dots,X_n>t)
-		=
-		\prod_{i=1}^{n}e^{-\lambda_i t}
-		=
-		e^{-(\lambda_1+\cdots+\lambda_n)t}.
-		\]
-		Thus \(X\sim\operatorname{Exp}(\lambda_1+\cdots+\lambda_n)\).
-		
-		Since exponential random variables are continuous, ties have probability \(0\). Conditioning on \(X_i=t\), we get
-		\[
-		\mathbb{P}(X=X_i)
-		=
-		\int_0^\infty
-		\mathbb{P}(X_j>t\text{ for all }j\neq i)\lambda_i e^{-\lambda_i t}\,dt.
-		\]
-		Therefore,
-		\[
-		\mathbb{P}(X=X_i)
-		=
-		\int_0^\infty \lambda_i e^{-(\lambda_1+\cdots+\lambda_n)t}\,dt
-		=
-		\frac{\lambda_i}{\lambda_1+\cdots+\lambda_n}.
-		\]
-		
-		Finally, if \(I\) denotes the index of the first clock, then for \(t\ge 0\),
-		\[
-		\mathbb{P}(X>t,\ I=i)
-		=
-		\int_t^\infty \lambda_i e^{-(\lambda_1+\cdots+\lambda_n)u}\,du
-		=
-		\frac{\lambda_i}{\lambda_1+\cdots+\lambda_n}
-		e^{-(\lambda_1+\cdots+\lambda_n)t}.
-		\]
-		This factors as \(\mathbb{P}(I=i)\mathbb{P}(X>t)\), so \(X\) and \(I\) are independent.
-	\end{proof}
+	Next, we compute the probability that clock \(i\) is the first clock to ring. Since exponential random variables are continuous, ties have probability \(0\). Hence
+	\[
+	\{X=X_i\}
+	=
+	\{X_i<X_j\text{ for all }j\neq i\}.
+	\]
+	We condition on the value of \(X_i\). If \(X_i=t\), then clock \(i\) rings at time \(t\). For clock \(i\) to be the first clock, all other clocks must still be silent at time \(t\), meaning
+	\[
+	X_j>t
+	\qquad
+	\text{for all }j\neq i.
+	\]
+	Since \(X_i\) has density \(\lambda_i e^{-\lambda_i t}\), we get
+	\[
+	\mathbb{P}(X=X_i)
+	=
+	\int_0^\infty
+	\mathbb{P}(X_j>t\text{ for all }j\neq i)\lambda_i e^{-\lambda_i t}\,dt.
+	\]
+	By independence,
+	\[
+	\mathbb{P}(X_j>t\text{ for all }j\neq i)
+	=
+	\prod_{j\neq i}e^{-\lambda_j t}.
+	\]
+	Therefore,
+	\[
+	\mathbb{P}(X=X_i)
+	=
+	\int_0^\infty
+	\left(\prod_{j\neq i}e^{-\lambda_j t}\right)
+	\lambda_i e^{-\lambda_i t}\,dt.
+	\]
+	Combining the exponential terms gives
+	\[
+	\mathbb{P}(X=X_i)
+	=
+	\int_0^\infty
+	\lambda_i e^{-(\lambda_1+\cdots+\lambda_n)t}\,dt
+	=
+	\frac{\lambda_i}{\lambda_1+\cdots+\lambda_n}.
+	\]
+	
+	Finally, let \(I\) denote the index of the first clock. Thus \(I=i\) means that clock \(i\) is the first clock to ring. We show that \(X\) and \(I\) are independent.
+	
+	Consider the event
+	\[
+	\{X>t,\ I=i\}.
+	\]
+	This event means that the first ringing time is after time \(t\), and that clock \(i\) is the first clock to ring. Equivalently, clock \(i\) rings at some time \(u>t\), and every other clock has not rung before time \(u\). Thus we integrate over all possible winning times \(u>t\).
+	
+	If \(X_i=u\), then clock \(i\) rings at time \(u\). For clock \(i\) to be the first clock, we need
+	\[
+	X_j>u
+	\qquad
+	\text{for all }j\neq i.
+	\]
+	The density of \(X_i\) at \(u\) is
+	\[
+	f_{X_i}(u)=\lambda_i e^{-\lambda_i u}.
+	\]
+	Therefore,
+	\[
+	\mathbb{P}(X>t,\ I=i)
+	=
+	\int_t^\infty
+	\mathbb{P}(X_j>u\text{ for all }j\neq i)
+	\lambda_i e^{-\lambda_i u}\,du.
+	\]
+	By independence again,
+	\[
+	\mathbb{P}(X_j>u\text{ for all }j\neq i)
+	=
+	\prod_{j\neq i}e^{-\lambda_j u}.
+	\]
+	Hence
+	\[
+	\mathbb{P}(X>t,\ I=i)
+	=
+	\int_t^\infty
+	\left(\prod_{j\neq i}e^{-\lambda_j u}\right)
+	\lambda_i e^{-\lambda_i u}\,du.
+	\]
+	Combining the exponential terms,
+	\[
+	\mathbb{P}(X>t,\ I=i)
+	=
+	\int_t^\infty
+	\lambda_i e^{-(\lambda_1+\cdots+\lambda_n)u}\,du.
+	\]
+	Evaluating the integral gives
+	\[
+	\mathbb{P}(X>t,\ I=i)
+	=
+	\frac{\lambda_i}{\lambda_1+\cdots+\lambda_n}
+	e^{-(\lambda_1+\cdots+\lambda_n)t}.
+	\]
+	But
+	\[
+	\mathbb{P}(I=i)
+	=
+	\frac{\lambda_i}{\lambda_1+\cdots+\lambda_n},
+	\]
+	and
+	\[
+	\mathbb{P}(X>t)
+	=
+	e^{-(\lambda_1+\cdots+\lambda_n)t}.
+	\]
+	Therefore,
+	\[
+	\mathbb{P}(X>t,\ I=i)
+	=
+	\mathbb{P}(I=i)\mathbb{P}(X>t).
+	\]
+	This shows that \(X\) and \(I\) are independent.
+\end{proof}
+
 	
 	\begin{remark}
 		This result is often called an exponential race. If several independent exponential clocks are running, then the first ringing time is exponential with rate equal to the sum of the rates, and clock \(i\) rings first with probability proportional to \(\lambda_i\).
@@ -959,52 +1063,175 @@ A general counting process satisfies the following properties:
 		\]
 	\end{example}
 	
-	\begin{theorem}
-		Given that \(N(t)=n\), the arrival times \(S_1,\dots,S_n\) have the same distribution as the order statistics of \(n\) independent \(U(0,t)\) random variables. That is,
-		\[
-		(S_1,\dots,S_n\mid N(t)=n)
-		\overset{d}{=}
-		(Y_{(1)},\dots,Y_{(n)}),
-		\]
-		where \(Y_1,\dots,Y_n\) are i.i.d. \(U(0,t)\).
-	\end{theorem}
+\begin{proposition}
+	Given that \(S_n=t\), the previous arrival times \(S_1,\dots,S_{n-1}\) have the same distribution as the order statistics of \(n-1\) independent \(U(0,t)\) random variables.
+\end{proposition}
+
+\begin{proof}
+	Recall that \(S_k=T_1+\cdots+T_k\), where \(T_1,T_2,\dots\) are i.i.d. \(\operatorname{Exp}(\lambda)\). Hence the joint density of \(T_1,\dots,T_n\) is
+	\[
+	f_{T_1,\dots,T_n}(t_1,\dots,t_n)
+	=
+	\lambda^n e^{-\lambda(t_1+\cdots+t_n)},
+	\qquad t_1,\dots,t_n>0.
+	\]
+	We now derive the joint density of \(S_1,\dots,S_n\). Since
+	\[
+	S_1=T_1,\quad S_2=T_1+T_2,\quad \dots,\quad S_n=T_1+\cdots+T_n,
+	\]
+	the inverse transformation is
+	\[
+	T_1=S_1,\quad T_2=S_2-S_1,\quad \dots,\quad T_n=S_n-S_{n-1}.
+	\]
+	Thus \(T_i>0\) for all \(i\) is equivalent to \(0<S_1<S_2<\cdots<S_n\). Also,
+	\[
+	T_1+\cdots+T_n
+	=
+	S_1+(S_2-S_1)+\cdots+(S_n-S_{n-1})
+	=
+	S_n.
+	\]
+	The Jacobian matrix of the inverse transformation from \((s_1,\dots,s_n)\) to \((t_1,\dots,t_n)\) is
+	\[
+	\frac{\partial(t_1,\dots,t_n)}{\partial(s_1,\dots,s_n)}
+	=
+	\begin{pmatrix}
+		1 & 0 & 0 & \cdots & 0 \\
+		-1 & 1 & 0 & \cdots & 0 \\
+		0 & -1 & 1 & \cdots & 0 \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		0 & 0 & 0 & \cdots & 1
+	\end{pmatrix}.
+	\]
+	This matrix is lower triangular with diagonal entries all equal to \(1\), so its determinant is \(1\). Therefore, by the change-of-variables formula,
+	\[
+	f_{S_1,\dots,S_n}(s_1,\dots,s_n)
+	=
+	f_{T_1,\dots,T_n}(s_1,s_2-s_1,\dots,s_n-s_{n-1})
+	\cdot 1.
+	\]
+	Using \(t_1+\cdots+t_n=s_n\), we get
+	\[
+	f_{S_1,\dots,S_n}(s_1,\dots,s_n)
+	=
+	\lambda^n e^{-\lambda s_n},
+	\qquad 0<s_1<\cdots<s_n.
+	\]
+	In particular, for \(0<s_1<\cdots<s_{n-1}<t\),
+	\[
+	f_{S_1,\dots,S_n}(s_1,\dots,s_{n-1},t)
+	=
+	\lambda^n e^{-\lambda t}.
+	\]
 	
-	\begin{proof}
-		We compute the conditional joint density of \(S_1,\dots,S_n\) given \(N(t)=n\). Since \(T_1,T_2,\dots\) are i.i.d. \(\operatorname{Exp}(\lambda)\) and \(S_k=T_1+\cdots+T_k\), the joint density of \(S_1,\dots,S_n\) is
-		\[
-		f_{S_1,\dots,S_n}(s_1,\dots,s_n)
-		=
-		\lambda^n e^{-\lambda s_n},
-		\qquad 0<s_1<\cdots<s_n.
-		\]
-		For \(0<s_1<\cdots<s_n<t\), the event \(N(t)=n\) is equivalent to saying that no further event occurs in \((s_n,t]\). Hence
-		\begin{align*}
-			f_{S_1,\dots,S_n,\ N(t)=n}(s_1,\dots,s_n)
-			&=
-			\lambda^n e^{-\lambda s_n}\mathbb{P}(N(t)-N(s_n)=0)\\
-			&=
-			\lambda^n e^{-\lambda s_n}e^{-\lambda(t-s_n)}
-			=
-			\lambda^n e^{-\lambda t}.
-		\end{align*}
-		Also,
-		\[
-		\mathbb{P}(N(t)=n)=e^{-\lambda t}\frac{(\lambda t)^n}{n!}.
-		\]
-		Therefore the conditional joint density is
-		\[
-		f_{S_1,\dots,S_n\mid N(t)=n}(s_1,\dots,s_n)
-		=
-		\frac{\lambda^n e^{-\lambda t}}{e^{-\lambda t}(\lambda t)^n/n!}
-		=
-		\frac{n!}{t^n},
-		\]
-		for \(0<s_1<\cdots<s_n<t\), and is \(0\) otherwise. This is exactly the joint density of the order statistics of \(n\) i.i.d. \(U(0,t)\) random variables.
-	\end{proof}
+	Next, the density of \(S_n\) is the Gamma density
+	\[
+	f_{S_n}(t)
+	=
+	\frac{\lambda^n t^{n-1}e^{-\lambda t}}{(n-1)!},
+	\qquad t>0.
+	\]
+	
+	Therefore the conditional joint density of \(S_1,\dots,S_{n-1}\) given \(S_n=t\) is
+	\[
+	f_{S_1,\dots,S_{n-1}\mid S_n=t}(s_1,\dots,s_{n-1})
+	=
+	\frac{
+		f_{S_1,\dots,S_n}(s_1,\dots,s_{n-1},t)
+	}{
+		f_{S_n}(t)
+	}.
+	\]
+	Substituting the two densities gives
+	\[
+	f_{S_1,\dots,S_{n-1}\mid S_n=t}(s_1,\dots,s_{n-1})
+	=
+	\frac{\lambda^n e^{-\lambda t}}
+	{\lambda^n t^{n-1}e^{-\lambda t}/(n-1)!}
+	=
+	\frac{(n-1)!}{t^{n-1}},
+	\]
+	for \(0<s_1<\cdots<s_{n-1}<t\), and is \(0\) otherwise. This is exactly the joint density of the order statistics of \(n-1\) i.i.d. \(U(0,t)\) random variables. Hence
+	\[
+	(S_1,\dots,S_{n-1}\mid S_n=t)
+	\overset{d}{=}
+	(Y_{(1)},\dots,Y_{(n-1)}),
+	\]
+	where \(Y_1,\dots,Y_{n-1}\) are i.i.d. \(U(0,t)\).
+\end{proof}
+
 	
 	\begin{remark}
 		The theorem says that, conditional on knowing exactly how many arrivals occurred by time \(t\), the unordered arrival times behave like independent uniform points on \([0,t]\). After ordering them, we obtain the actual arrival times \(S_1<\cdots<S_n\).
 	\end{remark}
+	
+	
+	\begin{theorem}
+		Given that \(N(t)=n\), the arrival times \(S_1,\dots,S_n\) have the same distribution as the order statistics of \(n\) independent \(U(0,t)\) random variables.
+	\end{theorem}
+	
+	\begin{proof}
+		We want to find the conditional joint density of \(S_1,\dots,S_n\) given \(N(t)=n\). For \(0<s_1<\cdots<s_n<t\), first recall that the joint density of \(S_1,\dots,S_n\) is
+		\[
+		f_{S_1,\dots,S_n}(s_1,\dots,s_n)
+		=
+		\lambda^n e^{-\lambda s_n}.
+		\]
+		This follows from the change of variables \(S_k=T_1+\cdots+T_k\), where \(T_1,\dots,T_n\) are i.i.d. \(\operatorname{Exp}(\lambda)\), with inverse transformation \(T_1=S_1\) and \(T_k=S_k-S_{k-1}\) for \(k=2,\dots,n\). The Jacobian is \(1\), and \(T_1+\cdots+T_n=S_n\).
+		
+		Now, the event \(N(t)=n\) means that the first \(n\) arrivals occur before time \(t\), but the \((n+1)\)-st arrival occurs after time \(t\). Equivalently, if \(S_n=s_n\), then we need no further arrival in the interval \((s_n,t]\). Thus
+		\[
+		\mathbb{P}(N(t)=n\mid S_1=s_1,\dots,S_n=s_n)
+		=
+		\mathbb{P}(T_{n+1}>t-s_n).
+		\]
+		Since \(T_{n+1}\sim \operatorname{Exp}(\lambda)\), we have
+		\[
+		\mathbb{P}(T_{n+1}>t-s_n)
+		=
+		e^{-\lambda(t-s_n)}.
+		\]
+		Therefore, for \(0<s_1<\cdots<s_n<t\),
+		\[
+		f_{S_1,\dots,S_n,\,N(t)=n}(s_1,\dots,s_n)
+		=
+		\lambda^n e^{-\lambda s_n}e^{-\lambda(t-s_n)}
+		=
+		\lambda^n e^{-\lambda t}.
+		\]
+		
+		Also, since \(N(t)\sim \operatorname{Poisson}(\lambda t)\),
+		\[
+		\mathbb{P}(N(t)=n)
+		=
+		e^{-\lambda t}\frac{(\lambda t)^n}{n!}.
+		\]
+		Hence the conditional joint density of \(S_1,\dots,S_n\) given \(N(t)=n\) is
+		\[
+		f_{S_1,\dots,S_n\mid N(t)=n}(s_1,\dots,s_n)
+		=
+		\frac{\lambda^n e^{-\lambda t}}
+		{e^{-\lambda t}(\lambda t)^n/n!}
+		=
+		\frac{n!}{t^n},
+		\]
+		for \(0<s_1<\cdots<s_n<t\), and is \(0\) otherwise.
+		
+		But if \(Y_1,\dots,Y_n\) are i.i.d. \(U(0,t)\), then their order statistics satisfy
+		\[
+		f_{Y_{(1)},\dots,Y_{(n)}}(y_1,\dots,y_n)
+		=
+		\frac{n!}{t^n},
+		\qquad 0<y_1<\cdots<y_n<t.
+		\]
+		Therefore,
+		\[
+		(S_1,\dots,S_n\mid N(t)=n)
+		\overset{d}{=}
+		(Y_{(1)},\dots,Y_{(n)}).
+		\]
+	\end{proof}
+	
 	
 	\begin{corollary}
 		Given that \(N(t)=n\), for any \(0\le a\le b\le t\), the number of arrivals in \((a,b]\) has binomial distribution:
@@ -1019,33 +1246,8 @@ A general counting process satisfies the following properties:
 		Conditional on \(N(t)=n\), the \(n\) arrival times are distributed as \(n\) independent uniform points on \([0,t]\), after ordering. For each point, the probability of falling in \((a,b]\) is \((b-a)/t\). Hence the number of points in \((a,b]\) has binomial distribution with parameters \(n\) and \((b-a)/t\).
 	\end{proof}
 	
-	\begin{proposition}
-		Given that \(S_n=t\), the previous arrival times \(S_1,\dots,S_{n-1}\) have the same distribution as the order statistics of \(n-1\) independent \(U(0,t)\) random variables.
-	\end{proposition}
-	
-	\begin{proof}
-		For \(0<s_1<\cdots<s_{n-1}<t\), the joint density of \(S_1,\dots,S_n\) is
-		\[
-		f_{S_1,\dots,S_n}(s_1,\dots,s_{n-1},t)
-		=
-		\lambda^n e^{-\lambda t}.
-		\]
-		The density of \(S_n\) is the Gamma density
-		\[
-		f_{S_n}(t)=\frac{\lambda^n t^{n-1}e^{-\lambda t}}{(n-1)!},
-		\qquad t>0.
-		\]
-		Therefore the conditional joint density of \(S_1,\dots,S_{n-1}\) given \(S_n=t\) is
-		\[
-		f_{S_1,\dots,S_{n-1}\mid S_n=t}(s_1,\dots,s_{n-1})
-		=
-		\frac{\lambda^n e^{-\lambda t}}
-		{\lambda^n t^{n-1}e^{-\lambda t}/(n-1)!}
-		=
-		\frac{(n-1)!}{t^{n-1}},
-		\]
-		for \(0<s_1<\cdots<s_{n-1}<t\), and is \(0\) otherwise. This is exactly the joint density of the order statistics of \(n-1\) i.i.d. \(U(0,t)\) random variables.
-	\end{proof}
+
+
 	
 	\begin{remark}
 		There are two closely related conditioning results:
@@ -1152,39 +1354,93 @@ A general counting process satisfies the following properties:
 	\end{remark}
 	
 	\begin{proposition}[Time-dependent thinning]
-		Let \(\{N(t):t\ge 0\}\) be a homogeneous Poisson process with rate \(\lambda\). Suppose that an event occurring at time \(s\) is counted with probability \(p(s)\), independently of all other events, where \(0\le p(s)\le 1\). Let \(N_p(t)\) be the number of counted events by time \(t\). Then \(\{N_p(t):t\ge 0\}\) is a nonhomogeneous Poisson process with intensity function
+		Let \(\{N(t):t\ge 0\}\) be a homogeneous Poisson process with rate \(\lambda\). Suppose that an event occurring at time \(s\) is kept with probability \(p(s)\), independently of all other events, where \(0\le p(s)\le 1\). Assume that \(p\) is continuous. Let \(N_p(t)\) be the number of kept events by time \(t\). Then \(\{N_p(t):t\ge 0\}\) is a nonhomogeneous Poisson process with intensity function
 		\[
 		\lambda_p(t)=\lambda p(t).
 		\]
 	\end{proposition}
 	
 	\begin{proof}
-		Clearly \(N_p(0)=0\). Since the original process has independent increments and the thinning decisions are made independently for different events, the thinned process also has independent increments.
+		Clearly \(N_p(0)=0\). Since the original process has independent increments and the keeping decisions are made independently for different events, the thinned process also has independent increments.
 		
-		For small \(h>0\),
+		Fix \(t\ge 0\), and for small \(h>0\) write
 		\[
-		\mathbb{P}(N_p(t+h)-N_p(t)=1)
+		\Delta N=N(t+h)-N(t),
+		\qquad
+		\Delta N_p=N_p(t+h)-N_p(t).
+		\]
+		Thus \(\Delta N\) is the number of original events in \((t,t+h]\), while \(\Delta N_p\) is the number of kept events in \((t,t+h]\).
+		
+		We first estimate the probability of exactly one kept event. Decomposing according to the number of original events gives
+		\[
+		\mathbb{P}(\Delta N_p=1)
 		=
-		p(t)\mathbb{P}(N(t+h)-N(t)=1)+o(h).
+		\mathbb{P}(\Delta N_p=1,\Delta N=1)
+		+
+		\mathbb{P}(\Delta N_p=1,\Delta N\ge 2).
 		\]
-		Since \(N\) has rate \(\lambda\),
+		The second term is negligible, since
 		\[
-		\mathbb{P}(N(t+h)-N(t)=1)=\lambda h+o(h).
-		\]
-		Therefore,
-		\[
-		\mathbb{P}(N_p(t+h)-N_p(t)=1)=\lambda p(t)h+o(h).
-		\]
-		Also,
-		\[
-		\mathbb{P}(N_p(t+h)-N_p(t)\ge 2)
+		\mathbb{P}(\Delta N_p=1,\Delta N\ge 2)
 		\le
-		\mathbb{P}(N(t+h)-N(t)\ge 2)
+		\mathbb{P}(\Delta N\ge 2)
 		=
 		o(h).
 		\]
-		Hence \(N_p\) is a nonhomogeneous Poisson process with intensity \(\lambda p(t)\).
+		
+		Now consider the first term. Conditional on \(\Delta N=1\), the unique event time in \((t,t+h]\) is uniformly distributed on \((t,t+h]\). Hence the conditional probability that this unique event is kept is
+		\[
+		\frac{1}{h}\int_t^{t+h}p(s)\,ds.
+		\]
+		Therefore,
+		\[
+		\mathbb{P}(\Delta N_p=1,\Delta N=1)
+		=
+		\mathbb{P}(\Delta N=1)\frac{1}{h}\int_t^{t+h}p(s)\,ds.
+		\]
+		Since \(N\) is a homogeneous Poisson process with rate \(\lambda\), we have \(\mathbb{P}(\Delta N=1)=\lambda h+o(h)\). Also, by continuity of \(p\) at \(t\),
+		\[
+		\frac{1}{h}\int_t^{t+h}p(s)\,ds=p(t)+o(1).
+		\]
+		Thus
+		\[
+		\mathbb{P}(\Delta N_p=1,\Delta N=1)
+		=
+		(\lambda h+o(h))(p(t)+o(1))
+		=
+		\lambda p(t)h+o(h).
+		\]
+		Combining this with the negligible contribution from \(\Delta N\ge 2\), we get
+		\[
+		\mathbb{P}(\Delta N_p=1)
+		=
+		\lambda p(t)h+o(h).
+		\]
+		
+		Next, we estimate the probability of two or more kept events. Since kept events can only come from original events, we have
+		\[
+		\{\Delta N_p\ge 2\}\subseteq \{\Delta N\ge 2\}.
+		\]
+		Therefore,
+		\[
+		\mathbb{P}(\Delta N_p\ge 2)
+		\le
+		\mathbb{P}(\Delta N\ge 2)
+		=
+		o(h).
+		\]
+		
+		Hence \(N_p\) satisfies
+		\[
+		\mathbb{P}(N_p(t+h)-N_p(t)=1)=\lambda p(t)h+o(h),
+		\]
+		and
+		\[
+		\mathbb{P}(N_p(t+h)-N_p(t)\ge 2)=o(h).
+		\]
+		Together with \(N_p(0)=0\) and independent increments, this shows that \(N_p\) is a nonhomogeneous Poisson process with intensity \(\lambda_p(t)=\lambda p(t)\).
 	\end{proof}
+	
 	
 	\begin{remark}
 		This gives one way to generate a nonhomogeneous Poisson process from a homogeneous one. Start with a Poisson process of rate \(\lambda\), and keep an event at time \(t\) with probability \(p(t)\). The resulting process has intensity \(\lambda p(t)\).
@@ -1209,36 +1465,102 @@ A general counting process satisfies the following properties:
 		This method is often called thinning or rejection sampling for nonhomogeneous Poisson processes. One first generates a homogeneous Poisson process with a rate large enough to dominate \(\lambda(t)\), and then accepts each event with probability \(\lambda(t)/\lambda\).
 	\end{remark}
 	
-	\begin{proposition}[Superposition]
-		Let \(\{N_1(t):t\ge 0\}\) and \(\{N_2(t):t\ge 0\}\) be independent nonhomogeneous Poisson processes with intensity functions \(\lambda_1(t)\) and \(\lambda_2(t)\). Define
-		\[
-		N(t)=N_1(t)+N_2(t).
-		\]
-		Then \(\{N(t):t\ge 0\}\) is a nonhomogeneous Poisson process with intensity function
-		\[
-		\lambda(t)=\lambda_1(t)+\lambda_2(t).
-		\]
-	\end{proposition}
+\begin{proposition}[Superposition]
+	Let \(\{N_1(t):t\ge 0\}\) and \(\{N_2(t):t\ge 0\}\) be independent
+	nonhomogeneous Poisson processes with intensity functions
+	\(\lambda_1(t)\) and \(\lambda_2(t)\). Define
+	\[
+	N(t)=N_1(t)+N_2(t).
+	\]
+	Then \(\{N(t):t\ge 0\}\) is a nonhomogeneous Poisson process with
+	intensity function
+	\[
+	\lambda(t)=\lambda_1(t)+\lambda_2(t).
+	\]
+\end{proposition}
+
+\begin{proof}
+	The process \(N\) is a counting process and \(N(0)=0\). Since
+	\(N_1\) and \(N_2\) have independent increments and are independent
+	of each other, \(N\) also has independent increments.
 	
-	\begin{proof}
-		The process \(N\) is a counting process and \(N(0)=0\). Since \(N_1\) and \(N_2\) have independent increments and are independent of each other, \(N\) also has independent increments.
-		
-		For small \(h>0\),
-		\[
-		\mathbb{P}(N(t+h)-N(t)=1)
-		=
-		\mathbb{P}(\Delta N_1=1,\Delta N_2=0)
-		+
-		\mathbb{P}(\Delta N_1=0,\Delta N_2=1),
-		\]
-		up to an error \(o(h)\), where \(\Delta N_i=N_i(t+h)-N_i(t)\). Therefore,
-		\[
-		\mathbb{P}(N(t+h)-N(t)=1)
-		=
-		\lambda_1(t)h+\lambda_2(t)h+o(h).
-		\]
-		Also, the probability of two or more arrivals in \((t,t+h]\) is \(o(h)\). Hence \(N\) is a nonhomogeneous Poisson process with intensity \(\lambda_1(t)+\lambda_2(t)\).
-	\end{proof}
+	It remains to verify the two small-time conditions. Write
+	\(\Delta N_i = N_i(t+h)-N_i(t)\) for \(i=1,2\).
+	
+	\medskip
+	\noindent\textbf{Condition 1: } \(\mathbb{P}(N(t+h)-N(t)=1)
+	=\lambda_1(t)h+\lambda_2(t)h+o(h)\).
+	
+	\medskip
+	Exactly one arrival in \(\Delta N = \Delta N_1+\Delta N_2\) occurs
+	in one of the following mutually exclusive cases:
+	\begin{itemize}
+		\item \textbf{Case A:} \(\Delta N_1=1\) and \(\Delta N_2=0\).
+		\item \textbf{Case B:} \(\Delta N_1=0\) and \(\Delta N_2=1\).
+		\item \textbf{Remaining cases:} at least one process contributes
+		\(\ge 2\) arrivals, or both processes each contribute
+		\(\ge 1\) arrival. Each such case has probability
+		\(\le \mathbb{P}(\Delta N_i\ge 2)=o(h)\) for some \(i\),
+		and so contributes only \(o(h)\) in total.
+	\end{itemize}
+	Therefore,
+	\[
+	\mathbb{P}(\Delta N=1)
+	=
+	\mathbb{P}(\Delta N_1=1,\,\Delta N_2=0)
+	+
+	\mathbb{P}(\Delta N_1=0,\,\Delta N_2=1)
+	+o(h).
+	\]
+	Since \(N_1\) and \(N_2\) are independent, each joint probability
+	factors:
+	\begin{align*}
+		\mathbb{P}(\Delta N_1=1,\,\Delta N_2=0)
+		&= \mathbb{P}(\Delta N_1=1)\cdot\mathbb{P}(\Delta N_2=0) \\
+		&= \bigl[\lambda_1(t)h+o(h)\bigr]
+		\cdot\bigl[1-\lambda_2(t)h+o(h)\bigr] \\
+		&= \lambda_1(t)h+o(h),
+	\end{align*}
+	where the \(h^2\) cross-term is absorbed into \(o(h)\). Similarly,
+	\[
+	\mathbb{P}(\Delta N_1=0,\,\Delta N_2=1)
+	= \lambda_2(t)h+o(h).
+	\]
+	Summing the two cases gives
+	\[
+	\mathbb{P}(N(t+h)-N(t)=1)
+	= \lambda_1(t)h+\lambda_2(t)h+o(h).
+	\]
+	
+	\medskip
+	\noindent\textbf{Condition 2: }
+	\(\mathbb{P}(N(t+h)-N(t)\ge 2)=o(h)\).
+	
+	\medskip
+	Two or more arrivals in \(N\) require at least two arrivals across
+	\(N_1\) and \(N_2\) combined. Hence
+	\[
+	\{\Delta N\ge 2\}
+	\;\subseteq\;
+	\{\Delta N_1\ge 2\}\cup\{\Delta N_2\ge 2\}
+	\cup\{\Delta N_1\ge 1,\,\Delta N_2\ge 1\}.
+	\]
+	Each of the three events on the right has probability \(o(h)\):
+	the first two by the small-time condition for \(N_1\) and \(N_2\),
+	and the third because
+	\[
+	\mathbb{P}(\Delta N_1\ge 1,\,\Delta N_2\ge 1)
+	\le \mathbb{P}(\Delta N_1\ge 1)\cdot\mathbb{P}(\Delta N_2\ge 1)
+	= O(h)\cdot O(h) = o(h).
+	\]
+	Therefore \(\mathbb{P}(\Delta N\ge 2)=o(h)\).
+	
+	\medskip
+	Together with \(N(0)=0\) and independent increments, the two
+	small-time conditions confirm that \(N\) is a nonhomogeneous
+	Poisson process with intensity \(\lambda_1(t)+\lambda_2(t)\).
+\end{proof}
+
 	
 	\begin{remark}
 		More generally, the sum of finitely many independent nonhomogeneous Poisson processes is again a nonhomogeneous Poisson process, with intensity equal to the sum of the individual intensities.
@@ -1264,31 +1586,53 @@ A general counting process satisfies the following properties:
 		\]
 	\end{proof}
 	
-	\begin{proposition}[Time-dependent classification]
-		Let \(\{N(t):t\ge 0\}\) be a homogeneous Poisson process with rate \(\lambda\). Suppose each event occurring at time \(s\) is classified as type \(i\) with probability \(p_i(s)\), where \(i=1,\dots,k\),
-		\[
-		p_1(s)+\cdots+p_k(s)=1.
-		\]
-		Let \(N_i(t)\) be the number of type \(i\) events by time \(t\). Then \(N_1,\dots,N_k\) are independent nonhomogeneous Poisson processes with intensity functions
-		\[
-		\lambda_i(t)=\lambda p_i(t),
-		\qquad i=1,\dots,k.
-		\]
-	\end{proposition}
+\begin{proposition}[Time-dependent classification]
+	Let \(\{N(t):t\ge 0\}\) be a homogeneous Poisson process with rate
+	\(\lambda\). Suppose each event occurring at time \(s\) is classified
+	as type \(i\) with probability \(p_i(s)\), where \(i=1,\dots,k\),
+	\[
+	p_1(s)+\cdots+p_k(s)=1.
+	\]
+	Let \(N_i(t)\) be the number of type \(i\) events by time \(t\).
+	Then \(N_1,\dots,N_k\) are independent nonhomogeneous Poisson
+	processes with intensity functions
+	\[
+	\lambda_i(t)=\lambda p_i(t),
+	\qquad i=1,\dots,k.
+	\]
+\end{proposition}
+
+\begin{proof}
+	For a fixed type \(i\), the process \(N_i\) is obtained by keeping
+	an event at time \(t\) with probability \(p_i(t)\). By
+	time-dependent thinning, \(N_i\) is a nonhomogeneous Poisson
+	process with intensity \(\lambda p_i(t)\).
 	
-	\begin{proof}
-		For a fixed type \(i\), the process \(N_i\) is obtained by keeping an event at time \(t\) with probability \(p_i(t)\). By time-dependent thinning, \(N_i\) is a nonhomogeneous Poisson process with intensity \(\lambda p_i(t)\).
-		
-		To see independence, condition on the total number of events in \((0,t]\). Given \(N(t)=n\), the \(n\) event times are distributed as order statistics of \(n\) independent uniform random variables on \((0,t]\). For an arbitrary event time \(S\), the probability that it is classified as type \(i\) is
-		\[
-		\frac{1}{t}\int_0^t p_i(s)\,ds.
-		\]
-		The classification decisions are independent across events. This gives a multinomial splitting, and after mixing over \(N(t)\), the processes \(N_1,\dots,N_k\) become independent Poisson processes with mean functions
-		\[
-		m_i(t)=\int_0^t \lambda p_i(s)\,ds.
-		\]
-		Thus \(N_i\) has intensity \(\lambda p_i(t)\).
-	\end{proof}
+	To see independence, condition on the total number of events in
+	\((0,t]\). Given \(N(t)=n\), the \(n\) event times are distributed
+	as order statistics of \(n\) independent uniform random variables
+	on \((0,t]\). In particular, each individual event time \(S\),
+	before ordering, is uniformly distributed on \((0,t]\) with density
+	\[
+	f_S(s) = \frac{1}{t}, \qquad 0 < s < t.
+	\]
+	Since an event arriving at time \(s\) is classified as type \(i\)
+	with probability \(p_i(s)\), the law of total probability gives
+	\[
+	\mathbb{P}(\text{event is type }i)
+	= \int_0^t p_i(s)\,f_S(s)\,ds
+	= \frac{1}{t}\int_0^t p_i(s)\,ds.
+	\]
+	The classification decisions are independent across events. This
+	gives a multinomial splitting, and after mixing over \(N(t)\), the
+	processes \(N_1,\dots,N_k\) become independent Poisson processes
+	with mean functions
+	\[
+	m_i(t)=\int_0^t \lambda p_i(s)\,ds.
+	\]
+	Thus \(N_i\) has intensity \(\lambda p_i(t)\).
+\end{proof}
+
 	
 	\begin{remark}
 		The previous proposition generalizes ordinary thinning. If \(p_i(t)\) is constant in time, then each type process is homogeneous Poisson. If \(p_i(t)\) changes with time, then each type process becomes nonhomogeneous.
